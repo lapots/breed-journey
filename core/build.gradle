@@ -4,17 +4,6 @@ apply plugin: 'groovy'
 sourceCompatibility = 1.8
 [compileJava, compileTestJava, compileGroovy]*.options*.encoding = 'UTF-8'
 
-sourceSets {
-    main {
-        groovy {
-            srcDirs = ['src/main/groovy', 'src/main/java']
-        }
-        java {
-            srcDirs = []
-        }
-    }
-}
-
 eclipse.project {
     name = appName + "-core"
 }

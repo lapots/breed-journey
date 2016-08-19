@@ -1,0 +1,7 @@
+menuBar {
+    menu (name : 'Game') {}
+    menu (name : 'Editor') {}
+    menu (name : 'Application') {
+        item (name : 'About...') {}
+    }
+}

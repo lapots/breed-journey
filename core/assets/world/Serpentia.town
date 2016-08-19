@@ -1,0 +1,7 @@
+{
+    "id"            : "CITY_1",
+    "name"          : "Serpentia",
+    "type"          : "CITY",
+    "population"    : 5000,
+    "description"   : ""
+}

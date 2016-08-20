@@ -14,6 +14,6 @@ trait DynamicClosureTrait {
         def dsl_instance = ReflectionUtils.instantiate(dsl)
         dsl_instance.call(*args)
 
-        this.component_reference().add(~dsl_instance)
+        component_reference().add(~dsl_instance).expand().fill()
     }
 }

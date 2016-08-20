@@ -5,4 +5,10 @@ window(title : 'Basic window') {
         width 220
         height 150
     }
+
+    tree {
+        node (label : 'Root_1') {
+            node (label : 'Branch_1') {}
+        }
+    }
 }

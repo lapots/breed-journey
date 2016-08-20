@@ -1,5 +1,6 @@
-package com.lapots.game.journey.core.loader
+package com.lapots.game.journey.ui.loader
 
+import com.lapots.game.journey.core.loader.ILoader
 import com.lapots.game.journey.ui.UiControl;
 import com.lapots.game.journey.util.FileProcessingUtils;
 

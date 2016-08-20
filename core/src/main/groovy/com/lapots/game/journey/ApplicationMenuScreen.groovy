@@ -9,7 +9,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.lapots.game.journey.ui.UiControl
 import com.lapots.game.journey.ui.dsl.MenuBarDSL
 import com.lapots.game.journey.ui.dsl.WindowDSL
-import com.lapots.game.journey.util.EvaluationUtils;;
+import com.lapots.game.journey.util.EvaluationUtils
+import com.lapots.game.journey.world.CoreControl;;;
 
 class ApplicationMenuScreen extends ScreenAdapter {
 

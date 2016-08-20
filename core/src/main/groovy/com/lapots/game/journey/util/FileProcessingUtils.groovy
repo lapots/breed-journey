@@ -1,5 +1,7 @@
 package com.lapots.game.journey.util
 
+import groovy.json.JsonSlurper
+
 class FileProcessingUtils {
 
     static getFileName(file) {
@@ -18,5 +20,9 @@ class FileProcessingUtils {
         def half_name = ext[1..ext.length() - 1]
         def first_letter = ext[0].toUpperCase()
         prefix + "." + first_letter + half_name + postfix
+    }
+
+    static readAsJson(file) {
+        new JsonSlurper().parse(file)
     }
 }

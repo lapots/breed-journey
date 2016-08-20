@@ -11,7 +11,7 @@ class UiControl {
     static LOADERS = [:]
 
     static {
-        print "Loading extensions loaders..."
+        print "Loading UI extensions loaders..."
         UiConstants.SUPPORTED_EXTENSIONS.each { ext ->
             LOADERS[ext] = ReflectionUtils.instantiate(createFileName(ext))
         }
@@ -19,9 +19,9 @@ class UiControl {
     }
 
     static {
-        print "Processing resources..."
+        print "Processing UI resources..."
         new File(UiConstants.COMPONENT_PATH).eachFileRecurse { file ->
-            def loader = LOADERS[
+            def loader = LOADERS [
                 FileProcessingUtils.getFileExt(file)
             ]
             if (loader) { loader.load(file) }

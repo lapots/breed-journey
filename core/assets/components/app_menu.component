@@ -4,7 +4,11 @@ menuBar {
         item (name : 'Continue') {}
     }
     menu (name : 'Editor') {
-        item (name : 'World') {}
+        item (name : 'World') {
+            on_click {
+                "WorldInformationWindow"
+            }
+        }
         item (name : 'Creature') {}
     }
     menu (name : 'Application') {

@@ -1,0 +1,8 @@
+window (title : 'World information') {
+    withCloseButton { true }
+
+    size {
+        width 320
+        height 200
+    }
+}

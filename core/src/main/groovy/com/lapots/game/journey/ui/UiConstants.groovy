@@ -2,7 +2,7 @@ package com.lapots.game.journey.ui
 
 // potentially to be moved to external resource
 class UiConstants {
-    static final EVENT_PACKAGE = ""
+    static final EVENT_PACKAGE = "com.lapots.game.journey.ui.events"
     static final COMPONENT_PATH = "components"
     static final DSL_PACKAGE = "com.lapots.game.journey.ui.dsl"
     static final DSL_POSTFIX = "DSL"

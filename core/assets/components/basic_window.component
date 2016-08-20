@@ -1,0 +1,8 @@
+window(title : 'Basic window') {
+    withCloseButton { true }
+
+    size {
+        width 220
+        height 150
+    }
+}

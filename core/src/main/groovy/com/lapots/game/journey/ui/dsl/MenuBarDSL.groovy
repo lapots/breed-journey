@@ -7,17 +7,19 @@ import com.lapots.game.journey.ui.UiConstants
 import com.lapots.game.journey.ui.UiControl
 import com.lapots.game.journey.util.DslUtils;
 
-class MenuBarDSL {
+class MenuBarDSL implements IReferenced {
 
+    static final def IS_ROOT = "root"
     static final def HEADER_FIELD = "name"
 
+    @Lazy Table root = new Table()
     @Lazy MenuBar menubar = new MenuBar()
 
     def call(closure) {
-        UiControl.ui_root
-                .add(menubar.getTable()).expandX().fillX().row()
-        UiControl.ui_root
-                .add().expand().fill()
+        root.setFillParent(true)
+        root.add(menubar.getTable()).expandX().fillX().row()
+        root.add().expand().fill()
+        UiControl.default_stage.addActor(root)
 
         DslUtils.delegate(closure, this)
     }
@@ -28,5 +30,9 @@ class MenuBarDSL {
 
         menubar.addMenu(~menuEntry)
     }
+
+    def component_reference() { null }
+
+    def bitwiseNegate() { root }
 }
 

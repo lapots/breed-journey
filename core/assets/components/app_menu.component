@@ -1,6 +1,12 @@
 menuBar {
-    menu (name : 'Game') {}
-    menu (name : 'Editor') {}
+    menu (name : 'Game') {
+        item (name : 'New') {}
+        item (name : 'Continue') {}
+    }
+    menu (name : 'Editor') {
+        item (name : 'World') {}
+        item (name : 'Creature') {}
+    }
     menu (name : 'Application') {
         item (name : 'About...') {}
     }

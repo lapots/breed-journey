@@ -8,28 +8,33 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.lapots.game.journey.ui.UiControl
 import com.lapots.game.journey.ui.dsl.MenuBarDSL
+import com.lapots.game.journey.ui.dsl.WindowDSL
 import com.lapots.game.journey.util.EvaluationUtils;;
 
 class ApplicationMenuScreen extends ScreenAdapter {
 
     private static final String MENU_COMPONENT = "app_menu"
+    private static final String BASIC_WINDOW_COMPONENT = "basic_window"
 
     private Stage stage
+
+    { Stage.metaClass.add = { component -> addActor(component) } }
 
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport())
-        Table root = new Table()
-        root.setFillParent(true)
-        stage.addActor(root)
 
         UiControl.default_stage = stage
-        UiControl.ui_root = root
         Gdx.input.setInputProcessor(stage)
 
         // move to some configurable place
-        def code = UiControl.components[MENU_COMPONENT]
+        def code = null
+
+        code = UiControl.components[MENU_COMPONENT]
         EvaluationUtils.evaluateWithBinding(code, [ "menuBar" : new MenuBarDSL() ])
+
+        code = UiControl.components[BASIC_WINDOW_COMPONENT]
+        EvaluationUtils.evaluateWithBinding(code, [ "window" : new WindowDSL() ])
     }
 
     @Override

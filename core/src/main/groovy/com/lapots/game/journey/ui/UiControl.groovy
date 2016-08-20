@@ -6,7 +6,6 @@ import com.lapots.game.journey.util.ReflectionUtils;;
 
 class UiControl {
     static Stage default_stage
-    static ui_root
     static components = [:]
 
     static LOADERS = [:]

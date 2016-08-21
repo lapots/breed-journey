@@ -5,4 +5,11 @@ window (title : 'World information') {
         width 320
         height 200
     }
+
+    selectBox (label : 'Locations') {
+        items CoreControl.resources[CoreConstants.LOCATION_RESOURCES].values().grep {
+                it.type == 'CITY'
+              }.collect { it.name }
+        on_click {}
+    }
 }

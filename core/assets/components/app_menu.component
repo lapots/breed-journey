@@ -9,7 +9,12 @@ menuBar {
                 "WorldInformationWindow"
             }
         }
-        item (name : 'Creature') {}
+        item (name : 'Creatures') {}
+        item (name : 'Player') {
+            on_click {
+                "EditPlayerInformation"
+            }
+        }
     }
     menu (name : 'Application') {
         item (name : 'About...') {}

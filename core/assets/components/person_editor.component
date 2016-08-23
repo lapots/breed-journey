@@ -1,0 +1,31 @@
+window (title : 'Person details') {
+    withCloseButton { true }
+
+    row {
+        column {
+            textBox (label : 'Id') {
+                value CoreControl.resources["PLAYER_ID"].id
+            }
+            textBox (label : 'Name') {
+                value CoreControl.resources["PLAYER_ID"].name
+            }
+            spinner (label : 'Age') {
+                value CoreControl.resources["PLAYER_ID"].age
+                upperBound 100
+                lowerBound 10
+            }
+            selectBox (label : 'Race') {
+                value CoreControl.resources["PLAYER_ID"].race
+                items CoreControl.resources[CoreConstants.RACES]
+            }
+        }
+        column {
+            selectBox (label : 'Traits') {
+                items CoreControl.resources[CoreConstants.TRAITS]
+                on_click {
+                    "ShowTraitWindow" // immovable window -> though resizable
+                }
+            }
+        }
+    }
+}

@@ -12,7 +12,7 @@ menuBar {
         item (name : 'Creatures') {}
         item (name : 'Player') {
             on_click {
-                "EditPlayerInformation"
+                // "EditPlayerInformation"
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.lapots.game.journey.ui.dsl
 
+import com.kotcrab.vis.ui.building.GridTableBuilder
 import com.kotcrab.vis.ui.widget.VisWindow
 import com.lapots.game.journey.ui.UiControl;
 import com.lapots.game.journey.util.DslUtils;
@@ -10,6 +11,7 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
 
     def header
     @Lazy VisWindow window = new VisWindow(header)
+    GridTableBuilder grid = new GridTableBuilder(2)
 
     def withCloseButton(closure) { !closure() ?: window.addCloseButton() }
 
@@ -18,6 +20,8 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
         UiControl.default_stage.addActor(window)
 
         DslUtils.delegate(closure, this)
+
+        window.add(grid)
     }
 
     def size(closure) {
@@ -40,7 +44,7 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
         def y(y) { window.setY(y) }
     }
 
-    def component_reference() { window }
+    def component_reference() { grid }
 
     def bitwiseNegate() { window }
 }

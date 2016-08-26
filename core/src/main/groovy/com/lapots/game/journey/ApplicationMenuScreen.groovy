@@ -17,6 +17,7 @@ class ApplicationMenuScreen extends ScreenAdapter {
 
     private static final String MENU_COMPONENT = "app_menu"
     private static final String BASIC_WINDOW_COMPONENT = "basic_window"
+    private static final String PERSON_EDITOR_COMPONENT = "person_editor"
 
     private Stage stage
 
@@ -32,10 +33,13 @@ class ApplicationMenuScreen extends ScreenAdapter {
         // move to some configurable place
         def code = null
 
-        code = UiControl.components[MENU_COMPONENT]
+        /*code = UiControl.components[MENU_COMPONENT]
         EvaluationUtils.evaluateWithBinding(code, [ "menuBar" : new MenuBarDSL() ])
 
         code = UiControl.components[BASIC_WINDOW_COMPONENT]
+        EvaluationUtils.evaluateWithBinding(code, [ "window" : new WindowDSL() ])*/
+
+        code = UiControl.components[PERSON_EDITOR_COMPONENT]
         EvaluationUtils.evaluateWithBinding(code, [ "window" : new WindowDSL() ])
     }
 

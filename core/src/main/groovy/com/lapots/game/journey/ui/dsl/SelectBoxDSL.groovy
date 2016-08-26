@@ -11,6 +11,8 @@ class SelectBoxDSL implements IReferenced, DynamicPropertyTrait {
     VisTable table = new VisTable(true)
     VisSelectBox selectBox = new VisSelectBox()
 
+    def has_selected
+
     def call(map, closure) {
         def label = map[LABEL]
         DslUtils.delegate(closure, this)
@@ -22,8 +24,14 @@ class SelectBoxDSL implements IReferenced, DynamicPropertyTrait {
 
     def on_click(closure) {}
 
+    def value(value) {
+        has_selected = value
+    }
+
     def items(items) {
-        selectBox.setItems(items.toArray())
+        // temporary invoke ()
+        selectBox.setItems(items().toArray())
+        if (has_selected) { selectBox.setSelected(has_selected) }
     }
 
     def component_reference() { null }

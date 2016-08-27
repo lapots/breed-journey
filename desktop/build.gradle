@@ -5,9 +5,15 @@ sourceCompatibility = 1.8
 project.ext.mainClassName = "com.lapots.game.journey.DesktopLauncher"
 project.ext.assetsDir = new File("../core/assets");
 
+// implement something like gradle-node plugin
 task start_redis(type: Exec) {
     workingDir '../applications/redis'
     commandLine 'cmd', '/c', 'redis-server'
+}
+
+task stop_redis(type: Exec) {
+    workingDir '../applications/redis'
+    commandLine 'cmd', '/c', 'redis-cli', 'shutdown'
 }
 
 task run(dependsOn: classes, type: JavaExec) {
@@ -47,9 +53,4 @@ task afterEclipseImport(description: "Post processing after project generation",
     printer.setPreserveWhitespace(true)
     printer.print(classpath)
   }
-}
-
-task stop_redis(type: Exec) {
-    workingDir '../applications/redis'
-    commandLine 'cmd', '/c', 'redis-cli', 'shutdown'
 }

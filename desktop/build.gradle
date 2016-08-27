@@ -5,7 +5,7 @@ sourceCompatibility = 1.8
 project.ext.mainClassName = "com.lapots.game.journey.DesktopLauncher"
 project.ext.assetsDir = new File("../core/assets");
 
-task run_redis(type: Exec) {
+task start_redis(type: Exec) {
     workingDir '../applications/redis'
     commandLine 'cmd', '/c', 'redis-server'
 }

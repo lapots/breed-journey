@@ -1,15 +1,17 @@
 package com.lapots.game.journey.ui.dsl
 
+import com.kotcrab.vis.ui.building.OneRowTableBuilder
+import com.kotcrab.vis.ui.building.utilities.CellWidget;
 import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.spinner.IntSpinnerModel
 import com.kotcrab.vis.ui.widget.spinner.Spinner
 import com.lapots.game.journey.util.DslUtils;
 
-class SpinnerDSL implements IReferenced {
+class SpinnerDSL implements IReferenced, ComponentWidthTrait {
 
     private static final LABEL = "label"
 
-    VisTable table = new VisTable(true)
+    OneRowTableBuilder oneRowTable = new OneRowTableBuilder()
     // some solution for that is needed without bind to Spinner
     def temp_value
     def temp_u_bound
@@ -21,8 +23,12 @@ class SpinnerDSL implements IReferenced {
         def label = map[LABEL]
         DslUtils.delegate(closure, this)
 
-        spinner = new Spinner(label, new IntSpinnerModel(temp_value, temp_l_bound, temp_u_bound))
-        table.add(spinner)
+        if (label) {
+            oneRowTable.append(roundify(TextLabel.createLabel(label)))
+        }
+
+        spinner = new Spinner("", new IntSpinnerModel(temp_value, temp_l_bound, temp_u_bound))
+        oneRowTable.append(roundify(spinner))
     }
 
     def value(value) { temp_value = value }
@@ -30,5 +36,5 @@ class SpinnerDSL implements IReferenced {
     def lowerBound(value) { temp_l_bound = value }
 
     def component_reference() { null }
-    def bitwiseNegate() { table }
+    def bitwiseNegate() { oneRowTable.build() }
 }

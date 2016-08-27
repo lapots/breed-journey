@@ -1,23 +1,29 @@
 package com.lapots.game.journey.ui.dsl
 
+import com.kotcrab.vis.ui.building.OneRowTableBuilder
+import com.kotcrab.vis.ui.building.utilities.Alignment;
+import com.kotcrab.vis.ui.building.utilities.CellWidget;
+import com.kotcrab.vis.ui.building.utilities.CellWidget.CellWidgetBuilder
 import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.VisTextField;
 import com.lapots.game.journey.util.DslUtils;
 
-class TextBoxDSL implements IReferenced {
+class TextBoxDSL implements IReferenced, ComponentWidthTrait {
 
     private static final LABEL = "label"
 
-    VisTable table = new VisTable(true)
+    OneRowTableBuilder oneRowTable = new OneRowTableBuilder()
     VisTextField textField = new VisTextField()
 
     def call(map, closure) {
         def label = map[LABEL]
         DslUtils.delegate(closure, this)
 
-        if (label) { table.add(TextLabel.createLabel(label)) }
+        if (label) {
+            oneRowTable.append(roundify(TextLabel.createLabel(label)))
+        }
 
-        table.add(textField)
+        oneRowTable.append(roundify(textField))
     }
 
     def value(value) {
@@ -26,5 +32,5 @@ class TextBoxDSL implements IReferenced {
 
     def component_reference() { null }
 
-    def bitwiseNegate() { table }
+    def bitwiseNegate() { oneRowTable.build() }
 }

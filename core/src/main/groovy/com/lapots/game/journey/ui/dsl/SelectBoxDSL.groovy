@@ -1,14 +1,16 @@
 package com.lapots.game.journey.ui.dsl
 
+import com.kotcrab.vis.ui.building.OneRowTableBuilder
+import com.kotcrab.vis.ui.building.utilities.CellWidget;
 import com.kotcrab.vis.ui.widget.VisSelectBox
 import com.kotcrab.vis.ui.widget.VisTable
 import com.lapots.game.journey.util.DslUtils
 
-class SelectBoxDSL implements IReferenced, DynamicPropertyTrait {
+class SelectBoxDSL implements IReferenced, ComponentWidthTrait {
 
     private static final String LABEL = "label"
 
-    VisTable table = new VisTable(true)
+    OneRowTableBuilder oneRowTable = new OneRowTableBuilder()
     VisSelectBox selectBox = new VisSelectBox()
 
     def has_selected
@@ -17,9 +19,11 @@ class SelectBoxDSL implements IReferenced, DynamicPropertyTrait {
         def label = map[LABEL]
         DslUtils.delegate(closure, this)
 
-        if (label) { table.add(TextLabel.createLabel(label)) }
+        if (label) {
+            oneRowTable.append(roundify(TextLabel.createLabel(label)))
+        }
 
-        table.add(selectBox)
+        oneRowTable.append(roundify(selectBox))
     }
 
     def on_click(closure) {}
@@ -35,5 +39,5 @@ class SelectBoxDSL implements IReferenced, DynamicPropertyTrait {
     }
 
     def component_reference() { null }
-    def bitwiseNegate() { table }
+    def bitwiseNegate() { oneRowTable.build() }
 }

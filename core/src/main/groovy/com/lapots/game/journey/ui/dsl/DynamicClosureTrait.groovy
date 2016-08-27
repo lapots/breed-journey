@@ -1,5 +1,6 @@
 package com.lapots.game.journey.ui.dsl
 
+import com.kotcrab.vis.ui.building.utilities.CellWidget;
 import com.lapots.game.journey.ui.UiConstants
 import com.lapots.game.journey.util.DslUtils
 import com.lapots.game.journey.util.FileProcessingUtils
@@ -14,6 +15,6 @@ trait DynamicClosureTrait {
         def dsl_instance = ReflectionUtils.instantiate(dsl)
         dsl_instance.call(*args)
 
-        component_reference().add(~dsl_instance).expand().fill()
+        component_reference().append(~dsl_instance)
     }
 }

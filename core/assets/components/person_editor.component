@@ -1,24 +1,71 @@
-window (title : 'Person details') {
+window (title : 'Personal details') {
     withCloseButton { true }
+    withPack { true }
 
-    window {
+    gridLayout {
+        columns 2
+    }
+
+    size {
+        width 600
+        height 600
+    }
+
+    window (title : 'General information 1') {
+        allowMoving { false }
+
+        size {
+            width 400
+            height 400
+        }
+
         textBox (label : 'Id') {
-            value CoreControl.resources["PLAYER_ID"].id
-            value PLAYER_ID
+            value "1234"
         }
+
         textBox (label : 'Name') {
-            value CoreControl.resources["PLAYER_ID"].name
+            value "Player 1"
         }
+
         spinner (label : 'Age') {
-            value CoreControl.resources["PLAYER_ID"].age
+            value 15
             upperBound 100
             lowerBound 10
         }
+
         selectBox (label : 'Race') {
-            value CoreControl.resources["PLAYER_ID"].race
-            items CoreControl.resources[CoreConstants.RACES]
+            value "ELF"
+            // find some solution for that
+            items  { ["ELF", "HUMAN"] }
         }
     }
 
-    window {}
+        window (title : 'General information 2') {
+        allowMoving { false }
+
+        size {
+            width 400
+            height 400
+        }
+
+        textBox (label : 'Id') {
+            value "1234"
+        }
+
+        textBox (label : 'Name') {
+            value "Player 1"
+        }
+
+        spinner (label : 'Age') {
+            value 15
+            upperBound 100
+            lowerBound 10
+        }
+
+        selectBox (label : 'Race') {
+            value "ELF"
+            // find some solution for that
+            items  { ["ELF", "HUMAN"] }
+        }
+    }
 }

@@ -3,10 +3,15 @@ package com.lapots.game.journey
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport
+import com.kotcrab.vis.ui.building.GridTableBuilder;
+import com.kotcrab.vis.ui.building.TableBuilder
+import com.kotcrab.vis.ui.building.utilities.CellWidget;
 import com.lapots.game.journey.ui.UiControl
 import com.lapots.game.journey.ui.dsl.MenuBarDSL
 import com.lapots.game.journey.ui.dsl.WindowDSL
@@ -33,14 +38,8 @@ class ApplicationMenuScreen extends ScreenAdapter {
         // move to some configurable place
         def code = null
 
-        /*code = UiControl.components[MENU_COMPONENT]
+        code = UiControl.components[MENU_COMPONENT]
         EvaluationUtils.evaluateWithBinding(code, [ "menuBar" : new MenuBarDSL() ])
-
-        code = UiControl.components[BASIC_WINDOW_COMPONENT]
-        EvaluationUtils.evaluateWithBinding(code, [ "window" : new WindowDSL() ])*/
-
-        code = UiControl.components[PERSON_EDITOR_COMPONENT]
-        EvaluationUtils.evaluateWithBinding(code, [ "window" : new WindowDSL() ])
     }
 
     @Override

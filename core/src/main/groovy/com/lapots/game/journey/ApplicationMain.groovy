@@ -6,6 +6,7 @@ import com.kotcrab.vis.ui.VisUI.SkinScale
 import com.lambdaworks.redis.RedisClient
 import com.lapots.game.journey.platform.core.protocol.GRLMessage
 import com.lapots.game.journey.platform.resource.ResourceRouter
+import com.lapots.game.journey.util.GrlUtils;
 
 class ApplicationMain extends Game {
 
@@ -15,17 +16,11 @@ class ApplicationMain extends Game {
         setScreen(new ApplicationMenuScreen())
 
         ResourceRouter.instance.route (
-            new GRLMessage()
-                .withRequestType("POST")
-                .withRequestGRL("redis://123")
-                .withContent("456")
+            GrlUtils.createPostRequest("redis://123", "456")
         )
 
         def result = ResourceRouter.instance.route (
-            new GRLMessage()
-                .withRequestType("GET")
-                .withContent("java.lang.String")
-                .withRequestGRL("redis://123")
+            GrlUtils.createGetRequest("redis://123", "java.lang.String")
         )
         println result
     }

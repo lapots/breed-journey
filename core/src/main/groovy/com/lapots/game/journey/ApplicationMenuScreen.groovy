@@ -11,12 +11,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.kotcrab.vis.ui.building.GridTableBuilder;
 import com.kotcrab.vis.ui.building.TableBuilder
-import com.kotcrab.vis.ui.building.utilities.CellWidget;
+import com.kotcrab.vis.ui.building.utilities.CellWidget
+import com.lapots.game.journey.platform.resource.ResourceRouter;
 import com.lapots.game.journey.ui.UiControl
 import com.lapots.game.journey.ui.dsl.MenuBarDSL
 import com.lapots.game.journey.ui.dsl.WindowDSL
 import com.lapots.game.journey.util.EvaluationUtils
-import com.lapots.game.journey.world.CoreControl;;;
+import com.lapots.game.journey.util.GrlUtils;
+import com.lapots.game.journey.world.CoreControl
 
 class ApplicationMenuScreen extends ScreenAdapter {
 
@@ -35,11 +37,11 @@ class ApplicationMenuScreen extends ScreenAdapter {
         UiControl.default_stage = stage
         Gdx.input.setInputProcessor(stage)
 
-        // move to some configurable place
-        def code = null
-
-        code = UiControl.components[MENU_COMPONENT]
-        EvaluationUtils.evaluateWithBinding(code, [ "menuBar" : new MenuBarDSL() ])
+        def result = ResourceRouter.instance.route (
+            GrlUtils.createGetRequest("ui://$MENU_COMPONENT", null)
+        )
+        println "Result : $result"
+        EvaluationUtils.evaluateWithBinding(result, [ "menuBar" : new MenuBarDSL() ])
     }
 
     @Override

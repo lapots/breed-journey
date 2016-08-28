@@ -12,9 +12,17 @@ class ResourceConnection {
     StatefulRedisConnection redis_connection
 
     {
+        print "Establishing connection to Redis..."
         RedisClient redisClient =
                 RedisClient.create(REDIS_CONNECTION_STRING)
         redis_connection = redisClient.connect()
+        println "Done!"
+
+        addShutdownHook {
+            println "Closing Redis connections!"
+            redis_connection.close()
+            redisClient.shutdown()
+        }
     }
 
     def redis() { redis_connection }

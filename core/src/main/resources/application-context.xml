@@ -15,10 +15,4 @@
     <bean id="lettuceConnectionFactory"
             class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory"
             p:host-name="localhost" p:port="6379"/>
-
-    <bean id="stage"
-            class="com.badlogic.gdx.scenes.scene2d.Stage">
-        <constructor-arg type="com.badlogic.gdx.utils.viewport.ScreenViewport"
-            value="#{ new com.badlogic.gdx.utils.viewport.ScreenViewport() }"/>
-    </bean>
 </beans>

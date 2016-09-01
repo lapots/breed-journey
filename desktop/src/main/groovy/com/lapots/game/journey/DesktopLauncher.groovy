@@ -3,7 +3,6 @@ package com.lapots.game.journey;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.lapots.game.journey.ApplicationMain;
-import org.springframework.context.support.ClassPathXmlApplicationContext
 
 public class DesktopLauncher {
 
@@ -12,9 +11,7 @@ public class DesktopLauncher {
         config.width = 1000;
         config.height = 800;
 
-        new LwjglApplication(
-            new ClassPathXmlApplicationContext("application-context.xml")
-                .getBean("applicationMain"), config);
+        new LwjglApplication(new ApplicationMain(), config);
 
         addShutdownHook {
             // add redis stop

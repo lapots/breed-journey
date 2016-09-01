@@ -8,6 +8,9 @@ import com.lapots.game.journey.platform.core.protocol.GRLMessage
 import com.lapots.game.journey.platform.resource.ResourceRouter
 import com.lapots.game.journey.util.GrlUtils;
 
+import org.springframework.stereotype.Component;
+
+@Component
 class ApplicationMain extends Game {
 
     @Override

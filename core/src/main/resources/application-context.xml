@@ -13,6 +13,10 @@
     <context:component-scan base-package="com.lapots.game.journey"/>
 
     <bean id="lettuceConnectionFactory"
-            class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory"
-            p:host-name="localhost" p:port="6379"/>
+        class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory"
+        p:host-name="localhost" p:port="6379"/>
+
+    <bean id="redisTemplate"
+        class="org.springframework.data.redis.core.RedisTemplate"
+        p:connection-factory-ref="lettuceConnectionFactory"/>
 </beans>

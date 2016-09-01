@@ -5,11 +5,11 @@ class RedisSynchronousStringStorage extends RedisSynchronousStorage {
 
     @Override
     def read(key) {
-        sync_redis_connection.get(key)
+        template.boundValueOps(key).get()
     }
 
     @Override
     def write(key, value) {
-        sync_redis_connection.set(key, value)
+        template.boundValueOps(key).set(value)
     }
 }

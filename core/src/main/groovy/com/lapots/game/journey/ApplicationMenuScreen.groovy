@@ -20,19 +20,24 @@ import com.lapots.game.journey.util.EvaluationUtils
 import com.lapots.game.journey.util.GrlUtils;
 import com.lapots.game.journey.world.CoreControl
 
+import org.springframework.stereotype.Component
+import org.springframework.beans.factory.annotation.Autowired
+
+@Component
 class ApplicationMenuScreen extends ScreenAdapter {
 
     private static final String MENU_COMPONENT = "app_menu"
     private static final String BASIC_WINDOW_COMPONENT = "basic_window"
     private static final String PERSON_EDITOR_COMPONENT = "person_editor"
 
-    private Stage stage
+    @Autowired
+    Stage stage
 
     { Stage.metaClass.add = { component -> addActor(component) } }
 
     @Override
     public void show() {
-        stage = new Stage(new ScreenViewport())
+        // stage = new Stage(new ScreenViewport())
 
         UiPlatform.default_stage = stage
         Gdx.input.setInputProcessor(stage)

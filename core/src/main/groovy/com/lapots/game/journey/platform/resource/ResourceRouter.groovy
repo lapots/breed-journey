@@ -21,4 +21,12 @@ class ResourceRouter implements IRouter {
     def route(grl_message) {
         channels [GrlUtils.getRouteResolver(grl_message.requestGRL)](grl_message)
     }
+
+    def leftShift(grl_message) {
+        route(grl_message)
+    }
+
+    def rightShift(grl_message) {
+        route(grl_message)
+    }
 }

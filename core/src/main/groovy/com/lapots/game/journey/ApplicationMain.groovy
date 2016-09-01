@@ -17,13 +17,12 @@ class ApplicationMain extends Game {
         setScreen(new ApplicationMenuScreen())
 
         // come up with better idea
-        ResourcePlatform.resources.route (
-            GrlUtils.createPostRequest("redis://123", "456")
-        )
+        ResourcePlatform.resources >>
+                GrlUtils.createPostRequest("redis://123", "456")
 
-        def result = ResourcePlatform.resources.route (
-            GrlUtils.createGetRequest("redis://123", "java.lang.String")
-        )
+        def result = ResourcePlatform.resources <<
+                GrlUtils.createGetRequest("redis://123", "java.lang.String")
+
         println "Read from redis: $result"
     }
 

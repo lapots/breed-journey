@@ -1,7 +1,8 @@
 package com.lapots.game.journey.ui.dsl
 
+import static com.lapots.game.journey.platform.UiPlatform.Constants
+
 import com.kotcrab.vis.ui.widget.MenuItem
-import com.lapots.game.journey.ui.UiConstants
 import com.lapots.game.journey.util.ReflectionUtils;
 
 class MenuItemDSL {
@@ -10,7 +11,7 @@ class MenuItemDSL {
     @Lazy MenuItem item = new MenuItem(item_label)
 
     def on_click(closure) {
-        def instance = ReflectionUtils.instantiate("$UiConstants.EVENT_PACKAGE.${ closure() }")
+        def instance = ReflectionUtils.instantiate("$Constants.EVENT_PACKAGE.${ closure() }")
         item.addListener(instance)
     }
 

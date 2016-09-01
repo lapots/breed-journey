@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.kotcrab.vis.ui.building.GridTableBuilder;
 import com.kotcrab.vis.ui.building.TableBuilder
 import com.kotcrab.vis.ui.building.utilities.CellWidget
+import com.lapots.game.journey.platform.UiPlatform;
 import com.lapots.game.journey.platform.resource.ResourceRouter;
-import com.lapots.game.journey.ui.UiControl
 import com.lapots.game.journey.ui.dsl.MenuBarDSL
 import com.lapots.game.journey.ui.dsl.WindowDSL
 import com.lapots.game.journey.util.EvaluationUtils
@@ -34,7 +34,7 @@ class ApplicationMenuScreen extends ScreenAdapter {
     public void show() {
         stage = new Stage(new ScreenViewport())
 
-        UiControl.default_stage = stage
+        UiPlatform.default_stage = stage
         Gdx.input.setInputProcessor(stage)
 
         def result = ResourceRouter.instance.route (

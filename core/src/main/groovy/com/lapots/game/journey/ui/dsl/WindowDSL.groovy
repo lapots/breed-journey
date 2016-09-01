@@ -3,7 +3,7 @@ package com.lapots.game.journey.ui.dsl
 import com.kotcrab.vis.ui.building.GridTableBuilder
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisWindow
-import com.lapots.game.journey.ui.UiControl;
+import com.lapots.game.journey.platform.UiPlatform;
 import com.lapots.game.journey.util.DslUtils;
 import java.lang.ref.SoftReference
 
@@ -31,7 +31,7 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
 
     def call(map, closure) {
         header = map[HEADER_KEY]
-        UiControl.default_stage.addActor(window)
+        UiPlatform.default_stage.addActor(window)
         TableUtils.setSpacingDefaults(window)
         window.columnDefaults(0).left()
 

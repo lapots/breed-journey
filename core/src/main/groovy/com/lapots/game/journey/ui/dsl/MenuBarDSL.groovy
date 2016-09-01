@@ -3,8 +3,7 @@ package com.lapots.game.journey.ui.dsl
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.kotcrab.vis.ui.widget.Menu
 import com.kotcrab.vis.ui.widget.MenuBar
-import com.lapots.game.journey.ui.UiConstants
-import com.lapots.game.journey.ui.UiControl
+import com.lapots.game.journey.platform.UiPlatform;
 import com.lapots.game.journey.util.DslUtils;
 
 class MenuBarDSL implements IReferenced {
@@ -19,7 +18,7 @@ class MenuBarDSL implements IReferenced {
         root.setFillParent(true)
         root.add(menubar.getTable()).expandX().fillX().row()
         root.add().expand().fill()
-        UiControl.default_stage.addActor(root)
+        UiPlatform.default_stage.addActor(root)
 
         DslUtils.delegate(closure, this)
     }

@@ -3,7 +3,6 @@ package com.lapots.game.journey.ui.events
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener
 import com.lapots.game.journey.platform.resource.storage.ui.UiComponentStorage;
-import com.lapots.game.journey.ui.UiControl;
 import com.lapots.game.journey.ui.dsl.WindowDSL
 import com.lapots.game.journey.util.EvaluationUtils;
 

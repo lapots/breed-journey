@@ -22,7 +22,6 @@ class ApplicationMain extends Game {
         def result = ResourceRouter.instance.route (
             GrlUtils.createGetRequest("redis://123", "java.lang.String")
         )
-        println result
     }
 
     @Override

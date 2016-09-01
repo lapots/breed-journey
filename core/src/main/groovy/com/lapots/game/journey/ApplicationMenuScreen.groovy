@@ -40,7 +40,7 @@ class ApplicationMenuScreen extends ScreenAdapter {
         def result = ResourceRouter.instance.route (
             GrlUtils.createGetRequest("ui://$MENU_COMPONENT", null)
         )
-        println "Result : $result"
+
         EvaluationUtils.evaluateWithBinding(result, [ "menuBar" : new MenuBarDSL() ])
     }
 

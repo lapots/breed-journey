@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game
 import com.kotcrab.vis.ui.VisUI
 import com.kotcrab.vis.ui.VisUI.SkinScale
 import com.lambdaworks.redis.RedisClient
+import com.lapots.game.journey.platform.ResourcePlatform;
 import com.lapots.game.journey.platform.core.protocol.GRLMessage
 import com.lapots.game.journey.platform.resource.ResourceRouter
 import com.lapots.game.journey.util.GrlUtils;
@@ -15,11 +16,12 @@ class ApplicationMain extends Game {
         VisUI.load(SkinScale.X1)
         setScreen(new ApplicationMenuScreen())
 
-        ResourceRouter.instance.route (
+        // come up with better idea
+        ResourcePlatform.resources.route (
             GrlUtils.createPostRequest("redis://123", "456")
         )
 
-        def result = ResourceRouter.instance.route (
+        def result = ResourcePlatform.resources.route (
             GrlUtils.createGetRequest("redis://123", "java.lang.String")
         )
         println "Read from redis: $result"

@@ -4,10 +4,12 @@ import org.springframework.data.redis.core.RedisTemplate
 
 import com.lapots.game.journey.platform.CorePlatform;
 
+import org.springframework.beans.factory.annotation.Autowired
+
 abstract class RedisSynchronousStorage {
 
-    // might want to replace with some AST like @Managed(name='redisTemplate')
-    RedisTemplate<String, String> template = CorePlatform.managed["redisTemplate"]
+    @Autowired
+    RedisTemplate<String, String> template
 
     abstract def read(key)
 

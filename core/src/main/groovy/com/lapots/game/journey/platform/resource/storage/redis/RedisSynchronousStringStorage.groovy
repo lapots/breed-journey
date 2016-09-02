@@ -1,6 +1,8 @@
 package com.lapots.game.journey.platform.resource.storage.redis
 
-@Singleton
+import org.springframework.stereotype.Component
+
+@Component
 class RedisSynchronousStringStorage extends RedisSynchronousStorage {
 
     @Override

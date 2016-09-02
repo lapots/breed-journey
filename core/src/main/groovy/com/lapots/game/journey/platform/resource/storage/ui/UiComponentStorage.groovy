@@ -4,7 +4,9 @@ import com.lapots.game.journey.platform.UiPlatform;
 import com.lapots.game.journey.util.FileProcessingUtils;
 import com.lapots.game.journey.util.ReflectionUtils;;
 
-@Singleton
+import org.springframework.stereotype.Component
+
+@Component
 class UiComponentStorage {
 
     static def components = [:]
@@ -35,4 +37,5 @@ class UiComponentStorage {
         FileProcessingUtils.createFileName(UiPlatform.Constants.LOADER_PACKAGE,
                 UiPlatform.Constants.LOADER_POSTFIX, ext)
     }
+
 }

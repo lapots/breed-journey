@@ -1,10 +1,10 @@
 package com.lapots.game.journey.ui.dsl
 
-import com.lapots.game.journey.ApplicationControl;
+import com.lapots.game.journey.platform.CorePlatform
 
 trait DynamicPropertyTrait {
 
     def propertyMissing(String name) {
-        ApplicationControl.class_registry[name]
+        CorePlatform.managed[name] // assuming it won't move further than managed scope
     }
 }

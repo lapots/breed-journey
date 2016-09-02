@@ -19,7 +19,6 @@ import com.lapots.game.journey.ui.dsl.MenuBarDSL
 import com.lapots.game.journey.ui.dsl.WindowDSL
 import com.lapots.game.journey.util.EvaluationUtils
 import com.lapots.game.journey.util.GrlUtils;
-import com.lapots.game.journey.world.CoreControl
 
 class ApplicationMenuScreen extends ScreenAdapter {
 
@@ -36,11 +35,8 @@ class ApplicationMenuScreen extends ScreenAdapter {
         UiPlatform.default_stage = stage
         Gdx.input.setInputProcessor(stage)
 
-        println CorePlatform.managed["lettuceConnectionFactory"]
-
-        def result = ResourceRouter.instance.route (
+        def result = CorePlatform.managed["resourceRouter"] <<
             GrlUtils.createGetRequest("ui://$MENU_COMPONENT", null)
-        )
 
         EvaluationUtils.evaluateWithBinding(result, [ "menuBar" : new MenuBarDSL() ])
     }

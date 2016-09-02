@@ -4,5 +4,5 @@ import com.lapots.game.journey.platform.resource.ResourceRouter;
 
 class ResourcePlatform {
 
-    static resources = ResourceRouter.instance
+    static resources = CorePlatform.managed["resourceRouter"]
 }

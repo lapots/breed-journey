@@ -3,10 +3,15 @@ package com.lapots.game.journey.platform.resource.router.redis
 import com.lapots.game.journey.platform.core.router.IRouter
 import com.lapots.game.journey.util.GrlUtils;;
 
-@Singleton
+import org.springframework.stereotype.Component
+
+import org.springframework.beans.factory.annotation.Autowired
+
+@Component
 class RedisResourceRouter implements IRouter {
 
-    def redis_object_router = RedisObjectRouter.instance
+    @Autowired
+    RedisObjectRouter redis_object_router
 
     def channels = [
         "POST" : { route_key, message ->

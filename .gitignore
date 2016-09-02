@@ -68,3 +68,10 @@ build/
 ## OS Specific
 .DS_Store
 Thumbs.db
+
+## Redis
+applications/redis/dump.rdb
+
+## Mongo related
+applications/mongo/bin/data/db
+*.msi

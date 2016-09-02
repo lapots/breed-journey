@@ -1,4 +1,6 @@
 apply plugin: "java"
+apply plugin: 'de.undercouch.download'
+
 
 sourceCompatibility = 1.8
 
@@ -14,6 +16,41 @@ task start_redis(type: Exec) {
 task stop_redis(type: Exec) {
     workingDir '../applications/redis'
     commandLine 'cmd', '/c', 'redis-cli', 'shutdown'
+}
+
+import de.undercouch.gradle.tasks.download.Download
+
+// download mongo
+task download_mongo(type: Download) {
+    src 'https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi'
+    dest '../applications/mongo/install'
+    onlyIfNewer true
+}
+
+// CANNOT INSTALL FOR NOW
+// install mongo
+// no idea how to uninstall (though it seems possible to msiexec /unistall
+task install_mongo(dependsOn: download_mongo, type: Exec) {
+    workingDir '../applications/mongo/install'
+    commandLine 'cmd', 'msiexec','/i', "mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi", 'TARGETDIR=../', 'ADDLOCAL=\"all\"'
+}
+
+/* Solve issue with previous tasks
+task setup_mongo(dependsOn: install_mongo) {
+    def config_file = new File('../applications/mongo/mongodb.config')
+    config_file << "dbpath=../data/db"
+}
+*/
+
+task start_mongo(type: Exec) {
+    workingDir '../applications/mongo'
+    commandLine 'cmd', '/c', 'mongod', '--config', 'mongodb.config'
+}
+
+// find proper procedure
+task stop_mongo(type: Exec) {
+    workingDir '../applications/mongo/server/3.2/bin'
+    commandLine 'cmd', '/c', 'mongod', 'stop'
 }
 
 task run(dependsOn: classes, type: JavaExec) {

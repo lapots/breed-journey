@@ -10,4 +10,5 @@ class GRLMessage {
     def requestType
     def requestGRL
     def content
+    def headers
 }

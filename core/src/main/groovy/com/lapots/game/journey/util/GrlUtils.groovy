@@ -16,17 +16,18 @@ class GrlUtils {
         path[path.lastIndexOf("/") + 1..path.length() - 1]
     }
 
-    static createGetRequest(grl, content) {
+    static createGetRequest(grl, headers) {
         new GRLMessage()
             .withRequestType("GET")
-            .withContent(content)
             .withRequestGRL(grl)
+            .withHeaders(headers)
     }
 
-    static createPostRequest(grl, content) {
+    static createPostRequest(grl, content, headers) {
         new GRLMessage()
             .withRequestType("POST")
             .withContent(content)
             .withRequestGRL(grl)
+            .withHeaders(headers)
     }
 }

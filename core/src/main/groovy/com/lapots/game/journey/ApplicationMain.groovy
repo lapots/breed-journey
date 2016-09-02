@@ -18,10 +18,10 @@ class ApplicationMain extends Game {
 
         // come up with better idea
         ResourcePlatform.resources >>
-                GrlUtils.createPostRequest("redis://123", "456")
+                GrlUtils.createPostRequest("redis://123", "456", null)
 
         def result = ResourcePlatform.resources <<
-                GrlUtils.createGetRequest("redis://123", "java.lang.String")
+                GrlUtils.createGetRequest("redis://123", [ "expected type" : "java.lang.String"] )
 
         println "Read from redis: $result"
     }

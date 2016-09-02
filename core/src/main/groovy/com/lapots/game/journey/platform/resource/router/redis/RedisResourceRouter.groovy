@@ -18,7 +18,8 @@ class RedisResourceRouter implements IRouter {
             redis_object_router.write(route_key, message.content)
         },
         "GET" : { route_key, message ->
-            redis_object_router.read(route_key, message.content)
+            def expected_type = message.headers["expected type"]
+            redis_object_router.read(route_key, expected_type)
         }
     ]
 

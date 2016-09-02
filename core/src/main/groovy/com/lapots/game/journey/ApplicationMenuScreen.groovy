@@ -23,8 +23,6 @@ import com.lapots.game.journey.util.GrlUtils;
 class ApplicationMenuScreen extends ScreenAdapter {
 
     private static final String MENU_COMPONENT = "app_menu"
-    private static final String BASIC_WINDOW_COMPONENT = "basic_window"
-    private static final String PERSON_EDITOR_COMPONENT = "person_editor"
 
     Stage stage = new Stage(new ScreenViewport());
 

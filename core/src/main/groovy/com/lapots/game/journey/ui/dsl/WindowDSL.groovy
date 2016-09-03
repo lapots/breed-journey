@@ -15,7 +15,7 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
     def header
     def need_pack
     @Lazy VisWindow window = new VisWindow(header)
-    @Lazy(soft=true) GridTableBuilder grid = new GridTableBuilder(1)
+    GridTableBuilder grid = new GridTableBuilder(1)
 
     def withCloseButton(closure) { !closure() ?: window.addCloseButton() }
     def allowMoving(closure) { window.setMovable(closure()) }
@@ -23,7 +23,9 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
 
     // something is odd here
     def gridLayout(closure) { DslUtils.delegate(closure, this) }
-    def columns(value) { setGrid(new GridTableBuilder(value)) }
+    def columns(value) {
+        grid = new GridTableBuilder(value)
+    }
 
     def call(closure) {
         call(title : '', closure)
@@ -41,6 +43,10 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
         if (need_pack) {
             window.pack()
         }
+    }
+
+    def center(closure) {
+        !closure() ?: window.centerWindow()
     }
 
     def size(closure) {
@@ -61,6 +67,9 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
     class WindowPosition {
         def x(x) { window.setX(x) }
         def y(y) { window.setY(y) }
+    }
+
+    def collect_window_data() {
     }
 
     def component_reference() { grid }

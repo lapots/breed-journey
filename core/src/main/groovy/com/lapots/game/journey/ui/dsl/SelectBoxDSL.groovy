@@ -6,7 +6,7 @@ import com.kotcrab.vis.ui.widget.VisSelectBox
 import com.kotcrab.vis.ui.widget.VisTable
 import com.lapots.game.journey.util.DslUtils
 
-class SelectBoxDSL implements IReferenced, ComponentWidthTrait {
+class SelectBoxDSL implements IReferenced, ComponentWidthTrait, DynamicPropertyTrait {
 
     private static final String LABEL = "label"
 
@@ -20,7 +20,7 @@ class SelectBoxDSL implements IReferenced, ComponentWidthTrait {
         DslUtils.delegate(closure, this)
 
         if (label) {
-            oneRowTable.append(roundify(TextLabel.createLabel(label)))
+            oneRowTable.append(roundify(TextLabelDSL.createLabel(label)))
         }
 
         oneRowTable.append(roundify(selectBox))

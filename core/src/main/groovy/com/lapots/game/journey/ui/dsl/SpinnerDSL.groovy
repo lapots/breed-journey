@@ -24,7 +24,7 @@ class SpinnerDSL implements IReferenced, ComponentWidthTrait {
         DslUtils.delegate(closure, this)
 
         if (label) {
-            oneRowTable.append(roundify(TextLabel.createLabel(label)))
+            oneRowTable.append(roundify(TextLabelDSL.createLabel(label)))
         }
 
         spinner = new Spinner("", new IntSpinnerModel(temp_value, temp_l_bound, temp_u_bound))

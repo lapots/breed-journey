@@ -1,4 +1,4 @@
-package com.lapots.game.journey.platform.resource.storage.ui
+package com.lapots.game.journey.platform.resource.ui.storage
 
 import com.lapots.game.journey.platform.UiPlatform;
 import com.lapots.game.journey.util.FileProcessingUtils;

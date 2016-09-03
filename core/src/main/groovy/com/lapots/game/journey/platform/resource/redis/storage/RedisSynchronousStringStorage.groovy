@@ -1,4 +1,4 @@
-package com.lapots.game.journey.platform.resource.storage.redis
+package com.lapots.game.journey.platform.resource.redis.storage
 
 import org.springframework.stereotype.Component
 

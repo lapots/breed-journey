@@ -11,7 +11,7 @@ class CorePlatform {
 
     static class Constants {
         static final def LOCATION_RESOURCES = "location"
-        static final def LOADER_PACKAGE = "com.lapots.game.journey.world.loader"
+        static final def LOADER_PACKAGE = "com.lapots.game.journey.core.loader"
         // loading priority specified by order
         static final def SUPPORTED_EXTENSIONS = [ "location", "relation" ]
         static final LOADER_POSTFIX = "FileLoader"

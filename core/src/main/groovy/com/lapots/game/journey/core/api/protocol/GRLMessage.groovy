@@ -1,4 +1,4 @@
-package com.lapots.game.journey.platform.core.protocol
+package com.lapots.game.journey.core.api.protocol
 
 import com.lapots.game.journey.util.DslUtils
 

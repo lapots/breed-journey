@@ -5,7 +5,6 @@ import com.kotcrab.vis.ui.VisUI
 import com.kotcrab.vis.ui.VisUI.SkinScale
 import com.lambdaworks.redis.RedisClient
 import com.lapots.game.journey.platform.ResourcePlatform;
-import com.lapots.game.journey.platform.core.protocol.GRLMessage
 import com.lapots.game.journey.platform.resource.ResourceRouter
 import com.lapots.game.journey.util.GrlUtils;
 

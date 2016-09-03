@@ -1,4 +1,4 @@
-package com.lapots.game.journey.platform.core.router
+package com.lapots.game.journey.core.api
 
 interface IRouter {
 

@@ -1,4 +1,4 @@
-package com.lapots.game.journey.core.loader
+package com.lapots.game.journey.core.api
 
 interface ILoader {
     def load(file)

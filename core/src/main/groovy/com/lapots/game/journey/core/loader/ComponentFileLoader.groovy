@@ -1,8 +1,8 @@
-package com.lapots.game.journey.ui.loader
+package com.lapots.game.journey.core.loader
 
-import com.lapots.game.journey.core.loader.ILoader
-import com.lapots.game.journey.platform.CorePlatform;
-import com.lapots.game.journey.platform.resource.storage.ui.UiComponentStorage;
+import com.lapots.game.journey.core.api.ILoader
+import com.lapots.game.journey.platform.CorePlatform
+import com.lapots.game.journey.platform.resource.ui.storage.UiComponentStorage;
 import com.lapots.game.journey.util.FileProcessingUtils;
 
 class ComponentFileLoader implements ILoader {

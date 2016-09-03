@@ -1,6 +1,7 @@
 package com.lapots.game.journey.util
 
-import com.lapots.game.journey.platform.core.protocol.GRLMessage
+import com.lapots.game.journey.core.api.protocol.GRLMessage
+
 
 class GrlUtils {
 

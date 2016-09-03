@@ -1,7 +1,6 @@
-package com.lapots.game.journey.platform.resource.router.redis
+package com.lapots.game.journey.platform.resource.redis.router
 
-import com.lapots.game.journey.platform.resource.storage.redis.RedisSynchronousStringStorage
-
+import com.lapots.game.journey.platform.resource.redis.storage.RedisSynchronousStringStorage
 import org.springframework.stereotype.Component
 
 import org.springframework.beans.factory.annotation.Autowired

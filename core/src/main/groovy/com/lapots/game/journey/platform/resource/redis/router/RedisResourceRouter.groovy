@@ -1,6 +1,6 @@
-package com.lapots.game.journey.platform.resource.router.redis
+package com.lapots.game.journey.platform.resource.redis.router
 
-import com.lapots.game.journey.platform.core.router.IRouter
+import com.lapots.game.journey.core.api.IRouter
 import com.lapots.game.journey.util.GrlUtils;;
 
 import org.springframework.stereotype.Component

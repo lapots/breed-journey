@@ -16,78 +16,101 @@ buildscript {
     }
 }
 
-task doNothing << {
-    println buildDir
-    def file = new File("applications/redis/install")
-    println file.absolutePath
-}
-
 def rootDir = project(":").projectDir
 
-/*-------REDIS-----------*/
+//========================================================
+//========================================================
+//********************************************************
+//**************************REDIS*************************
 task download_redis(type: Download) {
     src 'https://github.com/MSOpenTech/redis/releases/download/win-3.2.100/Redis-x64-3.2.100.zip'
-    dest new File("$rootDir/applications/redis/install", 'Redis-x64-3.2.100.zip')
+    dest new File("$rootDir/applications/install", 'Redis-x64-3.2.100.zip')
     onlyIfNewer true
 }
 
-task install_redis(dependsOn: download_redis, type: Copy) {
+task setup_redis(dependsOn: download_redis, type: Copy) {
     from zipTree(download_redis.dest)
     into "${rootDir}/applications/redis"
 }
 
-// implement something like gradle-node plugin
 task start_redis(type: Exec) {
-    workingDir '../applications/redis'
+    workingDir "${rootDir}/applications/redis"
     commandLine 'cmd', '/c', 'redis-server'
 }
 
 task stop_redis(type: Exec) {
-    workingDir '../applications/redis'
+    workingDir "${rootDir}/applications/redis"
     commandLine 'cmd', '/c', 'redis-cli', 'shutdown'
 }
 
 task remove_redis << {
-    new File('../applications/redis').deleteDir()
+    file("${rootDir}/applications/redis").deleteDir()
 }
 
-/*--------MONGO------------*/
+//********************************************************
+//********************************************************
+//========================================================
+//========================================================
 
-// download mongo
+
+
+//========================================================
+//========================================================
+//********************************************************
+//**************************MONGO*************************
 task download_mongo(type: Download) {
     src 'https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi'
-    dest '../applications/mongo/install'
+    dest new File("$rootDir/applications/install", 'mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi')
     onlyIfNewer true
 }
 
-// CANNOT INSTALL FOR NOW
-// install mongo
-// no idea how to uninstall (though it seems possible to msiexec /unistall
+// does not work
 task install_mongo(dependsOn: download_mongo, type: Exec) {
-    workingDir '../applications/mongo/install'
-    commandLine 'cmd', 'msiexec','/i', "mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi", 'TARGETDIR=../', 'ADDLOCAL=\"all\"'
+    workingDir "${rootDir}/applications/install"
+    commandLine 'cmd', 'msiexec', '/q', '/i', "mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi", 'INSTALLLOCATION="${rootDir}/applications/mongo"', 'ADDLOCAL="all"'
 }
 
-// Solve issue with previous tasks
-task setup_mongo(dependsOn: install_mongo, type: Exec) {
-    /*def config_file = new File('../applications/mongo/mongodb.config')
-    config_file << "dbpath=../data/db"*/
-}
+// << is essential here as it evaluates tasks and invoke new File...I presume
+task setup_mongo(dependsOn: install_mongo) << {
 
+    def folder = file("${rootDir}/applications/mongo/bin")
+    if (!folder.exists()) { folder.mkdirs() }
+
+    def data_folder = file("$rootDir/applications/mongo/bin/data/db")
+    if (!data_folder.exists()) { data_folder.mkdirs() }
+
+    new File(folder, 'mongodb.config').withWriter{ writer ->
+        writer << "dbpath=$rootDir/applications/mongo/bin/data/db"
+    }
+}
 
 task start_mongo(type: Exec) {
-    workingDir '../applications/mongo'
+    workingDir "${rootDir}/applications/mongo/bin"
     commandLine 'cmd', '/c', 'mongod', '--config', 'mongodb.config'
 }
 
-// find proper procedure
+// does not work
 task stop_mongo(type: Exec) {
-    workingDir '../applications/mongo/server/3.2/bin'
+    workingDir "${rootDir}/applications/mongo/bin"
     commandLine 'cmd', '/c', 'mongod', 'stop'
 }
 
-task remove_mongo << {
-    new File('../applications/mongo').deleteDir()
+// does not work
+task unistall_mongo(type: Exec) {
+    workingDir "${rootDir}/applications/mongo/install"
+    commandLine 'cmd', 'msiexec','/x', "mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi"
+}
+
+task remove_mongo(dependsOn: unistall_mongo) << {
+    file("${rootDir}/applications/mongo").deleteDir()
+}
+//********************************************************
+//********************************************************
+//========================================================
+//========================================================
+
+task cleanup_install << {
+    file("${rootDir}/applications/install").deleteDir()
 }
 
 project.ext.mainClassName = "com.lapots.game.journey.DesktopLauncher"

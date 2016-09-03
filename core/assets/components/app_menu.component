@@ -1,6 +1,10 @@
 menuBar {
     menu (name : 'Game') {
-        item (name : 'New') {}
+        item (name : 'New') {
+            on_click {
+                "CreateNewPlayerWindow"
+            }
+        }
         item (name : 'Continue') {}
     }
     menu (name : 'Editor') {

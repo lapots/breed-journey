@@ -1,11 +1,40 @@
 apply plugin: "java"
-apply plugin: 'de.undercouch.download'
 
+import de.undercouch.gradle.tasks.download.Download
+
+apply plugin: 'de.undercouch.download'
 
 sourceCompatibility = 1.8
 
-project.ext.mainClassName = "com.lapots.game.journey.DesktopLauncher"
-project.ext.assetsDir = new File("../core/assets");
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'de.undercouch:gradle-download-task:3.1.1'
+        classpath 'org.apache.httpcomponents:httpclient:4.5.2'
+    }
+}
+
+task doNothing << {
+    println buildDir
+    def file = new File("applications/redis/install")
+    println file.absolutePath
+}
+
+def rootDir = project(":").projectDir
+
+/*-------REDIS-----------*/
+task download_redis(type: Download) {
+    src 'https://github.com/MSOpenTech/redis/releases/download/win-3.2.100/Redis-x64-3.2.100.zip'
+    dest new File("$rootDir/applications/redis/install", 'Redis-x64-3.2.100.zip')
+    onlyIfNewer true
+}
+
+task install_redis(dependsOn: download_redis, type: Copy) {
+    from zipTree(download_redis.dest)
+    into "${rootDir}/applications/redis"
+}
 
 // implement something like gradle-node plugin
 task start_redis(type: Exec) {
@@ -18,18 +47,11 @@ task stop_redis(type: Exec) {
     commandLine 'cmd', '/c', 'redis-cli', 'shutdown'
 }
 
-import de.undercouch.gradle.tasks.download.Download
-
-task download_redis(type: Download) {
-    src 'https://github.com/MSOpenTech/redis/releases/download/win-3.2.100/Redis-x64-3.2.100.zip'
-    dest new File('../applications/redis/install')
-    onlyIfNewer true
+task remove_redis << {
+    new File('../applications/redis').deleteDir()
 }
 
-task install_redis(dependsOn: download_redis, type: Copy) {
-    from zipTree(download_redis.dest)
-    into '../applications/redis'
-}
+/*--------MONGO------------*/
 
 // download mongo
 task download_mongo(type: Download) {
@@ -46,12 +68,12 @@ task install_mongo(dependsOn: download_mongo, type: Exec) {
     commandLine 'cmd', 'msiexec','/i', "mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi", 'TARGETDIR=../', 'ADDLOCAL=\"all\"'
 }
 
-/* Solve issue with previous tasks
-task setup_mongo(dependsOn: install_mongo) {
-    def config_file = new File('../applications/mongo/mongodb.config')
-    config_file << "dbpath=../data/db"
+// Solve issue with previous tasks
+task setup_mongo(dependsOn: install_mongo, type: Exec) {
+    /*def config_file = new File('../applications/mongo/mongodb.config')
+    config_file << "dbpath=../data/db"*/
 }
-*/
+
 
 task start_mongo(type: Exec) {
     workingDir '../applications/mongo'
@@ -63,6 +85,13 @@ task stop_mongo(type: Exec) {
     workingDir '../applications/mongo/server/3.2/bin'
     commandLine 'cmd', '/c', 'mongod', 'stop'
 }
+
+task remove_mongo << {
+    new File('../applications/mongo').deleteDir()
+}
+
+project.ext.mainClassName = "com.lapots.game.journey.DesktopLauncher"
+project.ext.assetsDir = new File("../core/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName

@@ -27,7 +27,6 @@ class ResourceRouter implements IRouter {
     ]
 
     def route(grl_message) {
-        println "Sending message: $grl_message"
         channels [GrlUtils.getRouteResolver(grl_message.requestGRL)](grl_message)
     }
 

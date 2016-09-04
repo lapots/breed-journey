@@ -3,12 +3,13 @@ package com.lapots.game.journey.ui.dsl
 import com.kotcrab.vis.ui.building.GridTableBuilder
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisWindow
+import com.lapots.game.journey.platform.CorePlatform;
 import com.lapots.game.journey.platform.UiPlatform;
 import com.lapots.game.journey.util.DslUtils;
 import java.lang.ref.SoftReference
 
 //
-class WindowDSL implements DynamicClosureTrait, IReferenced {
+class WindowDSL implements DynamicClosureTrait, CompositeTrait, IReferenced, IdentifiableTrait {
 
     private static final String HEADER_KEY = "title"
 
@@ -32,6 +33,8 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
     }
 
     def call(map, closure) {
+        id = uuid()
+        println "Window id : $id"
         header = map[HEADER_KEY]
         UiPlatform.default_stage.addActor(window)
         TableUtils.setSpacingDefaults(window)
@@ -39,6 +42,7 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
 
         DslUtils.delegate(closure, this)
 
+        CorePlatform.managed["uiComponentStorage"].registered[id] = this
         window.add(grid.build())
         if (need_pack) {
             window.pack()
@@ -73,6 +77,6 @@ class WindowDSL implements DynamicClosureTrait, IReferenced {
     }
 
     def component_reference() { grid }
-
+    def identifiable_instance() { window }
     def bitwiseNegate() { window }
 }

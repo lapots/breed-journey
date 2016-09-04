@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component
 class UiComponentStorage {
 
     static def components = [:]
-    static def loaders = [:];
+    static def registered = [:]
+    static def loaders = [:]
 
     static {
         println "Attempt to initialize UI storage"

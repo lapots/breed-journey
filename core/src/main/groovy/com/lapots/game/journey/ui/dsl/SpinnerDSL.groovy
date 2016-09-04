@@ -5,9 +5,10 @@ import com.kotcrab.vis.ui.building.utilities.CellWidget;
 import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.spinner.IntSpinnerModel
 import com.kotcrab.vis.ui.widget.spinner.Spinner
+import com.lapots.game.journey.platform.CorePlatform;
 import com.lapots.game.journey.util.DslUtils;
 
-class SpinnerDSL implements IReferenced, ComponentWidthTrait {
+class SpinnerDSL implements IReferenced, ComponentWidthTrait, ValueReferencedTrait, IdentifiableTrait {
 
     private static final LABEL = "label"
 
@@ -20,6 +21,7 @@ class SpinnerDSL implements IReferenced, ComponentWidthTrait {
     Spinner spinner
 
     def call(map, closure) {
+        id = uuid()
         def label = map[LABEL]
         DslUtils.delegate(closure, this)
 
@@ -27,7 +29,9 @@ class SpinnerDSL implements IReferenced, ComponentWidthTrait {
             oneRowTable.append(roundify(TextLabelDSL.createLabel(label)))
         }
 
-        spinner = new Spinner("", new IntSpinnerModel(temp_value, temp_l_bound, temp_u_bound))
+        CorePlatform.managed["uiComponentStorage"].registered[id] = this
+        valueRef = new IntSpinnerModel(temp_value, temp_l_bound, temp_u_bound)
+        spinner = new Spinner("", valueRef)
         oneRowTable.append(roundify(spinner))
     }
 
@@ -35,6 +39,9 @@ class SpinnerDSL implements IReferenced, ComponentWidthTrait {
     def upperBound(value) { temp_u_bound = value }
     def lowerBound(value) { temp_l_bound = value }
 
+    def getValue() { valueRef.getValue() }
+
+    def identifiable_instance() { spinner }
     def component_reference() { null }
     def bitwiseNegate() { oneRowTable.build() }
 }

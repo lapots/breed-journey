@@ -4,10 +4,11 @@ import static com.lapots.game.journey.platform.UiPlatform.Constants
 
 import com.kotcrab.vis.ui.building.OneRowTableBuilder;
 import com.kotcrab.vis.ui.widget.VisTextButton
+import com.lapots.game.journey.platform.CorePlatform;
 import com.lapots.game.journey.util.DslUtils
 import com.lapots.game.journey.util.ReflectionUtils;;
 
-class ButtonDSL implements IReferenced, ComponentWidthTrait {
+class ButtonDSL implements IReferenced, ComponentWidthTrait, IdentifiableTrait {
 
     private static final LABEL = "label"
 
@@ -15,11 +16,13 @@ class ButtonDSL implements IReferenced, ComponentWidthTrait {
     VisTextButton button
 
     def call(map, closure) {
+        id = uuid()
         def label = map[LABEL]
         button = new VisTextButton(label)
 
         DslUtils.delegate(closure, this)
 
+        CorePlatform.managed["uiComponentStorage"].registered[id] = this
         oneRowTable.append(roundify(button))
     }
 
@@ -29,6 +32,8 @@ class ButtonDSL implements IReferenced, ComponentWidthTrait {
     }
 
     def component_reference() { null }
+
+    def identifiable_instance() { button }
 
     def bitwiseNegate() { oneRowTable.build() }
 }

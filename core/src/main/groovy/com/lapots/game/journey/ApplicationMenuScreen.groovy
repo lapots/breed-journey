@@ -27,6 +27,7 @@ class ApplicationMenuScreen extends ScreenAdapter {
     Stage stage = new Stage(new ScreenViewport());
 
     { Stage.metaClass.add = { component -> addActor(component) } }
+    { Actor.metaClass.parentUid = "" }
 
     @Override
     public void show() {

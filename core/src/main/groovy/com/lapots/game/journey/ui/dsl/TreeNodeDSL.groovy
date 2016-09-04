@@ -1,6 +1,7 @@
 package com.lapots.game.journey.ui.dsl
 
 import com.badlogic.gdx.scenes.scene2d.ui.Tree.Node
+import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.util.DslUtils;
 
 class TreeNodeDSL implements IReferenced {

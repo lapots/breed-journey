@@ -4,6 +4,7 @@ import com.kotcrab.vis.ui.building.OneRowTableBuilder
 import com.kotcrab.vis.ui.building.utilities.Alignment;
 import com.kotcrab.vis.ui.widget.VisLabel
 import com.kotcrab.vis.ui.widget.VisTable
+import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.util.DslUtils;
 
 class TextLabelDSL implements IReferenced, ComponentWidthTrait {

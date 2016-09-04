@@ -4,6 +4,7 @@ import com.kotcrab.vis.ui.building.OneRowTableBuilder
 import com.kotcrab.vis.ui.building.utilities.CellWidget;
 import com.kotcrab.vis.ui.widget.VisSelectBox
 import com.kotcrab.vis.ui.widget.VisTable
+import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.platform.CorePlatform;
 import com.lapots.game.journey.util.DslUtils
 

@@ -1,6 +1,7 @@
 package com.lapots.game.journey.ui.dsl
 
 import com.kotcrab.vis.ui.widget.VisTree
+import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.util.DslUtils;;
 
 class TreeDSL implements IReferenced {

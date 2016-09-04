@@ -5,6 +5,7 @@ import com.kotcrab.vis.ui.building.utilities.CellWidget;
 import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.spinner.IntSpinnerModel
 import com.kotcrab.vis.ui.widget.spinner.Spinner
+import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.platform.CorePlatform;
 import com.lapots.game.journey.util.DslUtils;
 

@@ -3,6 +3,7 @@ package com.lapots.game.journey.ui.dsl
 import com.kotcrab.vis.ui.building.GridTableBuilder
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisWindow
+import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.platform.CorePlatform;
 import com.lapots.game.journey.platform.UiPlatform;
 import com.lapots.game.journey.util.DslUtils;

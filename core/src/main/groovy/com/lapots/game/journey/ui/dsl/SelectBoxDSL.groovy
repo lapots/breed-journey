@@ -15,10 +15,11 @@ class SelectBoxDSL implements IReferenced, ComponentWidthTrait, DynamicPropertyT
     VisSelectBox selectBox = new VisSelectBox()
 
     def has_selected
+    def label
 
     def call(map, closure) {
         id = uuid()
-        def label = map[LABEL]
+        label = map[LABEL]
         DslUtils.delegate(closure, this)
 
         if (label) {
@@ -42,7 +43,8 @@ class SelectBoxDSL implements IReferenced, ComponentWidthTrait, DynamicPropertyT
         if (has_selected) { selectBox.setSelected(has_selected) }
     }
 
-    def getValue() { selectBox.getSelected() }
+    def getValue() { [ "$label" : selectBox.getSelected() ] }
+
     def identifiable_instance() { selectBox }
     def component_reference() { null }
     def bitwiseNegate() { oneRowTable.build() }

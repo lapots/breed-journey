@@ -73,9 +73,6 @@ class WindowDSL implements DynamicClosureTrait, CompositeTrait, IReferenced, Ide
         def y(y) { window.setY(y) }
     }
 
-    def collect_window_data() {
-    }
-
     def component_reference() { grid }
     def identifiable_instance() { window }
     def bitwiseNegate() { window }

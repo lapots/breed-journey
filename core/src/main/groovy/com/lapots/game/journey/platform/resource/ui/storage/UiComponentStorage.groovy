@@ -13,8 +13,14 @@ class UiComponentStorage {
     static def registered = [:]
     static def loaders = [:]
 
+    // move to external system
+    static def label_system_map = [
+            "Enter name" : "name",
+            "Choose gender" : "gender",
+            "Choose race" : "race"
+    ]
+
     static {
-        println "Attempt to initialize UI storage"
         UiPlatform.Constants.SUPPORTED_EXTENSIONS.each { ext ->
             loaders[ext] = ReflectionUtils.instantiate(createFileName(ext))
         }
@@ -27,7 +33,6 @@ class UiComponentStorage {
             ]
             if (loader) { loader.load(file) }
         }
-        println "Done!"
     }
 
     def read(key) {

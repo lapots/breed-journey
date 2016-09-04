@@ -19,10 +19,11 @@ class SpinnerDSL implements IReferenced, ComponentWidthTrait, ValueReferencedTra
     def temp_l_bound
 
     Spinner spinner
+    def label
 
     def call(map, closure) {
         id = uuid()
-        def label = map[LABEL]
+        label = map[LABEL]
         DslUtils.delegate(closure, this)
 
         if (label) {
@@ -39,7 +40,7 @@ class SpinnerDSL implements IReferenced, ComponentWidthTrait, ValueReferencedTra
     def upperBound(value) { temp_u_bound = value }
     def lowerBound(value) { temp_l_bound = value }
 
-    def getValue() { valueRef.getValue() }
+    def getValue() { [ "$label" : valueRef.getValue() ] }
 
     def identifiable_instance() { spinner }
     def component_reference() { null }

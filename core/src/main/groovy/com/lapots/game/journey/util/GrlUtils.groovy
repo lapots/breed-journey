@@ -31,4 +31,12 @@ class GrlUtils {
             .withRequestGRL(grl)
             .withHeaders(headers)
     }
+
+    static createPostNoHeadersRequest(grl, content) {
+        new GRLMessage()
+            .withRequestType("POST")
+            .withContent(content)
+            .withRequestGRL(grl)
+            .withHeaders(null)
+    }
 }

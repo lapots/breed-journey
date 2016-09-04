@@ -16,9 +16,10 @@ class TextBoxDSL implements IReferenced, ComponentWidthTrait, ValueReferencedTra
     OneRowTableBuilder oneRowTable = new OneRowTableBuilder()
     VisTextField textField = new VisTextField()
 
+    def label
     def call(map, closure) {
         id = uuid()
-        def label = map[LABEL]
+        label = map[LABEL]
         DslUtils.delegate(closure, this)
 
         if (label) {
@@ -33,7 +34,7 @@ class TextBoxDSL implements IReferenced, ComponentWidthTrait, ValueReferencedTra
         textField.setText(value)
     }
 
-    def getValue() { valueRef.getText() }
+    def getValue() { [ "$label" : valueRef.getText() ] }
 
     def component_reference() { null }
     def identifiable_instance() { textField }

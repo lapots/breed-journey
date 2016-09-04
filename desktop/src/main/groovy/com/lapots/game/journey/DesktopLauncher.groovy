@@ -12,10 +12,5 @@ public class DesktopLauncher {
         config.height = 800;
 
         new LwjglApplication(new ApplicationMain(), config);
-
-        addShutdownHook {
-            // add redis stop
-            println "do something with it"
-        }
     }
 }

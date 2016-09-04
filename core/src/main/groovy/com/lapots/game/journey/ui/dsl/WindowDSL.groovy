@@ -34,7 +34,6 @@ class WindowDSL implements DynamicClosureTrait, CompositeTrait, IReferenced, Ide
 
     def call(map, closure) {
         id = uuid()
-        println "Window id : $id"
         header = map[HEADER_KEY]
         UiPlatform.default_stage.addActor(window)
         TableUtils.setSpacingDefaults(window)

@@ -2,7 +2,7 @@ package com.lapots.game.journey.platform
 
 import com.lapots.game.journey.platform.resource.ResourceRouter;
 
-class ResourcePlatform {
+class ResourcePlatform extends ManagedPlatform {
 
-    static resources = CorePlatform.managed["resourceRouter"]
+    static resources = managed["resourceRouter"]
 }

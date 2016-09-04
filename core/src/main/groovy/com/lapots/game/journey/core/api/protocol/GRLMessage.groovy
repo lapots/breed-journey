@@ -11,4 +11,14 @@ class GRLMessage {
     def requestGRL
     def content
     def headers
+
+    String toString() {
+"""
+GRL request ->
+request grl     : $requestGRL
+request headers : $headers
+request type    : $requestType
+request content : $content
+"""
+    }
 }

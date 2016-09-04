@@ -2,7 +2,7 @@ package com.lapots.game.journey.platform
 
 import com.badlogic.gdx.scenes.scene2d.Stage
 
-class UiPlatform {
+class UiPlatform extends ManagedPlatform {
 
     static Stage default_stage
     // replace with configurable

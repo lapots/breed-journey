@@ -24,7 +24,7 @@ class TextBoxDSL implements IReferenced, ComponentWidthTrait, ValueReferencedTra
         DslUtils.delegate(closure, this)
 
         if (label) {
-            oneRowTable.append(roundify(TextLabel.createLabel(label)))
+            oneRowTable.append(roundify(TextLabelDSL.createLabel(label)))
         }
         CorePlatform.managed["uiComponentStorage"].registered[id] = this
         valueRef = textField

@@ -12,7 +12,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.kotcrab.vis.ui.building.GridTableBuilder;
 import com.kotcrab.vis.ui.building.TableBuilder
 import com.kotcrab.vis.ui.building.utilities.CellWidget
-import com.lapots.game.journey.platform.CorePlatform;
+import com.lapots.game.journey.platform.CorePlatform
+import com.lapots.game.journey.platform.ResourcePlatform;
 import com.lapots.game.journey.platform.UiPlatform;
 import com.lapots.game.journey.platform.resource.ResourceRouter;
 import com.lapots.game.journey.ui.dsl.MenuBarDSL
@@ -34,7 +35,7 @@ class ApplicationMenuScreen extends ScreenAdapter {
         UiPlatform.default_stage = stage
         Gdx.input.setInputProcessor(stage)
 
-        def result = CorePlatform.managed["resourceRouter"] <<
+        def result = ResourcePlatform <<
             GrlUtils.createGetRequest("ui://$MENU_COMPONENT", null)
 
         EvaluationUtils.evaluateWithBinding(result, [ "menuBar" : new MenuBarDSL() ])

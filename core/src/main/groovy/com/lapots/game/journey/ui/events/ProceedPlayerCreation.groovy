@@ -3,6 +3,7 @@ package com.lapots.game.journey.ui.events
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent
+import com.lapots.game.journey.core.api.ICloseable;
 import com.lapots.game.journey.platform.CorePlatform
 import com.lapots.game.journey.platform.ResourcePlatform;
 import com.lapots.game.journey.ui.dsl.CompositeTrait
@@ -22,8 +23,9 @@ class ProceedPlayerCreation extends ChangeListener {
     @Override
     public void changed (ChangeEvent event, Actor actor) {
         if (actor.parentUid) {
-            // GrlUtils.createGetRequest("ui://$id", null)
+            // GrlUtils.createGetRequest("ui://registered/$id", null)
             def component = CorePlatform.managed["uiComponentStorage"].registered[actor.parentUid]
+            // GrlUtils.createGetRequest("ui://translation, null)
             def label_map = CorePlatform.managed["uiComponentStorage"].label_system_map
             def param_map = [:]
             component.ids.each {
@@ -37,10 +39,13 @@ class ProceedPlayerCreation extends ChangeListener {
             }
             def idp = DomainUtils.id_pair()
             param_map << idp
-            ResourcePlatform.resources >>
+            ResourcePlatform >>
                     GrlUtils.createPostRequest("redis://$idp.id", JsonOutput.toJson(param_map), null)
-            def result = ResourcePlatform.resources <<
+            def result = ResourcePlatform <<
                     GrlUtils.createGetRequest("redis://$idp.id", [ "expected type" : "java.lang.String"])
+            if (component in ICloseable) {
+                component.close()
+            }
         }
     }
 }

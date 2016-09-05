@@ -9,9 +9,6 @@ menuBar {
     }
     menu (name : 'Editor') {
         item (name : 'World') {
-            on_click {
-                "WorldInformationWindow"
-            }
         }
         item (name : 'Creatures') {}
         item (name : 'Player') {

@@ -7,7 +7,7 @@ import com.lapots.game.journey.util.DslUtils;
 class TreeNodeDSL implements IReferenced {
     private static final def LABEL = "label"
 
-    @Lazy Node node = new Node(TextLabel.createLabel(label))
+    @Lazy Node node = new Node(TextLabelDSL.createLabel(label))
     def label
 
     def node(map, closure) {

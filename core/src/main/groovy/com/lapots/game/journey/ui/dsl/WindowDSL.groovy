@@ -3,14 +3,20 @@ package com.lapots.game.journey.ui.dsl
 import com.kotcrab.vis.ui.building.GridTableBuilder
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisWindow
+import com.lapots.game.journey.core.api.ICloseable
 import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.platform.CorePlatform;
 import com.lapots.game.journey.platform.UiPlatform;
 import com.lapots.game.journey.util.DslUtils;
 import java.lang.ref.SoftReference
 
-//
-class WindowDSL implements DynamicClosureTrait, CompositeTrait, IReferenced, IdentifiableTrait {
+class WindowDSL implements 
+                DynamicClosureTrait,
+                CompositeTrait,
+                IReferenced,
+                IdentifiableTrait,
+                ICloseable
+{
 
     private static final String HEADER_KEY = "title"
 
@@ -47,6 +53,10 @@ class WindowDSL implements DynamicClosureTrait, CompositeTrait, IReferenced, Ide
         if (need_pack) {
             window.pack()
         }
+    }
+
+    def close() {
+        window.close()
     }
 
     def center(closure) {

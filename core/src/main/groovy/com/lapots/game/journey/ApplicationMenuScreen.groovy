@@ -31,6 +31,12 @@ class ApplicationMenuScreen extends ScreenAdapter {
     { Stage.metaClass.add = { component -> addActor(component) } }
     { Actor.metaClass.parentUid = "" }
 
+    {
+        addShutdownHook {
+            CorePlatform.managed["lifeFramework"].destroySubsystems()
+        }
+    }
+
     @Override
     public void show() {
         UiPlatform.default_stage = stage
@@ -46,10 +52,6 @@ class ApplicationMenuScreen extends ScreenAdapter {
         EvaluationUtils.evaluateWithoutBinding(layout)
 
         UiPlatform.default_stage.addActor(UiPlatform.root)
-
-        addShutdownHook {
-            CorePlatform.managed["lifeFramework"].destroySubsystems()
-        }
     }
 
     @Override

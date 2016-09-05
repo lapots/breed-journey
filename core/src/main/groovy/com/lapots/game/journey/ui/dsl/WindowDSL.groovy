@@ -53,6 +53,13 @@ class WindowDSL implements
         if (need_pack) {
             window.pack()
         }
+
+        justify_offset()
+    }
+
+    def justify_offset() {
+        window.setX((int) (window.getX() - window.getWidth() / 4))
+        window.setY((int) (window.getY() + window.getHeight() / 2))
     }
 
     def close() {

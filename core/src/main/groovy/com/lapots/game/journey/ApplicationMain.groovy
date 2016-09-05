@@ -14,6 +14,10 @@ class ApplicationMain extends Game {
 
     @Override
     public void create() {
+        addShutdownHook {
+            CorePlatform.managed["lifeFramework"].destroySubsystems()
+        }
+
          VisUI.load(SkinScale.X1)
          try {
              setScreen(new ApplicationMenuScreen())

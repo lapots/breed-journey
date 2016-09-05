@@ -5,19 +5,19 @@ import com.kotcrab.vis.ui.VisUI
 import com.kotcrab.vis.ui.VisUI.SkinScale
 import com.lambdaworks.redis.RedisClient
 import com.lapots.game.journey.core.framework.life.LifeFramework
+import com.lapots.game.journey.platform.CorePlatform;
 import com.lapots.game.journey.platform.ResourcePlatform;
 import com.lapots.game.journey.platform.resource.ResourceRouter
 import com.lapots.game.journey.util.GrlUtils;
 
 class ApplicationMain extends Game {
 
-    def life = new LifeFramework()
     @Override
     public void create() {
          VisUI.load(SkinScale.X1)
          try {
              setScreen(new ApplicationMenuScreen())
-             life.initSubsystems()
+             CorePlatform.managed["lifeFramework"].initSubsystems()
 
              // come up with better idea
              ResourcePlatform >>
@@ -28,15 +28,12 @@ class ApplicationMain extends Game {
 
              println "Read from redis: $result"
          } catch (Exception e) {
-         println e
-             // might need some time before stopping whole application
-             life.destroySubsystems()
+              println e
          }
     }
 
     @Override
     public void dispose() {
-        life.destroySubsystems()
         VisUI.dispose()
     }
 }

@@ -4,6 +4,9 @@ import com.lapots.game.journey.core.framework.ComplexFramework
 import com.lapots.game.journey.core.framework.life.subsystem.GodsVoiceSubsystem
 import com.lapots.game.journey.core.framework.life.subsystem.WorldTimeSubsystem
 
+import org.springframework.stereotype.Component
+
+@Component
 class LifeFramework extends ComplexFramework {
 
     {

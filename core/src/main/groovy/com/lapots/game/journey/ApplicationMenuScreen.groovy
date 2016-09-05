@@ -46,6 +46,10 @@ class ApplicationMenuScreen extends ScreenAdapter {
         EvaluationUtils.evaluateWithoutBinding(layout)
 
         UiPlatform.default_stage.addActor(UiPlatform.root)
+
+        addShutdownHook {
+            CorePlatform.managed["lifeFramework"].destroySubsystems()
+        }
     }
 
     @Override

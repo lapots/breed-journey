@@ -1,8 +1,15 @@
 package com.lapots.game.journey.platform
 
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Table
 
 class UiPlatform extends ManagedPlatform {
+
+    static Table root = new Table()
+
+    static {
+        root.setFillParent(true)
+    }
 
     static Stage default_stage
     // replace with configurable

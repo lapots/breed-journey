@@ -33,6 +33,8 @@ class ApplicationMenuScreen extends ScreenAdapter {
     @Override
     public void show() {
         UiPlatform.default_stage = stage
+        UiPlatform.default_stage.addActor(UiPlatform.root)
+
         Gdx.input.setInputProcessor(stage)
 
         def result = ResourcePlatform <<

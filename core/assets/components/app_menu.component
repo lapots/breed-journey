@@ -8,8 +8,7 @@ menuBar {
         item (name : 'Continue') {}
     }
     menu (name : 'Editor') {
-        item (name : 'World') {
-        }
+        item (name : 'World') {}
         item (name : 'Creatures') {}
         item (name : 'Player') {
             on_click {

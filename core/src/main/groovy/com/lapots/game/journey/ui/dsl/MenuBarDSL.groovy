@@ -12,14 +12,11 @@ class MenuBarDSL implements IReferenced {
     static final def IS_ROOT = "root"
     static final def HEADER_FIELD = "name"
 
-    @Lazy Table root = new Table()
     @Lazy MenuBar menubar = new MenuBar()
 
     def call(closure) {
-        root.setFillParent(true)
-        root.add(menubar.getTable()).expandX().fillX().row()
-        root.add().expand().fill()
-        UiPlatform.default_stage.addActor(root)
+        UiPlatform.root.add(menubar.getTable()).expandX().fillX().row()
+        UiPlatform.root.add().expand().fill()
 
         DslUtils.delegate(closure, this)
     }
@@ -33,6 +30,6 @@ class MenuBarDSL implements IReferenced {
 
     def component_reference() { null }
 
-    def bitwiseNegate() { root }
+    def bitwiseNegate() { menubar }
 }
 

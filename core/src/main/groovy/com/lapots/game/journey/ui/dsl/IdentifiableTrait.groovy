@@ -6,5 +6,9 @@ trait IdentifiableTrait {
 
     static uuid() { UUID.randomUUID().toString() }
 
+    def id(id) {
+        this.id = id
+    }
+
     abstract def identifiable_instance()
 }

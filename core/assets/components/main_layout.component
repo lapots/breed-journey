@@ -1,0 +1,9 @@
+textLabel {
+    id 'GOD_S_VOICE'
+    text "God's voice!"
+}
+
+textLabel {
+    id 'GLOBAL_TIME'
+    text "Current time"
+}

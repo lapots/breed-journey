@@ -24,6 +24,7 @@ import com.lapots.game.journey.util.GrlUtils;
 class ApplicationMenuScreen extends ScreenAdapter {
 
     private static final String MENU_COMPONENT = "app_menu"
+    private static final String MAIN_LAYOUT_COMPONENT = "main_layout"
 
     Stage stage = new Stage(new ScreenViewport());
 
@@ -33,14 +34,18 @@ class ApplicationMenuScreen extends ScreenAdapter {
     @Override
     public void show() {
         UiPlatform.default_stage = stage
-        UiPlatform.default_stage.addActor(UiPlatform.root)
 
         Gdx.input.setInputProcessor(stage)
 
         def result = ResourcePlatform <<
             GrlUtils.createGetRequest("ui://$MENU_COMPONENT", null)
-
         EvaluationUtils.evaluateWithBinding(result, [ "menuBar" : new MenuBarDSL() ])
+
+        def layout = ResourcePlatform <<
+            GrlUtils.createGetRequest("ui://$MAIN_LAYOUT_COMPONENT", null)
+        EvaluationUtils.evaluateWithoutBinding(layout)
+
+        UiPlatform.default_stage.addActor(UiPlatform.root)
     }
 
     @Override

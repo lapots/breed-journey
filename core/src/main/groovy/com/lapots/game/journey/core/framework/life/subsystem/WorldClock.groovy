@@ -7,18 +7,19 @@ import com.lapots.game.journey.util.MathUtils;
 
 class WorldClock extends Thread implements IThreadable {
 
-    def global_time_id = 'GLOBAL_TIME'
+    def innerId
+    long wait
 
     volatile isEternal = true
     @Override
     public void run() {
         while (isEternal) {
-            Thread.sleep(10)
+            Thread.sleep(wait)
             def time = System.currentTimeMillis() as String
             Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run() {
-                    CorePlatform.managed["uiComponentStorage"].registered[global_time_id].setValue(time)
+                    CorePlatform.managed["uiComponentStorage"].registered[innerId].setValue(time)
                 }
             })
         }
@@ -27,5 +28,13 @@ class WorldClock extends Thread implements IThreadable {
     def stopThread() {
         println "Stopping thread"
         isEternal = false
+    }
+
+    String toString() {
+"""
+Subsystem
+    innerId : $innerId
+    wait    : $wait
+"""
     }
 }

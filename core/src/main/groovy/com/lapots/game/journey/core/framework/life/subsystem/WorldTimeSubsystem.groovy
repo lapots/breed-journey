@@ -13,4 +13,8 @@ class WorldTimeSubsystem extends Subsystem {
     def disable() {
         component.stopThread()
     }
+
+    String toString() {
+        component
+    }
 }

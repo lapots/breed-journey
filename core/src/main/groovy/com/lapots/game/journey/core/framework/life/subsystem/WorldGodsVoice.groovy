@@ -7,25 +7,30 @@ import com.lapots.game.journey.util.MathUtils;;
 
 class WorldGodsVoice extends Thread implements IThreadable {
 
-    def gods_voice_id = 'GOD_S_VOICE'
-
-    def clock_messages = [
-        "The world is living...Without a hero",
-        "The world is filled with life",
-        "The world is eternal"
-    ]
+    def innerId
+    def isSequenced = true
+    long wait
+    def messages = []
 
     volatile isEternal = true
 
+    def seq_id = 0
+
     @Override
     public void run() {
+        seq_id = 0
+        def action = randomNotification
+        if (isSequenced) {
+            action = sequenceNotification
+        }
+
         while (isEternal) {
-            Thread.sleep(1000);
-            def msg = MathUtils.randomFromList(clock_messages)
+            Thread.sleep(wait);
+            def msg = action()
             Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run() {
-                    CorePlatform.managed["uiComponentStorage"].registered[gods_voice_id].setValue(msg)
+                    CorePlatform.managed["uiComponentStorage"].registered[innerId].setValue(msg)
                 }
             })
         }
@@ -36,4 +41,26 @@ class WorldGodsVoice extends Thread implements IThreadable {
         isEternal = false
     }
 
+    def sequenceNotification = {
+        if (seq_id == messages.length - 1) {
+            seq_id = 0
+        }
+        def r = messages[seq_id]
+        seq_id++
+        r
+    }
+
+    def randomNotification = {
+        MathUtils.randomFromList(messages)
+    }
+
+    String toString() {
+        """
+Subsystem
+    innerId     : $innerId
+    wait        : $wait
+    sequenced   : $isSequenced
+    messages    : $messages
+"""
+            }
 }

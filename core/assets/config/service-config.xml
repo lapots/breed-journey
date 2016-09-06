@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<services>
+    <service id="worldClock">
+        <innerId>GLOBAL_TIME</innerId>
+        <!-- refresh time -->
+        <wait>10</wait>
+    </service>
+    <service id="godsVoice">
+        <innerId>GOD_S_VOICE</innerId>
+        <wait>1000</wait>
+        <messages sequenced="false">
+            The world is living...Without a hero!
+            The world is filled with life!
+            The world is eternal!
+         </messages>
+    </service>
+</services>

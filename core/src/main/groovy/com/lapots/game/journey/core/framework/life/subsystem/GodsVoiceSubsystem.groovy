@@ -13,4 +13,8 @@ class GodsVoiceSubsystem extends Subsystem {
     def disable() {
         component.stopThread()
     }
+
+    String toString() {
+        component
+    }
 }

@@ -1,9 +1,19 @@
-textLabel {
-    id 'GOD_S_VOICE'
-    text "God's voice!"
-}
+window {
+    withPack { true }
+    allowMoving { true }
 
-textLabel {
-    id 'GLOBAL_TIME'
-    text "Current time"
+    gridLayout {
+        columns 1
+    }
+
+    textLabel {
+        id 'GOD_S_VOICE'
+        text "God's voice!"
+        width 300
+    }
+
+    textLabel {
+        id 'GLOBAL_TIME'
+        text "Current time"
+    }
 }

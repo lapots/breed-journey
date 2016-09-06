@@ -49,7 +49,7 @@ class ApplicationMenuScreen extends ScreenAdapter {
 
         def layout = ResourcePlatform <<
             GrlUtils.createGetRequest("ui://$MAIN_LAYOUT_COMPONENT", null)
-        EvaluationUtils.evaluateWithoutBinding(layout)
+        EvaluationUtils.evaluateWithBinding(layout, [ "window" : new WindowDSL() ])
 
         UiPlatform.default_stage.addActor(UiPlatform.root)
     }

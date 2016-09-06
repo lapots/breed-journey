@@ -20,18 +20,25 @@ class TextLabelDSL implements IReferenced, ComponentWidthTrait, IdentifiableTrai
     def tbl
     def lbl
 
+    int c_width
+
     def call(closure) {
         id = uuid()
         DslUtils.delegate(closure, this)
 
         CorePlatform.managed["uiComponentStorage"].registered[id] = this
-        oneRowTable.append(roundify(tbl))
+        if (c_width) { oneRowTable.append(roundify(tbl, c_width)) }
+        else { oneRowTable.append(roundify(tbl)) }
     }
 
     def text(text) {
         lbl = createLabel(text)
         tbl = new VisTable()
         tbl.add(lbl)
+    }
+
+    def width(c_width) {
+        this.c_width = c_width
     }
 
     def setValue(value) {

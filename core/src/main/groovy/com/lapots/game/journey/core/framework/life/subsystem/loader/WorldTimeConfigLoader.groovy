@@ -5,7 +5,7 @@ class WorldTimeConfigLoader extends XmlConfigSubsystemLoader {
     def subsystemId() { "worldTime" }
 
     def processXml(xml, subsystem) {
-        subsystem.component.innerId = xml.innerId.text()
-        subsystem.component.wait = xml.wait.text() as Long
+        subsystem.component.clock.innerId = xml.innerId.text()
+        subsystem.component.clock.wait = xml.wait.text() as Long
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 @Component
 class LifeFramework extends ComplexFramework {
 
-    static final service_config = "config/service-config.xml";
+    static final service_config = "config/service-config.xml"
 
     def file
 

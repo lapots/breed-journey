@@ -20,6 +20,7 @@ class WorldTime extends Thread implements IThreadable {
             Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run() {
+                    // change to something like "POST : ui : message "
                     CorePlatform.managed["uiComponentStorage"].registered[innerId].setValue((String)worldMillis)
                 }
             })

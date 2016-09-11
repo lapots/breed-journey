@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.lapots.game.journey.core.framework.ComplexFramework
 import com.lapots.game.journey.core.framework.life.subsystem.GodsVoiceSubsystem
 import com.lapots.game.journey.core.framework.life.subsystem.WorldTimeSubsystem
+import com.lapots.game.journey.core.framework.life.subsystem.loader.WorldGodsVoiceConfigLoader
+import com.lapots.game.journey.core.framework.life.subsystem.loader.WorldTimeConfigLoader
 import com.lapots.game.journey.core.loader.ServiceConfigLoader
 
 import org.springframework.stereotype.Component
@@ -11,35 +13,22 @@ import org.springframework.stereotype.Component
 @Component
 class LifeFramework extends ComplexFramework {
 
-    static final service_config = "service-config.xml";
+    static final service_config = "config/service-config.xml";
 
-    def config_action = [
-        "worldClock" : { xml, subsystem ->
-            subsystem.component.innerId = xml.innerId.text()
-            subsystem.component.wait = xml.wait.text() as Long
-        },
-        "godsVoice"  : { xml, subsystem ->
-            subsystem.component.innerId = xml.innerId.text()
-            subsystem.component.wait = xml.wait.text() as Long
-            subsystem.component.messages = xml.messages.text().trim().split("!").collect { it.trim() } as String[]
-            subsystem.component.isSequenced = xml.messages.@sequenced
-        }
-    ];
+    def file
 
     {
-        subsystems << [ "godsVoice" :  new GodsVoiceSubsystem() ]
-        subsystems << [ "worldClock" : new WorldTimeSubsystem() ]
+        file = Gdx.files.internal(service_config).file
+
+        loaders <<      [ "worldTime" : new WorldTimeConfigLoader() ]
+        subsystems <<   [ "worldTime" : new WorldTimeSubsystem() ]
+
+        loaders <<      [ "godsVoice" : new WorldGodsVoiceConfigLoader() ]
+        subsystems <<   [ "godsVoice" :  new GodsVoiceSubsystem() ]
     }
 
     def initSubsystems() {
-        def services = new ServiceConfigLoader().load(
-                Gdx.files.internal("config/service-config.xml").file
-        )
-        // config subsystems
-        subsystems.each { k, v ->
-            config_action[k](services.'*'.find { node -> node.@id == k } , v)
-            println v
-        }
+        loaders.each { k, v -> v.load(file, subsystems[k]) }
 
         subsystems.each { k, v ->
             v.activate()

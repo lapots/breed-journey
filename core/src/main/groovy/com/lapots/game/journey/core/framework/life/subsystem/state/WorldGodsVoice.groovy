@@ -1,4 +1,4 @@
-package com.lapots.game.journey.core.framework.life.subsystem
+package com.lapots.game.journey.core.framework.life.subsystem.state
 
 import com.badlogic.gdx.Gdx;
 import com.lapots.game.journey.core.api.IThreadable
@@ -8,7 +8,7 @@ import com.lapots.game.journey.util.MathUtils;;
 class WorldGodsVoice extends Thread implements IThreadable {
 
     def innerId
-    def isSequenced = true
+    boolean isSequenced
     long wait
     def messages = []
 
@@ -42,7 +42,7 @@ class WorldGodsVoice extends Thread implements IThreadable {
     }
 
     def sequenceNotification = {
-        if (seq_id == messages.length - 1) {
+        if (seq_id == messages.length) {
             seq_id = 0
         }
         def r = messages[seq_id]

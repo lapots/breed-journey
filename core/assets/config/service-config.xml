@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <services>
-    <service id="worldClock">
+    <service id="worldTime">
         <innerId>GLOBAL_TIME</innerId>
         <!-- refresh time -->
         <wait>10</wait>

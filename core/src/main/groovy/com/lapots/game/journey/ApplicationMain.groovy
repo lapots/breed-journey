@@ -32,7 +32,7 @@ class ApplicationMain extends Game {
 
              println "Read from redis: $result"
          } catch (Exception e) {
-              println e
+              e.printStackTrace()
          }
     }
 

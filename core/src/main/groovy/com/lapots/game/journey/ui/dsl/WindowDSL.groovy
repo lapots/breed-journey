@@ -1,6 +1,7 @@
 package com.lapots.game.journey.ui.dsl
 
 import com.kotcrab.vis.ui.building.GridTableBuilder
+import com.kotcrab.vis.ui.building.utilities.Padding
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisWindow
 import com.lapots.game.journey.core.api.ICloseable
@@ -20,19 +21,20 @@ class WindowDSL implements
 
     private static final String HEADER_KEY = "title"
 
+    final Padding padding = new Padding(2, 3);
+
     def header
     def need_pack
     @Lazy VisWindow window = new VisWindow(header)
-    GridTableBuilder grid = new GridTableBuilder(1)
+    GridTableBuilder grid = new GridTableBuilder(padding, 1)
 
     def withCloseButton(closure) { !closure() ?: window.addCloseButton() }
     def allowMoving(closure) { window.setMovable(closure()) }
     def withPack(closure) { need_pack = closure() }
 
-    // something is odd here
     def gridLayout(closure) { DslUtils.delegate(closure, this) }
     def columns(value) {
-        grid = new GridTableBuilder(value)
+        grid = new GridTableBuilder(padding, value)
     }
 
     def call(closure) {
@@ -43,8 +45,11 @@ class WindowDSL implements
         id = uuid()
         header = map[HEADER_KEY]
         UiPlatform.default_stage.addActor(window)
-        TableUtils.setSpacingDefaults(window)
-        window.columnDefaults(0).left()
+
+        TableUtils.setSpacingDefaults(this.window);
+        window.defaults().padRight(5);
+        window.defaults().padLeft(5);
+        window.columnDefaults(0).left();
 
         DslUtils.delegate(closure, this)
 

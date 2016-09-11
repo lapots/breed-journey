@@ -8,8 +8,6 @@ class WorldGodsVoiceConfigLoader extends XmlConfigSubsystemLoader {
         subsystem.component.innerId = xml.innerId.text()
         subsystem.component.wait = xml.wait.text() as Long
         subsystem.component.messages = xml.messages.text().trim().split("!").collect { it.trim() } as String[]
-        subsystem.component.isSequenced = xml.messages.@sequenced
-        println "${ xml.messages.@sequenced }" // true
-        println "${ subsystem.component.isSequenced }" // false
+        subsystem.component.isSequenced = Boolean.valueOf((String)xml.messages.@sequenced)
     }
 }

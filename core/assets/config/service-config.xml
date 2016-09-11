@@ -3,7 +3,7 @@
     <service id="worldTime">
         <innerId>GLOBAL_TIME</innerId>
         <!-- refresh time -->
-        <wait>10</wait>
+        <wait>100</wait>
     </service>
     <service id="godsVoice">
         <innerId>GOD_S_VOICE</innerId>

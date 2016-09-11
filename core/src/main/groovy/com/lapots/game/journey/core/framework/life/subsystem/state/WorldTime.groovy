@@ -7,6 +7,7 @@ import com.lapots.game.journey.util.MathUtils;
 
 class WorldTime extends Thread implements IThreadable {
 
+    def worldMillis = 0
     def innerId
     long wait // unit of second
 
@@ -15,11 +16,11 @@ class WorldTime extends Thread implements IThreadable {
     public void run() {
         while (isEternal) {
             Thread.sleep(wait)
-            def time = System.currentTimeMillis() as String
+            worldMillis += 1
             Gdx.app.postRunnable(new Runnable() {
                 @Override
                 public void run() {
-                    CorePlatform.managed["uiComponentStorage"].registered[innerId].setValue(time)
+                    CorePlatform.managed["uiComponentStorage"].registered[innerId].setValue((String)worldMillis)
                 }
             })
         }

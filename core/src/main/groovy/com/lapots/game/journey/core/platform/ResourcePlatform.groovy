@@ -1,6 +1,4 @@
-package com.lapots.game.journey.platform
-
-import com.lapots.game.journey.platform.resource.ResourceRouter;
+package com.lapots.game.journey.core.platform
 
 class ResourcePlatform extends ManagedPlatform {
 

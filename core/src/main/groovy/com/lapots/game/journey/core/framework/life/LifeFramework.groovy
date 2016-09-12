@@ -1,7 +1,7 @@
 package com.lapots.game.journey.core.framework.life
 
 import com.badlogic.gdx.Gdx;
-import com.lapots.game.journey.core.framework.ComplexFramework
+import com.lapots.game.journey.core.api.ComplexFramework
 import com.lapots.game.journey.core.framework.life.subsystem.GodsVoiceSubsystem
 import com.lapots.game.journey.core.framework.life.subsystem.WorldTimeSubsystem
 import com.lapots.game.journey.core.framework.life.subsystem.loader.WorldGodsVoiceConfigLoader

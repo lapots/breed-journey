@@ -1,6 +1,6 @@
 package com.lapots.game.journey.core.framework.life.subsystem
 
-import com.lapots.game.journey.core.framework.Subsystem
+import com.lapots.game.journey.core.api.Subsystem
 import com.lapots.game.journey.core.framework.life.subsystem.state.WorldTime
 import com.lapots.game.journey.core.framework.life.subsystem.state.WorldTimePlatform
 

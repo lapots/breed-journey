@@ -2,8 +2,7 @@ package com.lapots.game.journey.ui.events
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener
-import com.lapots.game.journey.platform.CorePlatform
-import com.lapots.game.journey.platform.ResourcePlatform;
+import com.lapots.game.journey.core.platform.ResourcePlatform;
 import com.lapots.game.journey.ui.dsl.WindowDSL
 import com.lapots.game.journey.util.EvaluationUtils
 import com.lapots.game.journey.util.GrlUtils;;;

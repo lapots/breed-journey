@@ -6,7 +6,10 @@ import com.kotcrab.vis.ui.widget.VisTable
 import com.kotcrab.vis.ui.widget.spinner.IntSpinnerModel
 import com.kotcrab.vis.ui.widget.spinner.Spinner
 import com.lapots.game.journey.core.api.IReferenced
-import com.lapots.game.journey.platform.CorePlatform;
+import com.lapots.game.journey.core.platform.CorePlatform;
+import com.lapots.game.journey.ui.dsl.traits.ComponentWidthTrait
+import com.lapots.game.journey.ui.dsl.traits.IdentifiableTrait
+import com.lapots.game.journey.ui.dsl.traits.ValueReferencedTrait
 import com.lapots.game.journey.util.DslUtils;
 
 class SpinnerDSL implements IReferenced, ComponentWidthTrait, ValueReferencedTrait, IdentifiableTrait {

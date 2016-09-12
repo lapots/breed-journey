@@ -1,6 +1,8 @@
 package com.lapots.game.journey.ui.dsl
 
-import com.lapots.game.journey.platform.UiPlatform
+import com.lapots.game.journey.core.platform.UiPlatform;
+import com.lapots.game.journey.ui.dsl.traits.CompositeTrait
+import com.lapots.game.journey.ui.dsl.traits.IdentifiableTrait
 import com.lapots.game.journey.util.FileProcessingUtils
 import com.lapots.game.journey.util.ReflectionUtils;;;
 

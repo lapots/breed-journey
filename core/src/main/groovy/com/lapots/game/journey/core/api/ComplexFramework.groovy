@@ -1,4 +1,4 @@
-package com.lapots.game.journey.core.framework
+package com.lapots.game.journey.core.api
 
 abstract class ComplexFramework {
 

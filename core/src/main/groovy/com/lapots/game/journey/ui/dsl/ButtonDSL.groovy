@@ -1,11 +1,14 @@
 package com.lapots.game.journey.ui.dsl
 
-import static com.lapots.game.journey.platform.UiPlatform.Constants
+
 
 import com.kotcrab.vis.ui.building.OneRowTableBuilder;
 import com.kotcrab.vis.ui.widget.VisTextButton
 import com.lapots.game.journey.core.api.IReferenced
-import com.lapots.game.journey.platform.CorePlatform;
+import com.lapots.game.journey.core.platform.CorePlatform
+import com.lapots.game.journey.core.platform.UiPlatform.Constants;
+import com.lapots.game.journey.ui.dsl.traits.ComponentWidthTrait
+import com.lapots.game.journey.ui.dsl.traits.IdentifiableTrait
 import com.lapots.game.journey.util.DslUtils
 import com.lapots.game.journey.util.ReflectionUtils;;
 

@@ -6,8 +6,11 @@ import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisWindow
 import com.lapots.game.journey.core.api.ICloseable
 import com.lapots.game.journey.core.api.IReferenced
-import com.lapots.game.journey.platform.CorePlatform;
-import com.lapots.game.journey.platform.UiPlatform;
+import com.lapots.game.journey.core.platform.CorePlatform;
+import com.lapots.game.journey.core.platform.UiPlatform;
+import com.lapots.game.journey.ui.dsl.traits.CompositeTrait
+import com.lapots.game.journey.ui.dsl.traits.DynamicClosureTrait
+import com.lapots.game.journey.ui.dsl.traits.IdentifiableTrait
 import com.lapots.game.journey.util.DslUtils;
 import java.lang.ref.SoftReference
 

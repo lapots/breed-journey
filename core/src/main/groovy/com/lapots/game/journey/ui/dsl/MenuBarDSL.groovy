@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.kotcrab.vis.ui.widget.Menu
 import com.kotcrab.vis.ui.widget.MenuBar
 import com.lapots.game.journey.core.api.IReferenced
-import com.lapots.game.journey.platform.UiPlatform;
+import com.lapots.game.journey.core.platform.UiPlatform;
 import com.lapots.game.journey.util.DslUtils;
 
 class MenuBarDSL implements IReferenced {

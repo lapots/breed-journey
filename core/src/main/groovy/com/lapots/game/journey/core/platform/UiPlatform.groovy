@@ -1,4 +1,4 @@
-package com.lapots.game.journey.platform
+package com.lapots.game.journey.core.platform
 
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table

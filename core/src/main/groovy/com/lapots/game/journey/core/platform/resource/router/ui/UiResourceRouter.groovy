@@ -1,7 +1,7 @@
-package com.lapots.game.journey.platform.resource.ui.router
+package com.lapots.game.journey.core.platform.resource.router.ui
 
 import com.lapots.game.journey.core.api.IRouter
-import com.lapots.game.journey.platform.resource.ui.storage.UiComponentStorage
+import com.lapots.game.journey.core.platform.resource.storage.ui.UiComponentStorage
 import com.lapots.game.journey.util.GrlUtils
 
 import org.springframework.stereotype.Component

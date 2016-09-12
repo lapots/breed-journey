@@ -12,10 +12,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.kotcrab.vis.ui.building.GridTableBuilder;
 import com.kotcrab.vis.ui.building.TableBuilder
 import com.kotcrab.vis.ui.building.utilities.CellWidget
-import com.lapots.game.journey.platform.CorePlatform
-import com.lapots.game.journey.platform.ResourcePlatform;
-import com.lapots.game.journey.platform.UiPlatform;
-import com.lapots.game.journey.platform.resource.ResourceRouter;
+import com.lapots.game.journey.core.platform.CorePlatform
+import com.lapots.game.journey.core.platform.ResourcePlatform;
+import com.lapots.game.journey.core.platform.UiPlatform;
 import com.lapots.game.journey.ui.dsl.MenuBarDSL
 import com.lapots.game.journey.ui.dsl.WindowDSL
 import com.lapots.game.journey.util.EvaluationUtils

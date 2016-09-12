@@ -1,8 +1,8 @@
-package com.lapots.game.journey.ui.dsl
+package com.lapots.game.journey.ui.dsl.traits
 
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.kotcrab.vis.ui.building.utilities.CellWidget
-import com.lapots.game.journey.platform.UiPlatform;
+import com.lapots.game.journey.core.platform.UiPlatform;
 import com.lapots.game.journey.util.DslUtils
 import com.lapots.game.journey.util.FileProcessingUtils
 import com.lapots.game.journey.util.ReflectionUtils

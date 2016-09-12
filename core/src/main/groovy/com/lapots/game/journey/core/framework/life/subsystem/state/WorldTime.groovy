@@ -2,7 +2,7 @@ package com.lapots.game.journey.core.framework.life.subsystem.state
 
 import com.badlogic.gdx.Gdx;
 import com.lapots.game.journey.core.api.IThreadable
-import com.lapots.game.journey.platform.CorePlatform;
+import com.lapots.game.journey.core.platform.CorePlatform;
 import com.lapots.game.journey.util.MathUtils;
 
 class WorldTime extends Thread implements IThreadable {

@@ -1,6 +1,6 @@
 package com.lapots.game.journey.util
 
-import com.lapots.game.journey.platform.CorePlatform;
+import com.lapots.game.journey.core.platform.CorePlatform;
 
 class DomainUtils {
 

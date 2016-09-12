@@ -1,8 +1,7 @@
 package com.lapots.game.journey.ui.dsl
 
-import static com.lapots.game.journey.platform.UiPlatform.Constants
-
 import com.kotcrab.vis.ui.widget.MenuItem
+import com.lapots.game.journey.core.platform.UiPlatform.Constants;
 import com.lapots.game.journey.util.ReflectionUtils;
 
 class MenuItemDSL {

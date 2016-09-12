@@ -1,4 +1,4 @@
-package com.lapots.game.journey.platform
+package com.lapots.game.journey.core.platform
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

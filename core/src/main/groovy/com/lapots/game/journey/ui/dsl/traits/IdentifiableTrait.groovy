@@ -1,4 +1,4 @@
-package com.lapots.game.journey.ui.dsl
+package com.lapots.game.journey.ui.dsl.traits
 
 // means that DSL has unique index and registered in global dsl pool
 trait IdentifiableTrait {

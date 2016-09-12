@@ -1,4 +1,4 @@
-package com.lapots.game.journey.ui.dsl
+package com.lapots.game.journey.ui.dsl.traits
 
 import com.kotcrab.vis.ui.building.utilities.Alignment;
 import com.kotcrab.vis.ui.building.utilities.CellWidget;

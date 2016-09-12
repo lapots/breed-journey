@@ -1,4 +1,4 @@
-package com.lapots.game.journey.ui.dsl
+package com.lapots.game.journey.ui.dsl.traits
 
 // Trait for components that can contain other components
 trait CompositeTrait {

@@ -1,4 +1,4 @@
-package com.lapots.game.journey.platform.resource.redis.router
+package com.lapots.game.journey.core.platform.resource.router.redis
 
 import com.lapots.game.journey.core.api.IRouter
 import com.lapots.game.journey.util.GrlUtils;;

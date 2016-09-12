@@ -1,8 +1,6 @@
-package com.lapots.game.journey.platform.resource.redis.storage
+package com.lapots.game.journey.core.platform.resource.storage.redis
 
 import org.springframework.data.redis.core.RedisTemplate
-
-import com.lapots.game.journey.platform.CorePlatform;
 
 import org.springframework.beans.factory.annotation.Autowired
 

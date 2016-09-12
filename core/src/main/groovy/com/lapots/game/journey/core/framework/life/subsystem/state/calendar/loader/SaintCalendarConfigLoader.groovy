@@ -12,7 +12,7 @@ class SaintCalendarConfigLoader extends XmlConfigCalendarLoader {
     def processXml(xml, calendar) {
         calendar.seed = xml.seed
         xml.units.unit.each { unit ->
-            if (Boolean.valueOf(unit.@multiple)) {
+            if (Boolean.valueOf((String)unit.@multiple)) {
                 calendar.units[unit.@id] = StringUtils.clearSplit(unit.text(), ",")
             } else {
                 calendar.units[unit.@id] = unit.text()
@@ -23,26 +23,36 @@ class SaintCalendarConfigLoader extends XmlConfigCalendarLoader {
     }
 
     def processConfigurations(xml, calendar) {
-        def processingStack = []
-        // ???
-        def highUnit = xml.configurations.@top
-        def lowUnit = xml.configurations.@bottom
+        def laid_back = []
+        def top = xml.configurations.@high
         xml.configurations.configuration.each { config ->
             def key = config.@id
-            if (Boolean.valueOf(config.@equalDivision)) {
-                processingStack << config
-            } else {
-                def mapping = new AbstractCalendar.DateMapping()
-                config.mapping.each { map ->
-                    mapping.mapping[map.@id] = map.text()
-                }
-                calendar.configurations[key] = mapping
+            calendar.configurations["$key"] = [:]
+            def isEqual = Boolean.valueOf((String)config.@equalDivision)
+            if (isEqual) {
+                laid_back << config
+                return // same as continue
+            }
+            config.mapping.each { map ->
+                // to create something like calendar.configurations["year"]["day"] = 100, ["year"]["month"] = 2
+                calendar.configurations["$key"] << [ (map.@id) : map.text() ]
             }
         }
-        processingStack.each { left_config ->
-            def unitId = left_config.@id
-            // hm map to unit
+        println top
+        def topUnitConfig = calendar.configurations[top]
+        if (laid_back) {
+            laid_back.each { config ->
+                def key = config.@id
+                def units = StringUtils.clearSplit((String) config.@units, ",")
+                // the idea is to get all info from the top unit as it knows everything anyway
+                units.each { unit ->
+                    def requiredUnitConfig = topUnitConfig[key]
+                    def currentUnitConfig = topUnitConfig[unit]
+                    // as we know that it is the equal division then
+                    def integer = (int) currentUnitConfig / (int) requiredUnitConfig
+                    calendarConfigurations["$key"] << [ (key) : integer.toString() ]
+                }
+            }
         }
-        processingStack = null
     }
 }

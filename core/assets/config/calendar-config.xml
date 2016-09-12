@@ -8,14 +8,14 @@
             <unit id="month" multiple="true">ASC, DESC</unit>
             <unit id="day" multiple="true">BR, EX</unit>
         </units>
-        <configurations top="year" bottom="day">
-            <configuration id="year">
+        <configurations high="year" low="unifiedTime">
+            <configuration id="year" units="day, month">
                 <mapping id="day">100</mapping>
                 <mapping id="month">2</mapping>
             </configuration>
             <!-- equal means 50 : 50 for days out of 100 when we have two months -->
-            <configuration id="month" equalDivision="true"/>
-            <configuration id="days">
+            <configuration id="month" units="day" equalDivision="true"/>
+            <configuration id="day" units="unifiedTime">
                 <!-- 600 unified seconds to one in-game day -->
                 <mapping id="unifiedTime">600</mapping>
             </configuration>

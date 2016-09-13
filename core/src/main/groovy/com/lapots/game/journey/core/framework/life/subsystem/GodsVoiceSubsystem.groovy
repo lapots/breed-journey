@@ -7,7 +7,7 @@ import com.lapots.game.journey.core.loader.framework.WorldGodsVoiceConfigLoader
 
 class GodsVoiceSubsystem extends Subsystem {
 
-    def component = new WorldGodsVoice()
+    def component = new WorldGodsVoice();
 
     {
         new WorldGodsVoiceConfigLoader().load(LifeFramework.file, component)

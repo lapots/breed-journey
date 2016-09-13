@@ -1,7 +1,5 @@
 package com.lapots.game.journey.ui.dsl
 
-
-
 import com.kotcrab.vis.ui.building.OneRowTableBuilder;
 import com.kotcrab.vis.ui.widget.VisTextButton
 import com.lapots.game.journey.core.api.IReferenced

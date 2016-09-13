@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <calendars>
     <calendar id="saint">
-        <!-- calendar start point. something like BC -->
         <seed>0</seed>
+        <milestones order="strict">year, month, day, unifiedTime</milestones>
         <units>
             <unit id="year">GS</unit>
             <unit id="month" multiple="true">ASC, DESC</unit>
             <unit id="day" multiple="true">BR, EX</unit>
         </units>
-        <configurations high="year" low="unifiedTime">
-            <configuration id="year" units="day, month">
+        <configurations>
+            <configuration id="year">
                 <mapping id="day">100</mapping>
                 <mapping id="month">2</mapping>
             </configuration>
-            <!-- equal means 50 : 50 for days out of 100 when we have two months -->
-            <configuration id="month" units="day" equalDivision="true"/>
-            <configuration id="day" units="unifiedTime">
-                <!-- 600 unified seconds to one in-game day -->
+            <configuration id="month">
+                <mapping id="day">50</mapping>
+            </configuration>
+            <configuration id="day">
                 <mapping id="unifiedTime">600</mapping>
             </configuration>
-        </configurations>
+       </configurations>
     </calendar>
 </calendars>

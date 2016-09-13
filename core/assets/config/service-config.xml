@@ -8,6 +8,7 @@
     <service id="godsVoice">
         <innerId>GOD_S_VOICE</innerId>
         <wait>1000</wait>
+        <!-- actually it is import to have ! in the end lol -->
         <messages sequenced="false">
             The world is living...Without a hero!
             The world is filled with life!

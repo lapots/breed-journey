@@ -30,14 +30,12 @@ class ApplicationMenuScreen extends ScreenAdapter {
     { Stage.metaClass.add = { component -> addActor(component) } }
     { Actor.metaClass.parentUid = "" }
 
-    {
+    @Override
+    public void show() {
         addShutdownHook {
             CorePlatform.managed["lifeFramework"].destroySubsystems()
         }
-    }
 
-    @Override
-    public void show() {
         UiPlatform.default_stage = stage
 
         Gdx.input.setInputProcessor(stage)

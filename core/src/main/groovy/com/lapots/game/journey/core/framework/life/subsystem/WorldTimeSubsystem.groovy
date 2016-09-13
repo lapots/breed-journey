@@ -7,7 +7,7 @@ import com.lapots.game.journey.core.loader.framework.WorldTimeConfigLoader
 
 class WorldTimeSubsystem extends Subsystem {
 
-    def component = new WorldTimeComponent()
+    def component = new WorldTimeComponent();
 
     {
         new WorldTimeConfigLoader().load(LifeFramework.file, component)

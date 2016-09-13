@@ -28,7 +28,7 @@ class WorldTime extends Thread implements IThreadable {
     }
 
     def stopThread() {
-        println "Stopping thread"
+        println "Stopping time thread"
         isEternal = false
     }
 

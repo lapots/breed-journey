@@ -14,4 +14,5 @@ class DomainUtils {
         if (custom_id) { [ "id " : custom_id ] }
         else { [ "id" : UUID.randomUUID().toString()] }
     }
+
 }

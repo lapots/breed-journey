@@ -1,4 +1,4 @@
-package com.lapots.game.journey.core.framework.life.subsystem.state.calendar
+package com.lapots.game.journey.core.api.calendar
 
 abstract class AbstractCalendar {
     static final calendar_config = "config/calendar-config.xml"

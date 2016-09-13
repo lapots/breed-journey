@@ -1,4 +1,4 @@
-package com.lapots.game.journey.core.framework.life.subsystem.state
+package com.lapots.game.journey.core.framework.life.subsystem.component
 
 import com.badlogic.gdx.Gdx;
 import com.lapots.game.journey.core.api.IThreadable

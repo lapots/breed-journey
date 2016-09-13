@@ -1,13 +1,13 @@
-package com.lapots.game.journey.core.framework.life.subsystem.state.calendar.loader
+package com.lapots.game.journey.core.loader.framework
 
-import com.lapots.game.journey.core.framework.life.subsystem.state.calendar.AbstractCalendar;
+import com.lapots.game.journey.core.api.AbstractXmlConfigObjectLoader
 import com.lapots.game.journey.util.DomainUtils
 import com.lapots.game.journey.util.StringUtils;;
 
-class SaintCalendarConfigLoader extends XmlConfigCalendarLoader {
+class SaintCalendarConfigLoader extends AbstractXmlConfigObjectLoader {
 
     // move to ext. config
-    def calendarId() { "saint" }
+    def identifier() { "saint" }
 
     def processXml(xml, calendar) {
         calendar.seed = xml.seed

@@ -1,12 +1,17 @@
 package com.lapots.game.journey.core.framework.life.subsystem
 
 import com.lapots.game.journey.core.api.Subsystem
-import com.lapots.game.journey.core.framework.life.subsystem.state.WorldTime
-import com.lapots.game.journey.core.framework.life.subsystem.state.WorldTimePlatform
+import com.lapots.game.journey.core.framework.life.LifeFramework;
+import com.lapots.game.journey.core.framework.life.subsystem.component.WorldTimeComponent
+import com.lapots.game.journey.core.loader.framework.WorldTimeConfigLoader
 
 class WorldTimeSubsystem extends Subsystem {
 
-    def component = new WorldTimePlatform()
+    def component = new WorldTimeComponent()
+
+    {
+        new WorldTimeConfigLoader().load(LifeFramework.file, component)
+    }
 
     def activate() {
         component.start()

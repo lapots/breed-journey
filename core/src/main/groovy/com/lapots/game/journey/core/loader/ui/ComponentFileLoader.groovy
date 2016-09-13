@@ -1,4 +1,4 @@
-package com.lapots.game.journey.core.loader
+package com.lapots.game.journey.core.loader.ui
 
 import com.lapots.game.journey.core.api.ILoader
 import com.lapots.game.journey.core.platform.resource.storage.ui.UiComponentStorage;

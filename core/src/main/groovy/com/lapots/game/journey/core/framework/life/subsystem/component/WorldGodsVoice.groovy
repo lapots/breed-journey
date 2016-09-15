@@ -11,6 +11,7 @@ class WorldGodsVoice extends Thread implements IThreadable {
     boolean isSequenced
     long wait
     def messages = []
+    def prev, current
 
     volatile isEternal = true
 
@@ -19,6 +20,7 @@ class WorldGodsVoice extends Thread implements IThreadable {
     @Override
     public void run() {
         seq_id = 0
+        println messages
         def action = randomNotification
         if (isSequenced) {
             action = sequenceNotification
@@ -51,7 +53,13 @@ class WorldGodsVoice extends Thread implements IThreadable {
     }
 
     def randomNotification = {
-        MathUtils.randomFromList(messages)
+        // prevent multiple duplicates in a row
+        def current = MathUtils.randomFromList(messages)
+        while(current == prev) {
+            current = MathUtils.randomFromList(messages)
+        }
+        prev = current
+        return current
     }
 
     String toString() {

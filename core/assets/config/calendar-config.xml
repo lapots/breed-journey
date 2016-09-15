@@ -12,9 +12,11 @@
             <configuration id="year">
                 <mapping id="day">100</mapping>
                 <mapping id="month">2</mapping>
+                <mapping id="unifiedTime">60000</mapping>
             </configuration>
             <configuration id="month">
                 <mapping id="day">50</mapping>
+                <mapping id="unifiedTime">30000</mapping>
             </configuration>
             <configuration id="day">
                 <mapping id="unifiedTime">600</mapping>

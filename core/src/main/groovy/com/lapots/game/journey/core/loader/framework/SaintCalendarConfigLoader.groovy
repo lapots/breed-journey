@@ -12,7 +12,8 @@ class SaintCalendarConfigLoader extends AbstractXmlConfigObjectLoader {
 
     def processXml(xml, calendar) {
         calendar.seed = xml.seed
-        def units = StringUtils.clearSplit(xml.milestones.text(), SEPARATOR)
+        calendar.milestones = StringUtils.clearSplit(xml.milestones.text(), SEPARATOR)
+        def units = calendar.milestones
         units.each { unit ->
             xml.units.unit.each { xmlUnit ->
                 if (xmlUnit.@id == unit) {
@@ -32,7 +33,7 @@ class SaintCalendarConfigLoader extends AbstractXmlConfigObjectLoader {
                 if (xmlConfig.@id == unit) {
                     xmlConfig.mapping.each { xmlMapping ->
                         if (!calendar.configurations[unit]) { calendar.configurations[unit] = [:] }
-                        calendar.configurations[unit] << [ (xmlMapping.@id) : xmlMapping.text() ]
+                        calendar.configurations[unit] << [ ((String) xmlMapping.@id) : xmlMapping.text() ]
                     }
                     // finish closure iteration
                     return

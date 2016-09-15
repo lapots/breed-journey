@@ -33,7 +33,7 @@ class SaintCalendarConfigLoader extends AbstractXmlConfigObjectLoader {
                 if (xmlConfig.@id == unit) {
                     xmlConfig.mapping.each { xmlMapping ->
                         if (!calendar.configurations[unit]) { calendar.configurations[unit] = [:] }
-                        calendar.configurations[unit] << [ ((String) xmlMapping.@id) : xmlMapping.text() ]
+                        calendar.configurations[unit] << [ ((String) xmlMapping.@id) : Integer.valueOf(xmlMapping.text()) ]
                     }
                     // finish closure iteration
                     return

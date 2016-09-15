@@ -32,20 +32,19 @@ Config  : $configurations
 
     @Override
     def convert(unit1, unit2, value) {
-        if (unit2 != unit1) {
-            def inputTypeIndex = milestones.indexOf(unit1)
-            def outputTypeIndex = milestones.indexOf(unit2)
-            if (outputTypeIndex > inputTypeIndex) {
-                if (unit1 == "unifiedTime") { // it is an exception out of rule
-                    return value.intdiv(configurations[unit2][unit1]) as int
-                } else {
-                    return value.intdiv(configurations[unit2][unit1]) as int
-                }
-            } else {
-                return (configurations[unit2][unit1].intdiv(value)) as int
+        if (unit1 != unit2) {
+            // conversion only for unified time for now
+            if (unit1 == "unifiedTime") {
+                def unifiedInUnit2 = configurations[unit2][unit1]
+                def result = value.intdiv(unifiedInUnit2)
+                if (result == 0) { return 1 }
+                return result
+            } else if (unit2 == "unifiedTime") {
+                def unifiedInUnit1 = configurations[unit1][unit2]
+                return value * unifiedInUnit1
             }
         }
-        value as Long
+        value
     }
 
     synchronized def create_mapping(unifiedTime) {

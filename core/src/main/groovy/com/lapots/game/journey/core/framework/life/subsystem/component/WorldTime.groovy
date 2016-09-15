@@ -8,7 +8,7 @@ import com.lapots.game.journey.util.MathUtils;
 
 class WorldTime extends Thread implements IThreadable {
 
-    def worldMillis = 0
+    def worldMillis = 56000
     def innerId
     long wait // unit of second
 

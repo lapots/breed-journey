@@ -17,8 +17,8 @@ class GRLMessageTest {
         val grlMessage = GRLMessage().message {
             method { GRLMethod.POST }
             headers {
-                header { Pair("contentType", "object") }
-                header { Pair("objectType", "DummyMultipart") }
+                header { "contentType" to "object" }
+                header { "objectType" to "DummyMultipart" }
             }
             multipart { DummyMultipart("dummy") }
         }

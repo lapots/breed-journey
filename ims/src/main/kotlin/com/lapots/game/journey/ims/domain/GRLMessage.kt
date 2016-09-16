@@ -2,12 +2,8 @@ package com.lapots.game.journey.ims.domain
 
 import com.lapots.game.journey.ims.api.IGRLMultipart
 
-fun MutableMap<String, String>.put(pair : Pair<String, String>) {
-    this.put(pair.first, pair.second)
-}
-
 class GRLMessage {
-    var headerMap : MutableMap<String, String> = mutableMapOf()
+    val headerMap = mutableMapOf<String, String>()
     lateinit var methodType : GRLMethod
     lateinit var multipartObject : IGRLMultipart
 
@@ -27,7 +23,7 @@ class GRLMessage {
     }
 
     fun header(closure: GRLMessage.() -> Pair<String, String>) : GRLMessage {
-        headerMap.put(closure())
+        headerMap += closure()
         return this
     }
 

@@ -1,4 +1,10 @@
 buildscript {
+	ext.kotlin_version = '1.0.3'
+
+	dependencies {
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	}
+
     repositories {
         mavenLocal()
         mavenCentral()
@@ -74,8 +80,25 @@ project(":core") {
         compile "org.springframework.data:spring-data-redis:1.7.2.RELEASE"
         compile "org.springframework:spring-context:4.3.2.RELEASE"
         compile "org.springframework.data:spring-data-mongodb:1.9.2.RELEASE"
+        testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
     }
 }
+
+project(":ims") {
+    apply plugin: "java"
+    apply plugin: 'groovy'
+	apply plugin: "kotlin"
+
+	dependencies {
+        compile "org.codehaus.groovy:groovy-all:2.4.7"
+		compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+        testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+		testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+		testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    }
+}
+
 
 tasks.eclipse.doLast {
     delete ".project"

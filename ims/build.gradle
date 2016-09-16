@@ -1,0 +1,9 @@
+apply plugin: "java"
+apply plugin: 'groovy'
+
+sourceCompatibility = 1.8
+[compileJava, compileTestJava, compileGroovy]*.options*.encoding = 'UTF-8'
+
+eclipse.project {
+    name = appName + "-ims"
+}

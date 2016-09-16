@@ -1,0 +1,88 @@
+IMS - internal messaging system (v1.0)
+
+The basic idea behind IMS is that provide an ability
+for application object to communicate with each other
+using messages, instead of direct method calls. 
+
+The pros are
+	- 	that it becomes unified - accesing the fields,
+		setting data and etc.
+	-	higher flexibilty as we can separate invokation into
+		synchronous and asynchronous out of box
+	-	ability to separate objects into groups with different
+		addresses, combining groups and etc.
+The cons are
+	-	performance drop, due to additional actions
+	
+	
+Every object has a GRL - global resource locator. GRL is an address
+in format a:b:c, where every element corresponds to the router. 
+Example
+
+	core:managed:componentStorage
+
+When object support IMS it means that he can send and recieve
+GRL messages - special objects, that contain information regarding
+sender, recieve, object etc.
+
+GRL messages has this structure
+
+	METHOD 		- method PUT, GET
+	HEADERS 	- a map in format like [ "contentType" : "java.lang.String" ]
+	MULTIPART	- some binary object or json etc.
+	
+There are two types of messages
+	-	synchronous, means that message should be send immediately and we must
+		wait for the answer
+	- 	asynchronous, means that message should be send but not neccessary now
+		and we are not interested in the response
+		
+Every message type has its own channel - special route, which is used to send message.
+There are two channels
+	-	direct channel, for synchronous messages. It has [direct:] identifier
+	-	indirect channel, for asynchronous messages. It has [indirect:] identifier
+	
+In order to process channels and messages, one should implement router - special entity,
+that can read and parse GRL messages and then do operations with it (for example delegating
+to another router).
+===========================
+The sending API is simple and operations are simple too.
+
+def grlMessage = new GRLMessage()
+						.withMethod()
+						.withHeaders()
+						.withContent()
+						.build()
+def route = new RouteBuilder()
+					.withChannel("core")
+					.withChannel("managed")
+					.withChannel("uiStorage")
+					.build()
+					
+IMSContext.directChannel(route, grlMessage)
+===========================
+
+The main object for IMS is a IMSContext - it is responsible for all IMS channels.
+As I do not provide session - I have only one application instance - there is 
+no need in connection pool etc.
+
+When user want to add a new route - say channel and router processor,
+he should register it in IMS using 
+
+	IMSContext.registerRouter(router)
+	
+Router is an implementation of IRouter interface.
+
+If user want to register new channel for the route he should add it to IMS
+
+	IMSContext.registerChannel(router, channel)
+	
+Channel is an implementation of IChannel interface.
+============================
+Classes list:
+	IMSContext
+	IIMSChannel
+	IIMSRouter
+	GRLMessage
+	IMSRouteBuilder
+	IMSMethod

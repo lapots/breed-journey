@@ -5,9 +5,9 @@ for application object to communicate with each other
 using messages, instead of direct method calls. 
 
 The pros are
-	- 	that it becomes unified - accesing the fields,
+	- 	that it becomes unified - accessing the fields,
 		setting data and etc.
-	-	higher flexibilty as we can separate invokation into
+	-	higher flexibility as we can separate invocation into
 		synchronous and asynchronous out of box
 	-	ability to separate objects into groups with different
 		addresses, combining groups and etc.
@@ -21,9 +21,9 @@ Example
 
 	core:managed:componentStorage
 
-When object support IMS it means that he can send and recieve
+When object support IMS it means that he can send and receive
 GRL messages - special objects, that contain information regarding
-sender, recieve, object etc.
+sender, receive, object etc.
 
 GRL messages has this structure
 

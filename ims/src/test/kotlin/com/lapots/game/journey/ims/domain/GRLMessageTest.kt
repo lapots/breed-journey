@@ -1,28 +1,20 @@
 package com.lapots.game.journey.ims.domain
 
+import org.junit.jupiter.api.Assertions.assertEquals
+
+import org.jetbrains.spek.api.*
+import org.jetbrains.spek.api.dsl.*
+
 import com.lapots.game.journey.ims.api.IGRLMultipart
 
-import org.junit.Assert.*
-import org.junit.*
-
-class GRLMessageTest {
-
-    data class DummyMultipart(val field: String) : IGRLMultipart {
-        override fun getContent() {
-            this
-        }
+data class DummyMultipart(val field: String) : IGRLMultipart {
+    override fun getContent() {
+        this
     }
+}
 
-    @Test fun grlMessageBuilderTest() {
-        val grlMessage = GRLMessage().message {
-            method { GRLMethod.POST }
-            headers {
-                header { "contentType" to "object" }
-                header { "objectType" to "DummyMultipart" }
-            }
-            multipart { DummyMultipart("dummy") }
-        }
-
+class GRLMessageTest: Spek({
+    describe("GRL message builder test") {
         val multipart = DummyMultipart("dummy")
         val headers = mapOf(
                 Pair("contentType", "object"),
@@ -30,8 +22,18 @@ class GRLMessageTest {
         )
         val method = GRLMethod.POST
 
-        assertEquals(multipart, grlMessage.multipartObject)
-        assertEquals(method, grlMessage.methodType)
-        assertEquals(headers, grlMessage.headerMap)
+        it("should build expected GRL message") {
+            val grlMessage = GRLMessage().message {
+                method { GRLMethod.POST }
+                headers {
+                    header { "contentType" to "object" }
+                    header { "objectType" to "DummyMultipart" }
+                }
+                multipart { DummyMultipart("dummy") }
+            }
+            assertEquals(multipart, grlMessage.multipartObject)
+            assertEquals(method, grlMessage.methodType)
+            assertEquals(headers, grlMessage.headerMap)
+        }
     }
-}
+})

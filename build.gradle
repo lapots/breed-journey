@@ -97,10 +97,11 @@ project(":ims") {
         compile "org.jetbrains.kotlin:kotlin-stdlib:1.0.3"
 
         testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M2'
-        testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M2'
         testCompile "org.jetbrains.kotlin:kotlin-test:1.0.3"
         testCompile "org.jetbrains.kotlin:kotlin-test-junit:1.0.3"
         testCompile 'org.jetbrains.spek:spek-api:1.0.89'
+        testCompile 'com.natpryce:hamkrest:1.2.2.0'
+        testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-M2'
         testRuntime 'org.jetbrains.spek:spek-junit-platform-engine:1.0.89'
     }
 }

@@ -1,88 +1,79 @@
 IMS - internal messaging system (v1.0)
 
-The basic idea behind IMS is that provide an ability
+    The basic idea behind IMS is that provide an ability
 for application object to communicate with each other
 using messages, instead of direct method calls. 
 
 The pros are
-	- 	that it becomes unified - accessing the fields,
-		setting data and etc.
-	-	higher flexibility as we can separate invocation into
-		synchronous and asynchronous out of box
-	-	ability to separate objects into groups with different
-		addresses, combining groups and etc.
+    -   that it becomes unified - accessing the fields,
+        setting data and etc.
+    -   higher flexibility as we can separate invocation into
+        synchronous and asynchronous out of box
+    -   ability to separate objects into groups with different
+        addresses, combining groups and etc.
 The cons are
-	-	performance drop, due to additional actions
-	
-	
-Every object has a GRL - global resource locator. GRL is an address
+    -   performance drop, due to additional actions
+
+It can be achieved by providing special URL to every object.
+There it is called GRL - global resource locator. GRL is an address
 in format a:b:c, where every element corresponds to the router. 
 Example
 
-	core:managed:componentStorage
+    core:managed:componentStorage
 
-When object support IMS it means that he can send and receive
+    When object support IMS it means that he can send and receive
 GRL messages - special objects, that contain information regarding
-sender, receive, object etc.
+sender, receive, object etc. It has the type GRLMessage.
 
-GRL messages has this structure
+GRL message has structure like [method:headers:mutlipart]
 
-	METHOD 		- method PUT, GET
-	HEADERS 	- a map in format like [ "contentType" : "java.lang.String" ]
-	MULTIPART	- some binary object or json etc.
-	
-There are two types of messages
-	-	synchronous, means that message should be send immediately and we must
-		wait for the answer
-	- 	asynchronous, means that message should be send but not neccessary now
-		and we are not interested in the response
-		
-Every message type has its own channel - special route, which is used to send message.
-There are two channels
-	-	direct channel, for synchronous messages. It has [direct:] identifier
-	-	indirect channel, for asynchronous messages. It has [indirect:] identifier
-	
-In order to process channels and messages, one should implement router - special entity,
-that can read and parse GRL messages and then do operations with it (for example delegating
-to another router).
-===========================
-The sending API is simple and operations are simple too.
+    method      -   type of method: POST, PUT, GET. Has type of GRLMethod.
+    headers     -   map of headers. For example ["contentType" : "object"]
+    multipart   -   object content. Can be any type - JSON, binary etc. Should
+                    implement IGRLMultipart interface.
 
-def grlMessage = new GRLMessage()
-						.withMethod()
-						.withHeaders()
-						.withContent()
-						.build()
-def route = new RouteBuilder()
-					.withChannel("core")
-					.withChannel("managed")
-					.withChannel("uiStorage")
-					.build()
-					
-IMSContext.directChannel(route, grlMessage)
-===========================
+    Messages consumed and produced by objects. In order to send message one need to provide
+message itself and also GRL. In order to combine it, IMS operates with special packages.
+Package has GRL and GRLMessage. In IMS it has GRLPackage type.
 
-The main object for IMS is a IMSContext - it is responsible for all IMS channels.
-As I do not provide session - I have only one application instance - there is 
-no need in connection pool etc.
+    Sending messages is not happen directly. Before message reach its destination it should pass routers.
+Router is a special object - instance of interface IRouter - and responsible for delegating message
+to channels and destinations.
+They keep channels - object that can consume message with certain GRL methods. Basically there are three
+types of channels POST, PUT, GET - corresponding to GRLMethod.
+Channels should implement IChannel interface.
+============================================================================================
+    The main entry point for IMS is a IMSContext - it keeps all IMS routers and provides
+facilities to send packages using them.
 
+    By default IMSContext is empty. In order to use it, there is a need to provide routes.
 When user want to add a new route - say channel and router processor,
 he should register it in IMS using 
 
-	IMSContext.registerRouter(router)
-	
-Router is an implementation of IRouter interface.
+    IMSContext.registerRouter(route, router)
 
-If user want to register new channel for the route he should add it to IMS
+Route is a path. Router is an implementation of IRouter interface.
 
-	IMSContext.registerChannel(router, channel)
-	
-Channel is an implementation of IChannel interface.
-============================
-Classes list:
-	IMSContext
-	IIMSChannel
-	IIMSRouter
-	GRLMessage
-	IMSRouteBuilder
-	IMSMethod
+If user want to register new channel for the router he should add it to IMS
+
+    Router.registerChannel(name, channel)
+
+    Name is a channel label. Channel is an implementation of IChannel interface.
+In order to send package using IMS and receive result one should use
+
+    IMSContext.transfer(package)
+
+==============================================================================================
+In case of errors, IMS throws IMSException with different messages, depending on the case.
+===============================================================================================
+API
+    IChannel
+    IEmptyObject
+    IGRLMultipart
+    IRouter
+    GRLMessage
+    GRLMethod
+    GRLPackage
+    IMSException
+    IMSContext
+==== v1.0 end

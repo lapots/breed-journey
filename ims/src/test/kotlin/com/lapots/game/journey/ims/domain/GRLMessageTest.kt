@@ -1,6 +1,6 @@
 package com.lapots.game.journey.ims.domain
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 
 import org.jetbrains.spek.api.*
 import org.jetbrains.spek.api.dsl.*
@@ -8,13 +8,17 @@ import org.jetbrains.spek.api.dsl.*
 import com.lapots.game.journey.ims.api.IGRLMultipart
 
 data class DummyMultipart(val field: String) : IGRLMultipart {
-    override fun getContent() {
-        this
+    override fun getContent() : Any {
+        return this
     }
 }
 
+/**
+ * Test for {@link GRLMessage}.
+ */
 class GRLMessageTest: Spek({
-    describe("GRL message builder test") {
+
+    describe("GRL message test 1") {
         val multipart = DummyMultipart("dummy")
         val headers = mapOf(
                 Pair("contentType", "object"),
@@ -34,6 +38,14 @@ class GRLMessageTest: Spek({
             assertEquals(multipart, grlMessage.multipartObject)
             assertEquals(method, grlMessage.methodType)
             assertEquals(headers, grlMessage.headerMap)
+        }
+    }
+
+    describe("GRL message test 2") {
+        val message = GRLMessage()
+
+        it("should create empty object by default") {
+            assertTrue(message.isEmpty())
         }
     }
 })

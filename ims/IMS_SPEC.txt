@@ -29,6 +29,7 @@ GRL message has structure like [method:headers:mutlipart]
 
     method      -   type of method: POST, PUT, GET. Has type of GRLMethod.
     headers     -   map of headers. For example ["contentType" : "object"]
+                    Haven't come up with specific headers yet. -> "imsIdentifier" : "123456"
     multipart   -   object content. Can be any type - JSON, binary etc. Should
                     implement IGRLMultipart interface.
 
@@ -39,7 +40,7 @@ Package has GRL and GRLMessage. In IMS it has GRLPackage type.
     Sending messages is not happen directly. Before message reach its destination it should pass routers.
 Router is a special object - instance of interface IRouter - and responsible for delegating message
 to channels and destinations.
-They keep channels - object that can consume message with certain GRL methods. Basically there are three
+    They keep channels - object that can consume message with certain GRL methods. Basically there are three
 types of channels POST, PUT, GET - corresponding to GRLMethod.
 Channels should implement IChannel interface.
 ============================================================================================
@@ -63,6 +64,17 @@ In order to send package using IMS and receive result one should use
 
     IMSContext.transfer(package)
 
+    In order to send and receive package in IMS system, object should implement interfaces IIMSConsumer
+and IIMSProducer. All consumers are asynchronous. The reason behind it is that waiting for the message
+when it might not even arrive synchronously is wasting. But producers can be either synchronous or
+asynchronous. Synchronous producer sends GRL message and waits for response. Asynchronous producer sends
+the message and continue its work further. The response will arrive when it's done.
+    Also IMSContext does not operate directly with raw objects - as they can be any type that is ineffective.
+In order to use object in IMS user need to wrap it into IMSObject, which extends thread, supply blocking queue
+and leverage message consuming.
+    When the message is sent, IMS pass it through routers and channels and put into IMSObject blocking queue.
+This queue is processed in a thread and wrapped object consumes the message and produce response. Everything
+is in background of course.
 ==============================================================================================
 In case of errors, IMS throws IMSException with different messages, depending on the case.
 ===============================================================================================
@@ -70,10 +82,24 @@ API
     IChannel
     IEmptyObject
     IGRLMultipart
+    IIMSConsumer
+    IIMSIdentifiable
+    IIMSProducer
     IRouter
     GRLMessage
     GRLMethod
     GRLPackage
-    IMSException
+    IMSObject
     IMSContext
-==== v1.0 end
+    IMSException
+==============================================================================================
+Currently I am aiming for synchronous producer and asynchronous consumer.
+=====
+FLOW
+    1. Make object implement IIMSConsumer or/and IIMSProducer interfaces. !!! preferably both
+    2. Create instance of IMSObject.
+    3. Register object in IMSContext and retrieve unique IMS identifier !!!NEW
+    4. Send GRLMessages and consume messages asynchronously. !!! somehow leverage with IMSObject
+=============================================================================================== v1.0 end
+v2.0 expectations
+    -   annotations @IMSObject

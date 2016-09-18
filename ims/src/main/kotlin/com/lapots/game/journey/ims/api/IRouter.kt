@@ -1,6 +1,7 @@
 package com.lapots.game.journey.ims.api
 
 import com.lapots.game.journey.ims.IMSException
+import com.lapots.game.journey.ims.domain.GRLMethod
 import com.lapots.game.journey.ims.domain.GRLPackage
 
 /**
@@ -17,25 +18,6 @@ import com.lapots.game.journey.ims.domain.GRLPackage
  * It is done to make routers flexible.
  */
 interface IRouter {
-    fun setPath(path : String)
     fun process(pack : GRLPackage) : GRLPackage
-    fun registerChannel(name : String, channel : IChannel)
-
-    // stub for router
-    // might need to move to some specific stub class
-    companion object {
-        fun stubRouter() : IRouter {
-            return object : IRouter {
-                val routes = mutableMapOf("ui:component" to "nothing")
-                override fun setPath(path : String) {}
-                override fun process(pack : GRLPackage) : GRLPackage {
-                    if (routes[pack.grl] == null) {
-                        throw IMSException("Router cannot process grl!")
-                    }
-                    return GRLPackage.emptyPackage()
-                }
-                override fun registerChannel(name : String, channel : IChannel) {}
-            }
-        }
-    }
+    fun registerChannel(name : GRLMethod, channel : IChannel)
 }

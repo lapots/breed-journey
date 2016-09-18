@@ -1,9 +1,9 @@
-package com.lapots.game.journey
+package com.lapots.game.journey.ims
 
-import com.lapots.game.journey.ims.IMSException
 import com.lapots.game.journey.ims.api.*
-import com.lapots.game.journey.ims.domain.GRLMessage
 import com.lapots.game.journey.ims.domain.GRLPackage
+import com.lapots.game.journey.ims.domain.IMSObject
+import java.util.*
 
 /**
  * Main context method.
@@ -12,6 +12,7 @@ import com.lapots.game.journey.ims.domain.GRLPackage
 class IMSContext {
     private val ROUTE_SEPARATOR = ":"
     private val routes = mutableMapOf<String, IRouter>()
+    private val imsObjects = mutableMapOf<String, IMSObject>()
 
     private object IMSContextHolder {
         val instance = IMSContext()
@@ -32,15 +33,40 @@ class IMSContext {
     }
 
     /**
+     * Registers IMS object in IMS context.
+     */
+    fun registerObject(obj : IMSObject) : String {
+        if (imsObjects[obj.getObjectId()] != null) {
+            throw IMSException("This object is already registered!")
+        }
+        val id = UUID.randomUUID() as String
+        imsObjects[id] = obj
+        return id
+    }
+
+    /**
+     * Returns IMS object by id.
+     */
+    fun retrieveObject(id : String) : IMSObject {
+        val imsObject = imsObjects[id]
+        imsObject ?: throw IMSException("Object with that id : $id does not exist!")
+        return imsObject
+    }
+
+    /**
      * Transfer object.
      * The result is returned as GRLPackage or IMSException is thrown.
      */
     fun transfer(pack : GRLPackage) : GRLPackage {
-        // get corresponding router
-        val router = specifyRouter(pack.grl)
-        router ?: throw IMSException("Cannot transfer message due to missing route processor!")
-        // process package
-        return router.process(pack)
+        // transfer method can be accessed by any thread any time
+        // maybe lol
+        synchronized (this, {
+            // get corresponding router
+            val router = specifyRouter(pack.grl)
+            router ?: throw IMSException("Cannot transfer message due to missing route processor!")
+            // process package
+            return router.process(pack)
+        })
     }
 
     /**

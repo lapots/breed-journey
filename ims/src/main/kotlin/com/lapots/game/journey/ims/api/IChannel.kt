@@ -16,5 +16,5 @@ import com.lapots.game.journey.ims.domain.GRLMethod
  * message result is a message too.
  */
 interface IChannel {
-    fun processMessage(message : GRLMessage) : GRLMessage
+    fun processMessage(message : GRLMessage)
 }

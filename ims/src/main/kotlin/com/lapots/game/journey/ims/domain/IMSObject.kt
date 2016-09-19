@@ -29,6 +29,7 @@ class IMSObject : Thread {
 
     override fun run() {
         while(isRunning) {
+            Thread.sleep(1000) // much intense. need a collar olol
             processMessages()
         }
     }
@@ -43,12 +44,9 @@ class IMSObject : Thread {
         if (obj is IIMSConsumer) {
             // no money no honey
             objectMessageQueue.forEach {
-                obj.consume(it) // cannot resolve reference !!!
+                obj.consume(it)
             }
+            objectMessageQueue.clear() // need something better
         }
-    }
-
-    fun getObjectId() : String {
-        return obj.getImsId() // cannot resolve reference !!!
     }
 }

@@ -18,6 +18,6 @@ import com.lapots.game.journey.ims.domain.GRLPackage
  * It is done to make routers flexible.
  */
 interface IRouter {
-    fun process(pack : GRLPackage) : GRLPackage
+    fun process(pack : GRLPackage)
     fun registerChannel(name : GRLMethod, channel : IChannel)
 }

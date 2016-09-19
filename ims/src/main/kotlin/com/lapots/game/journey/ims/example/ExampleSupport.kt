@@ -26,11 +26,10 @@ fun dummyMessage() : GRLMessage {
 fun stubRouter() : IRouter {
     return object : IRouter {
         val routes = mutableMapOf("ui:component" to "nothing")
-        override fun process(pack : GRLPackage) : GRLPackage {
+        override fun process(pack : GRLPackage) {
             if (routes[pack.grl] == null) {
                 throw IMSException("Router cannot process grl!")
             }
-            return GRLPackage.emptyPackage()
         }
         override fun registerChannel(name : GRLMethod, channel : IChannel) {}
     }

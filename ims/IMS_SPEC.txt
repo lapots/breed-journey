@@ -29,7 +29,10 @@ GRL message has structure like [method:headers:mutlipart]
 
     method      -   type of method: POST, PUT, GET. Has type of GRLMethod.
     headers     -   map of headers. For example ["contentType" : "object"]
-                    Haven't come up with specific headers yet. -> "imsIdentifier" : "123456"
+                    Required headers:
+                        -   destination
+                        -   identifier
+                        -   sender
     multipart   -   object content. Can be any type - JSON, binary etc. Should
                     implement IGRLMultipart interface.
 
@@ -101,5 +104,7 @@ FLOW
     3. Register object in IMSContext and retrieve unique IMS identifier !!!NEW
     4. Send GRLMessages and consume messages asynchronously. !!! somehow leverage with IMSObject
 =============================================================================================== v1.0 end
+v1.5 expectations
+    - persistence
 v2.0 expectations
     -   annotations @IMSObject

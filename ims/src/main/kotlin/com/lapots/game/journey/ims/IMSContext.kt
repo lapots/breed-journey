@@ -36,10 +36,7 @@ class IMSContext {
      * Registers IMS object in IMS context.
      */
     fun registerObject(obj : IMSObject) : String {
-        if (imsObjects[obj.getObjectId()] != null) {
-            throw IMSException("This object is already registered!")
-        }
-        val id = UUID.randomUUID() as String
+        val id = UUID.randomUUID().toString()
         imsObjects[id] = obj
         return id
     }
@@ -47,7 +44,7 @@ class IMSContext {
     /**
      * Returns IMS object by id.
      */
-    fun retrieveObject(id : String) : IMSObject {
+    fun retrieveObject(id : String?) : IMSObject {
         val imsObject = imsObjects[id]
         imsObject ?: throw IMSException("Object with that id : $id does not exist!")
         return imsObject
@@ -57,7 +54,7 @@ class IMSContext {
      * Transfer object.
      * The result is returned as GRLPackage or IMSException is thrown.
      */
-    fun transfer(pack : GRLPackage) : GRLPackage {
+    fun transfer(pack : GRLPackage) {
         // transfer method can be accessed by any thread any time
         // maybe lol
         synchronized (this, {
@@ -65,7 +62,7 @@ class IMSContext {
             val router = specifyRouter(pack.grl)
             router ?: throw IMSException("Cannot transfer message due to missing route processor!")
             // process package
-            return router.process(pack)
+            router.process(pack)
         })
     }
 
@@ -98,7 +95,6 @@ class IMSContext {
                 break
             }
         }
-        print("Router found!")
         return router
     }
 }

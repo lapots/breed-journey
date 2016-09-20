@@ -1,0 +1,83 @@
+OSM - object state machine v1.0
+
+    The basic idea behind OSM is to provide an ability
+for objects to have and change state.
+
+    State machine is a special model which operates with object. It consists
+of two main components
+    -   state, object status or number of parameters with certain values
+    -   transition, special function allowing to change object state
+That's all from the theory olol
+
+What is state?
+Assuming we've got object
+
+    class StatefulObject {
+        def param1
+        def param2
+    }
+
+    Having state means that param1 has a valueA and param2 has a valueB.
+Description in StateLang (DSL basically...By I do not know enough Scala
+for to safely judge).
+
+    state {
+        object StatefulObject
+        param1  valueA
+        param2  valueB
+    }
+
+That IS the state!
+
+What is transition?
+Assuming we've got a previously mentioned state
+
+    state {
+        object  StatefulObject
+        param1  valueA
+        param2  valueB
+    }
+
+    Transition is an special object - conditional function - that transform
+state into another state.
+For example simple transition function in StateLang
+
+    transition {
+        param1  valueC
+        param2  valueB - valueD
+    }
+
+    It is similar to [state] but unlike it, transition is not belong to any
+specific object. Though in our example we assuming that state on which
+we want to apply transition has param1 & param2.
+
+So what will happen if we apply that transition to state?
+
+    state {                             state {
+        object  StatefulObject              object  StatefulObject
+        param1  valueA           =>         param1  valueC
+        param2  valueB                      param2  valueZ
+    }                                   }
+
+    As transition did not have any specific calculations for param1 it simply
+changes its value. But as for param2 it performed some operations the result
+became valueB - valueD = valueZ
+
+Transition may happen any time. It may happen due to some timer restrictions,
+or some special condition or etc. So we need something like [state processor].
+
+There is two approaches for that.
+1   ->
+    State processor has a specific [listener] that is waiting for input messages. When it
+receives a message it then delegate it to corresponding [object state controller].
+That controller then applies transition to the object and changes its state. That
+approach is [centralized state processor]
+2   ->
+    Every object has its own processor, that is waiting for input messages. And when
+it gets a message - it changes its state. This is the [decentralized state processor].
+================================================================ v 1.0
+v2.0 expectations
+    -   ability to generate and read [state transition table]
+
+
+

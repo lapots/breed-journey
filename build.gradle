@@ -106,6 +106,16 @@ project(":ims") {
     }
 }
 
+project(":osm") {
+    apply plugin: 'scala'
+
+    dependencies {
+        compile "org.scala-lang:scala-compiler:2.12.0-M5"
+        compile "org.scala-lang:scala-library:2.12.0-M5"
+        compile "org.scala-lang:scala-reflect:2.12.0-M5"
+    }
+}
+
 
 tasks.eclipse.doLast {
     delete ".project"

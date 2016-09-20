@@ -1,5 +1,6 @@
 package com.lapots.game.journey.ims.domain
 
+import com.lapots.game.journey.ims.GRLException
 import com.lapots.game.journey.ims.IMSException
 
 class GRLProtocol {
@@ -17,7 +18,7 @@ class GRLProtocol {
 
         fun checkHeaderConsistency(messageHeaders : List<String>) {
             if (!messageHeaders.containsAll(supportedHeaders.filterValues { it == true }.keys)) {
-                throw IMSException("Missing required headers!")
+                throw GRLException("Missing required headers!")
             }
         }
     }

@@ -4,6 +4,7 @@ import com.lapots.game.journey.ims.IMSContext
 import com.lapots.game.journey.ims.IMSException
 import com.lapots.game.journey.ims.domain.GRLMessage
 import com.lapots.game.journey.ims.domain.GRLPackage
+import com.lapots.game.journey.ims.domain.GRLProtocol
 
 /**
     --- PROOF OF CONCEPT ---
@@ -49,6 +50,8 @@ import com.lapots.game.journey.ims.domain.GRLPackage
 class IMSGate {
     companion object {
         fun warp(message : GRLMessage) {
+            GRLProtocol.checkHeaderConsistency(message.headerMap.keys.toList())
+
             val grl = message.headerMap["destination"]
             grl ?: throw IMSException("Unable to send message due to missing [destination] header!")
             // thinking about how to make better

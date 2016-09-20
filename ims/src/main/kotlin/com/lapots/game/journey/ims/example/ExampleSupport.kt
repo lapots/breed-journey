@@ -5,8 +5,8 @@ import com.lapots.game.journey.ims.api.IChannel
 import com.lapots.game.journey.ims.api.IGRLMultipart
 import com.lapots.game.journey.ims.api.IRouter
 import com.lapots.game.journey.ims.domain.GRLMessage
-import com.lapots.game.journey.ims.domain.GRLMethod
 import com.lapots.game.journey.ims.domain.GRLPackage
+import com.lapots.game.journey.ims.domain.GRLProtocol
 
 
 data class DummyMultipart(val field: String) : IGRLMultipart {
@@ -17,7 +17,7 @@ data class DummyMultipart(val field: String) : IGRLMultipart {
 
 fun dummyMessage() : GRLMessage {
     return GRLMessage().message {
-        method { GRLMethod.PUT }
+        method { GRLProtocol.GRLMethod.PUT }
         header { "defaultHeader" to "example" }
         multipart { DummyMultipart("multipart") }
     }
@@ -31,7 +31,7 @@ fun stubRouter() : IRouter {
                 throw IMSException("Router cannot process grl!")
             }
         }
-        override fun registerChannel(name : GRLMethod, channel : IChannel) {}
+        override fun registerChannel(name : GRLProtocol.GRLMethod, channel : IChannel) {}
 
         override fun registerRoute(route: String) { }
 

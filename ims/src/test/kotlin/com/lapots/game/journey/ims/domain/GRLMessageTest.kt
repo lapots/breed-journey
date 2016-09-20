@@ -24,11 +24,11 @@ class GRLMessageTest: Spek({
                 Pair("contentType", "object"),
                 Pair("objectType", "DummyMultipart")
         )
-        val method = GRLMethod.POST
+        val method = GRLProtocol.GRLMethod.POST
 
         it("should build expected GRL message") {
             val grlMessage = GRLMessage().message {
-                method { GRLMethod.POST }
+                method { GRLProtocol.GRLMethod.POST }
                 headers {
                     header { "contentType" to "object" }
                     header { "objectType" to "DummyMultipart" }

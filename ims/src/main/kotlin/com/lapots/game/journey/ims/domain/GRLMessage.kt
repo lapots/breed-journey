@@ -9,7 +9,7 @@ import com.lapots.game.journey.ims.api.IGRLMultipart
  */
 class GRLMessage : IEmptyObject {
     val headerMap = mutableMapOf<String, String>()
-    var methodType : GRLMethod? = null
+    var methodType : GRLProtocol.GRLMethod? = null
     var multipartObject : IGRLMultipart? = null
 
     fun message(closure: GRLMessage.() -> Unit) : GRLMessage {
@@ -17,7 +17,7 @@ class GRLMessage : IEmptyObject {
         return this
     }
 
-    fun method(closure: GRLMessage.() -> GRLMethod) : GRLMessage {
+    fun method(closure: GRLMessage.() -> GRLProtocol.GRLMethod) : GRLMessage {
         methodType = closure()
         return this
     }

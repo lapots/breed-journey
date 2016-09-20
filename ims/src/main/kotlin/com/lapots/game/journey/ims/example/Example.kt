@@ -6,10 +6,7 @@ import com.lapots.game.journey.ims.IMSContext
 import com.lapots.game.journey.ims.IMSException
 import com.lapots.game.journey.ims.IMSGate
 import com.lapots.game.journey.ims.api.*
-import com.lapots.game.journey.ims.domain.GRLMessage
-import com.lapots.game.journey.ims.domain.GRLMethod
-import com.lapots.game.journey.ims.domain.GRLPackage
-import com.lapots.game.journey.ims.domain.IMSObject
+import com.lapots.game.journey.ims.domain.*
 
 class StringMultipart(val content: String) : IGRLMultipart {
     override fun getContent(): Any {
@@ -25,7 +22,7 @@ class ExampleChannel : IChannel {
 }
 
 class ExampleRouter(val routes: MutableMap<String, String>) : IRouter {
-    val channels  = mutableMapOf<GRLMethod, IChannel>()
+    val channels  = mutableMapOf<GRLProtocol.GRLMethod, IChannel>()
 
     override fun process(pack : GRLPackage) {
         val msg = pack.message
@@ -45,7 +42,7 @@ class ExampleRouter(val routes: MutableMap<String, String>) : IRouter {
         return routes[route] != null
     }
 
-    override fun registerChannel(name : GRLMethod, channel : IChannel) {
+    override fun registerChannel(name : GRLProtocol.GRLMethod, channel : IChannel) {
         if (channels[name] != null) {
             throw IMSException("This channel already exist!")
         }
@@ -67,7 +64,7 @@ class ExampleObject(val name: String) : IIMSProducer, IIMSConsumer {
 
     override fun produce(): GRLMessage {
         return GRLMessage().message {
-            method { GRLMethod.POST }
+            method { GRLProtocol.GRLMethod.POST }
             multipart { StringMultipart("Hello from $identifier") }
             headers { // just for more readability
                 header { "destination" to "ui:component" }
@@ -103,7 +100,7 @@ fun main(args: Array<String>) {
     // register channel
     val router = ExampleRouter(mutableMapOf("ui:component" to "ui:component")) // weird
     val channel = ExampleChannel()
-    router.registerChannel(GRLMethod.POST, channel)
+    router.registerChannel(GRLProtocol.GRLMethod.POST, channel)
 
     // register router with channels
     IMSContext.instance.registerRouter(router)

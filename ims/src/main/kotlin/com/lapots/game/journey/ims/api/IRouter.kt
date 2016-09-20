@@ -1,8 +1,8 @@
 package com.lapots.game.journey.ims.api
 
 import com.lapots.game.journey.ims.IMSException
-import com.lapots.game.journey.ims.domain.GRLMethod
 import com.lapots.game.journey.ims.domain.GRLPackage
+import com.lapots.game.journey.ims.domain.GRLProtocol
 
 /**
  * Interface for routers.
@@ -19,7 +19,7 @@ import com.lapots.game.journey.ims.domain.GRLPackage
  */
 interface IRouter {
     fun process(pack : GRLPackage)
-    fun registerChannel(name : GRLMethod, channel : IChannel)
+    fun registerChannel(name : GRLProtocol.GRLMethod, channel : IChannel)
     fun registerRoute(route : String)
     fun isSupport(route: String) : Boolean
     fun getRoutes() : List<String>

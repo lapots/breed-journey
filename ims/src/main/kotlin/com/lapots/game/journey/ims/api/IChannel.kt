@@ -1,7 +1,6 @@
 package com.lapots.game.journey.ims.api
 
 import com.lapots.game.journey.ims.domain.GRLMessage
-import com.lapots.game.journey.ims.domain.GRLMethod
 
 /**
  * Interface for channels.

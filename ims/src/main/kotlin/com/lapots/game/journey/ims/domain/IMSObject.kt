@@ -4,6 +4,7 @@ import com.lapots.game.journey.ims.IMSContext
 import com.lapots.game.journey.ims.api.IIMSConsumer
 import com.lapots.game.journey.ims.api.IIMSIdentifiable
 import java.util.concurrent.LinkedBlockingDeque
+import java.util.concurrent.locks.ReentrantLock
 
 /**
  * Wrapper for object to use in IMS.
@@ -42,11 +43,9 @@ class IMSObject : Thread {
     // basically consuming messages
     fun processMessages() {
         if (obj is IIMSConsumer) {
-            // no money no honey
-            objectMessageQueue.forEach {
-                obj.consume(it)
+            while (!objectMessageQueue.isEmpty()) {
+                obj.consume(objectMessageQueue.remove())
             }
-            objectMessageQueue.clear() // need something better
         }
     }
 }

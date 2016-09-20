@@ -32,5 +32,13 @@ fun stubRouter() : IRouter {
             }
         }
         override fun registerChannel(name : GRLMethod, channel : IChannel) {}
+
+        override fun registerRoute(route: String) { }
+
+        override fun isSupport(route: String): Boolean { return true }
+
+        override fun getRoutes(): List<String> {
+            return routes.keys.toList()
+        }
     }
 }

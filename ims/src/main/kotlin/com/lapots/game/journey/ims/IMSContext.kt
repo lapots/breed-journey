@@ -25,11 +25,13 @@ class IMSContext {
     /**
      * Registers route in IMS.
      */
-    fun registerRouter(route : String, router : IRouter) {
-        if (routes[route] != null) {
-            throw IMSException("Such route already registered under some another router!")
+    fun registerRouter(router : IRouter) {
+        router.getRoutes().forEach { route ->
+            if (routes[route] != null) {
+                throw IMSException("Such route already registered under some another router!")
+            }
+            routes[route] = router
         }
-        routes[route] = router
     }
 
     /**
@@ -38,6 +40,7 @@ class IMSContext {
     fun registerObject(obj : IMSObject) : String {
         val id = UUID.randomUUID().toString()
         imsObjects[id] = obj
+        obj.start() // IllegalThreadState. find solution
         return id
     }
 

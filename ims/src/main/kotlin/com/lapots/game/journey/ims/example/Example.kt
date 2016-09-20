@@ -24,13 +24,25 @@ class ExampleChannel : IChannel {
     }
 }
 
-class ExampleRouter : IRouter {
+class ExampleRouter(val routes: MutableMap<String, String>) : IRouter {
     val channels  = mutableMapOf<GRLMethod, IChannel>()
 
     override fun process(pack : GRLPackage) {
         val msg = pack.message
         val channel = channels[msg.methodType]
         channel!!.processMessage(msg)
+    }
+
+    override fun getRoutes() : List<String> {
+        return routes.keys.toList()
+    }
+
+    override fun registerRoute(route : String) {
+        routes[route] = route // lol
+    }
+
+    override fun isSupport(route: String) : Boolean {
+        return routes[route] != null
     }
 
     override fun registerChannel(name : GRLMethod, channel : IChannel) {
@@ -75,7 +87,6 @@ class ExampleObject(val name: String) : IIMSProducer, IIMSConsumer {
             throw IMSException("Anonymous messenger")
         }
         println("Received message: ${message.multipartObject?.getContent().toString() }")
-        IMSGate.warp(this.produce()) // response
     }
 }
 
@@ -89,28 +100,21 @@ fun main(args: Array<String>) {
     val imsObj1 = IMSObject(ExampleObject("Object 1"))
     val imsObj2 = IMSObject(ExampleObject("Object 2"))
 
+    // register channel
+    val router = ExampleRouter(mutableMapOf("ui:component" to "ui:component")) // weird
+    val channel = ExampleChannel()
+    router.registerChannel(GRLMethod.POST, channel)
+
+    // register router with channels
+    IMSContext.instance.registerRouter(router)
+
     // register objects
     val obj1Id = imsContext.registerObject(imsObj1)
     obj1.setImsId(obj1Id)
     val obj2Id = imsContext.registerObject(imsObj2)
     obj2.setImsId(obj2Id)
 
-    // here is issue #1 -> need to find object to send and set ID specifically
-    obj1.goalId = obj2Id
-
-    // here is issue #2 -> need to start object lives
-    // give life to objects
-    imsObj1.start()
-    imsObj2.start()
-
-    // register channel
-    val router = ExampleRouter()
-    val channel = ExampleChannel()
-    router.registerChannel(GRLMethod.POST, channel)
-
-    // issue #3 -> cannot initialize router with routes and had to do it during the register process
-    // register router with channels
-    IMSContext.instance.registerRouter("ui:component", router)
+    obj1.goalId = obj2Id // well it should know some id anyway
 
     // simulation of main application loop
     var limit = 5

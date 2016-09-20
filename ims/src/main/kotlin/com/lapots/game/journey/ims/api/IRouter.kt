@@ -20,4 +20,7 @@ import com.lapots.game.journey.ims.domain.GRLPackage
 interface IRouter {
     fun process(pack : GRLPackage)
     fun registerChannel(name : GRLMethod, channel : IChannel)
+    fun registerRoute(route : String)
+    fun isSupport(route: String) : Boolean
+    fun getRoutes() : List<String>
 }

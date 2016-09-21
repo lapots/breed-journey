@@ -2,6 +2,7 @@ package com.lapots.game.journey.ims
 
 import com.lapots.game.journey.ims.api.*
 import com.lapots.game.journey.ims.domain.GRLPackage
+import com.lapots.game.journey.ims.domain.GRLProtocol
 import com.lapots.game.journey.ims.domain.IMSObject
 import java.util.*
 
@@ -10,7 +11,6 @@ import java.util.*
  * Main entry point for IMS.
  */
 class IMSContext {
-    private val ROUTE_SEPARATOR = ":"
     private val routes = mutableMapOf<String, IRouter>()
     private val imsObjects = mutableMapOf<String, IMSObject>()
 
@@ -86,13 +86,13 @@ class IMSContext {
         var grl = grlParam
         var router : IRouter? = null
         // make it end with : like ui:route -> ui:route:
-        if (!grl.endsWith(ROUTE_SEPARATOR)) {
-            grl += ROUTE_SEPARATOR
+        if (!grl.endsWith(GRLProtocol.ROUTE_SEPARATOR)) {
+            grl += GRLProtocol.ROUTE_SEPARATOR
         }
-        while (grl.indexOf(ROUTE_SEPARATOR) != -1) {
+        while (grl.indexOf(GRLProtocol.ROUTE_SEPARATOR) != -1) {
             router = routes[grl]
             if (router == null) {
-                grl = grl.slice(0..grl.lastIndexOf(ROUTE_SEPARATOR) - 1)
+                grl = grl.slice(0..grl.lastIndexOf(GRLProtocol.ROUTE_SEPARATOR) - 1)
             } else {
                 break
             }

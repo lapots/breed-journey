@@ -53,32 +53,24 @@ class ExampleRouter(val routes: MutableMap<String, String>) : IRouter {
 }
 
 class ExampleObject(val name: String) : IIMSProducer, IIMSConsumer {
-    var identifier = "" // annoying
+    override var imsId = ""
     var goalId = "" // annoying
-
-    override fun setImsId(id: String) {
-        identifier = id
-    }
-
-    override fun getImsId(): String {
-        return identifier
-    }
 
     override fun produce(): GRLMessage {
         return GRLMessageDSL().dsl {
             method { GRLProtocol.GRLMethod.POST }
-            multipart { StringMultipart("Hello from $identifier") }
+            multipart { StringMultipart("Hello from $imsId") }
             headers { // just for more readability
                 header { "destination" to "ui:component" }
                 header { "receiver" to goalId }
-                header { "sender" to identifier } // say my name
+                header { "sender" to imsId } // say my name
             }
         }
     }
 
     override fun consume(message: GRLMessage) {
         // resolve issue with duplicating but I think it something with blocking queue
-        println("I $identifier ate the dsl!")
+        println("I $imsId ate the dsl!")
         var sender = message.headerMap["sender"]
         if (sender != null) { // add check on higher levels
             goalId = sender
@@ -90,6 +82,9 @@ class ExampleObject(val name: String) : IIMSProducer, IIMSConsumer {
 }
 
 fun main(args: Array<String>) {
+    val imsCoreObjectRegistry =
+            mutableMapOf<String, String>("imsId" to "objectId", "object" to "imsID")
+
     // create basic object
     val obj1 = ExampleObject("Object 1")
     val obj2 = ExampleObject("Object 2")
@@ -109,13 +104,32 @@ fun main(args: Array<String>) {
 
     // register objects
     val obj1Id = imsContext.registerObject(imsObj1)
-    obj1.setImsId(obj1Id)
+    obj1.imsId = obj1Id
     val obj2Id = imsContext.registerObject(imsObj2)
-    obj2.setImsId(obj2Id)
+    obj2.imsId = obj2Id
 
     obj1.goalId = obj2Id // well it should know some id anyway
 
     // simulation of main application loop
+
+    /**
+     *
+     * def obj = new CoreObject()
+     * ImsPlatform.registerObject(obj)
+     *      val imsObject = ImsContext.instance.registerObject(obj)
+     *          def imsId = UUID.randomUUID().toString()
+     *          ImsContext.imsObjectMap << [obj.id : imsId]
+     *          IMSObject.newObject(obj, imsId)
+     *      imsObject.start()
+     * ImsPlatform.registerRouter(router)
+     *      ImsContext.instance.
+     * ImsPlatform.registerChannel(routerId, channel)
+     * ImsPlatform.transfer(message)
+     *      ImsContext.instance.transfer(GRLProtocol.pack(message))
+     *
+     */
+
+
     imsObj1.start()
     imsObj2.start()
     var limit = 5

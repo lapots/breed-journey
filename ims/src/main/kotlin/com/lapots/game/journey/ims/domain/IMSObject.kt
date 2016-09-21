@@ -19,7 +19,7 @@ class IMSObject : Thread {
     constructor(component : IIMSIdentifiable) {
         obj = component
         val id = IMSContext.instance.registerObject(this)
-        obj.setImsId(id)
+        obj.imsId = id
     }
 
     // I did not test but I think I can put object into queue directly

@@ -16,6 +16,8 @@ class GRLProtocol {
             "contentType" to false
         )
 
+        val ROUTE_SEPARATOR = ":"
+
         /**
          * Verifies dsl headers against the supported.
          */

@@ -1,5 +1,6 @@
 package com.lapots.game.journey.ims.domain
 
+import com.lapots.game.journey.ims.domain.dsl.GRLMessageDSL
 import org.junit.jupiter.api.Assertions.*
 
 import org.jetbrains.spek.api.*
@@ -27,7 +28,7 @@ class GRLMessageTest: Spek({
         val method = GRLProtocol.GRLMethod.POST
 
         it("should build expected GRL message") {
-            val grlMessage = GRLMessage().message {
+            val grlMessage = GRLMessageDSL().dsl {
                 method { GRLProtocol.GRLMethod.POST }
                 headers {
                     header { "contentType" to "object" }

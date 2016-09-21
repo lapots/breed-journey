@@ -6,7 +6,7 @@ import com.lapots.game.journey.ims.api.IEmptyObject
  * Special transport object.
  * Can be represented as:
  *      grl : 'ui:innerId'
- *      message :
+ *      dsl :
  *          method : POST
  *          headers :
  *              contentType : String

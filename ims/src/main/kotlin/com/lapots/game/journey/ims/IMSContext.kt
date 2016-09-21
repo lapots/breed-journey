@@ -40,7 +40,6 @@ class IMSContext {
     fun registerObject(obj : IMSObject) : String {
         val id = UUID.randomUUID().toString()
         imsObjects[id] = obj
-        obj.start() // IllegalThreadState. find solution
         return id
     }
 
@@ -63,7 +62,7 @@ class IMSContext {
         synchronized (this, {
             // get corresponding router
             val router = specifyRouter(pack.grl)
-            router ?: throw IMSException("Cannot transfer message due to missing route processor!")
+            router ?: throw IMSException("Cannot transfer dsl due to missing route processor!")
             // process package
             router.process(pack)
         })
@@ -81,7 +80,7 @@ class IMSContext {
      *              'ui:component:data' -> no match
      *              'ui:component' -> no match
      *              'ui' -> match found
-     * So the message will be delegated to router with 'ui' path
+     * So the dsl will be delegated to router with 'ui' path
      */
     private fun specifyRouter(grlParam : String) : IRouter? {
         var grl = grlParam

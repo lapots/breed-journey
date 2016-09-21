@@ -34,7 +34,7 @@ class IMSContextTest : Spek ({
             }
         }
         on("populating IMSContext with routers") {
-            ims.registerRouter(route, stubRouter)
+            ims.registerRouter(stubRouter)
             on("creating package to transfer") {
                 val pack = GRLPackage(route, GRLMessage())
                 it("should return expected router process result") {

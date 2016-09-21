@@ -7,6 +7,7 @@ import com.lapots.game.journey.ims.api.IRouter
 import com.lapots.game.journey.ims.domain.GRLMessage
 import com.lapots.game.journey.ims.domain.GRLPackage
 import com.lapots.game.journey.ims.domain.GRLProtocol
+import com.lapots.game.journey.ims.domain.dsl.GRLMessageDSL
 
 
 data class DummyMultipart(val field: String) : IGRLMultipart {
@@ -16,7 +17,7 @@ data class DummyMultipart(val field: String) : IGRLMultipart {
 }
 
 fun dummyMessage() : GRLMessage {
-    return GRLMessage().message {
+    return GRLMessageDSL().dsl {
         method { GRLProtocol.GRLMethod.PUT }
         header { "defaultHeader" to "example" }
         multipart { DummyMultipart("multipart") }

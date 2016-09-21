@@ -12,7 +12,7 @@ import com.lapots.game.journey.ims.domain.GRLMessage
  *
  * Generally channels separated by supported GRLMethod - POST, PUT, GET channels.
  * Channels works with messages instead of packages. Also the processing
- * message result is a message too.
+ * dsl result is a dsl too.
  */
 interface IChannel {
     fun processMessage(message : GRLMessage)

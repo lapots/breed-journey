@@ -7,6 +7,7 @@ import com.lapots.game.journey.ims.IMSException
 import com.lapots.game.journey.ims.IMSGate
 import com.lapots.game.journey.ims.api.*
 import com.lapots.game.journey.ims.domain.*
+import com.lapots.game.journey.ims.domain.dsl.GRLMessageDSL
 
 class StringMultipart(val content: String) : IGRLMultipart {
     override fun getContent(): Any {
@@ -16,6 +17,7 @@ class StringMultipart(val content: String) : IGRLMultipart {
 
 class ExampleChannel : IChannel {
     override fun processMessage(message: GRLMessage) {
+        // replace with some external storage
         val imsObject = IMSContext.instance.retrieveObject(message.headerMap["receiver"])
         imsObject.objectMessageQueue.offer(message) // put it to IMS object queue
     }
@@ -63,7 +65,7 @@ class ExampleObject(val name: String) : IIMSProducer, IIMSConsumer {
     }
 
     override fun produce(): GRLMessage {
-        return GRLMessage().message {
+        return GRLMessageDSL().dsl {
             method { GRLProtocol.GRLMethod.POST }
             multipart { StringMultipart("Hello from $identifier") }
             headers { // just for more readability
@@ -76,14 +78,14 @@ class ExampleObject(val name: String) : IIMSProducer, IIMSConsumer {
 
     override fun consume(message: GRLMessage) {
         // resolve issue with duplicating but I think it something with blocking queue
-        println("I $identifier ate the message!")
+        println("I $identifier ate the dsl!")
         var sender = message.headerMap["sender"]
         if (sender != null) { // add check on higher levels
             goalId = sender
         } else {
             throw IMSException("Anonymous messenger")
         }
-        println("Received message: ${message.multipartObject?.getContent().toString() }")
+        println("Received dsl: ${message.multipartObject?.getContent().toString() }")
     }
 }
 
@@ -114,6 +116,8 @@ fun main(args: Array<String>) {
     obj1.goalId = obj2Id // well it should know some id anyway
 
     // simulation of main application loop
+    imsObj1.start()
+    imsObj2.start()
     var limit = 5
     while (limit != 0) {
         // warp is cool

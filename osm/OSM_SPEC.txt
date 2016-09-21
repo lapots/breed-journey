@@ -1,4 +1,4 @@
-OSM - object state machine v1.0
+OSM - object state machine v1.0 (technical name)
 
     The basic idea behind OSM is to provide an ability
 for objects to have and change state.
@@ -63,18 +63,29 @@ So what will happen if we apply that transition to state?
 changes its value. But as for param2 it performed some operations the result
 became valueB - valueD = valueZ
 
-Transition may happen any time. It may happen due to some timer restrictions,
+    Transition may happen any time. It may happen due to some timer restrictions,
 or some special condition or etc. So we need something like [state processor].
 
 There is two approaches for that.
 1   ->
     State processor has a specific [listener] that is waiting for input messages. When it
-receives a message it then delegate it to corresponding [object state controller].
+receives a dsl it then delegate it to corresponding [object state controller].
 That controller then applies transition to the object and changes its state. That
 approach is [centralized state processor]
 2   ->
     Every object has its own processor, that is waiting for input messages. And when
-it gets a message - it changes its state. This is the [decentralized state processor].
+it gets a dsl - it changes its state. This is the [decentralized state processor].
+
+    What I described is a state machine that basically not a state as it does not have finite
+amount of state. However it is wrong to assume that the states and transitions cannot
+duplicate.
+
+    But there exist objects with finite number of states. For example weather and seasons.
+Winter, spring, summer, autumn - 4 states. Every of its state has a specific - basically
+constant parameter. And we only need to change weather state with some primitive transition.
+
+However we may want to let seasons somehow affect each other, which leads to more
+complex transition...
 ================================================================ v 1.0
 v2.0 expectations
     -   ability to generate and read [state transition table]

@@ -30,7 +30,7 @@ import com.lapots.game.journey.ims.domain.GRLProtocol
     Future<Integer> future = executor.submit(task)
 
     def result
-    // waiting in a loop for response -> processing message
+    // waiting in a loop for response -> processing dsl
     while (true) {
         TimeUnit.SECONDS.sleep(5)
         println "Main loop"
@@ -50,12 +50,7 @@ import com.lapots.game.journey.ims.domain.GRLProtocol
 class IMSGate {
     companion object {
         fun warp(message : GRLMessage) {
-            GRLProtocol.checkHeaderConsistency(message.headerMap.keys.toList())
-
-            val grl = message.headerMap["destination"]
-            grl ?: throw IMSException("Unable to send message due to missing [destination] header!")
-            // thinking about how to make better
-            IMSContext.instance.transfer(GRLPackage(grl, message))
+            IMSContext.instance.transfer(GRLProtocol.pack(message))
         }
     }
 }

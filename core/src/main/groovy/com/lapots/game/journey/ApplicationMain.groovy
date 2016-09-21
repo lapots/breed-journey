@@ -6,29 +6,40 @@ import com.kotcrab.vis.ui.VisUI.SkinScale
 import com.lambdaworks.redis.RedisClient
 import com.lapots.game.journey.core.framework.life.LifeFramework
 import com.lapots.game.journey.core.platform.CorePlatform
-import com.lapots.game.journey.core.platform.ResourcePlatform;
-import com.lapots.game.journey.util.GrlUtils;
+import com.lapots.game.journey.core.platform.ResourcePlatform
+import com.lapots.game.journey.ims.domain.GRLProtocol
+import com.lapots.game.journey.ims.domain.dsl.GRLMessageDSL;
+import com.lapots.game.journey.util.GrlUtils
+import kotlin.Pair;
 
 class ApplicationMain extends Game {
 
     @Override
     public void create() {
-         VisUI.load(SkinScale.X1)
-         try {
-             setScreen(new ApplicationMenuScreen())
-             CorePlatform.managed["lifeFramework"].initSubsystems()
+        def grlMessage = new GRLMessageDSL()
+        // TODO: create delegating wrapper and kotlin coerce support
+        grlMessage.dsl {
+            grlMessage.method { GRLProtocol.GRLMethod.POST }
+            // kotlin Pair is final. Need a workaround
+            grlMessage.header {  new Pair("contentType","object") }
+        }
 
-             // come up with better idea
-             ResourcePlatform >>
-                     GrlUtils.createPostNoHeadersRequest("redis://123", "456")
+        VisUI.load(SkinScale.X1)
+        try {
+            setScreen(new ApplicationMenuScreen())
+            CorePlatform.managed["lifeFramework"].initSubsystems()
 
-             def result = ResourcePlatform <<
-                     GrlUtils.createGetRequest("redis://123", [ "expected type" : "java.lang.String"] )
+            // come up with better idea
+            ResourcePlatform >>
+                    GrlUtils.createPostNoHeadersRequest("redis://123", "456")
 
-             println "Read from redis: $result"
-         } catch (Exception e) {
-              e.printStackTrace()
-         }
+            def result = ResourcePlatform <<
+                    GrlUtils.createGetRequest("redis://123", [ "expected type" : "java.lang.String"] )
+
+            println "Read from redis: $result"
+        } catch (Exception e) {
+             e.printStackTrace()
+        }
     }
 
     @Override

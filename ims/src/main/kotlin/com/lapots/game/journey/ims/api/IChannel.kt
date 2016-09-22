@@ -1,6 +1,7 @@
 package com.lapots.game.journey.ims.api
 
 import com.lapots.game.journey.ims.domain.GRLMessage
+import com.lapots.game.journey.ims.domain.GRLProtocol
 
 /**
  * Interface for channels.
@@ -15,5 +16,5 @@ import com.lapots.game.journey.ims.domain.GRLMessage
  * dsl result is a dsl too.
  */
 interface IChannel {
-    fun processMessage(message : GRLMessage)
+    fun process(message : GRLMessage)
 }

@@ -56,15 +56,19 @@ class IMSContext {
      * The result is returned as GRLPackage or IMSException is thrown.
      */
     fun transfer(pack : GRLPackage) {
-        // transfer method can be accessed by any thread any time
-        // maybe lol
         synchronized (this, {
-            // get corresponding router
-            val router = specifyRouter(pack.grl)
-            router ?: throw IMSException("Cannot transfer dsl due to missing route processor!")
-            // process package
-            router.process(pack)
+            util_transfer(pack)
         })
+    }
+
+    /**
+     * Not synchronized version of transfer method.
+     */
+    fun util_transfer(pack: GRLPackage) {
+        val router = specifyRouter(pack.grl)
+        router ?: throw IMSException("Cannot transfer dsl due to missing route processor!")
+        // process package
+        router.process(pack)
     }
 
     fun stopContext(clean : Boolean) {

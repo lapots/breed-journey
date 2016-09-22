@@ -41,7 +41,7 @@ class IMSPlatform {
         fun transfer(message: GRLMessage) {
             synchronized(this, {
                 GRLProtocol.checkHeaderConsistency(message.headerMap.keys.toList())
-                IMSContext.instance.transfer(GRLProtocol.pack(message))
+                IMSContext.instance.util_transfer(GRLProtocol.pack(message))
             })
         }
 

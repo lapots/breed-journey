@@ -17,11 +17,12 @@ class StringMultipart(val content: String) : IGRLMultipart {
 }
 
 class ExampleChannel : IChannel {
-    override fun processMessage(message: GRLMessage) {
-        // replace with some external storage
+
+    override fun process(message: GRLMessage) {
         val imsObject = IMSContext.instance.retrieveObject(message.headerMap["receiver"])
         imsObject.objectMessageQueue.offer(message) // put it to IMS object queue
     }
+
 }
 
 class ExampleRouter(val routes: MutableMap<String, String>) : IRouter {
@@ -30,7 +31,7 @@ class ExampleRouter(val routes: MutableMap<String, String>) : IRouter {
     override fun process(pack : GRLPackage) {
         val msg = pack.message
         val channel = channels[msg.methodType]
-        channel!!.processMessage(msg)
+        channel?.process(msg)
     }
 
     override fun getRoutes() : List<String> {
@@ -53,7 +54,10 @@ class ExampleRouter(val routes: MutableMap<String, String>) : IRouter {
     }
 }
 
-class ExampleObject(val name: String) : IIMSProducer, IIMSConsumer {
+class BasicObject(val name : String) {}
+
+class ExampleObject(val toWrap : BasicObject) : AbstractIdentifiable<BasicObject>() {
+    override val obj = toWrap
     override var imsId = ""
     var goalId = "" // annoying
 
@@ -98,7 +102,8 @@ fun main(args: Array<String>) {
     var id  = ""
     var indecies = mutableListOf<String>()
     while (index < objects) {
-        val obj = ExampleObject("obj")
+        val input = BasicObject("obj")
+        val obj = ExampleObject(input)
         val idN = IMSPlatform.registerObject(obj)
         if (id.isNotEmpty()) {
             obj.goalId = id

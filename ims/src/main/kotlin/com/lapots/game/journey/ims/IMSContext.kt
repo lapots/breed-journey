@@ -37,10 +37,9 @@ class IMSContext {
     /**
      * Registers IMS object in IMS context.
      */
-    fun registerObject(obj : IMSObject) : String {
-        val id = UUID.randomUUID().toString()
-        imsObjects[id] = obj
-        return id
+    fun registerObject(obj : IMSObject) {
+        // lol
+        imsObjects[obj.obj.imsId] = obj
     }
 
     /**
@@ -66,6 +65,13 @@ class IMSContext {
             // process package
             router.process(pack)
         })
+    }
+
+    fun stopContext(clean : Boolean) {
+        imsObjects.forEach { it.value.stopProcessing() }
+        if (clean) {
+            imsObjects.clear()
+        }
     }
 
     /**

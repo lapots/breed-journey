@@ -4,7 +4,7 @@ package com.lapots.game.journey.ims.example
 
 import com.lapots.game.journey.ims.IMSContext
 import com.lapots.game.journey.ims.IMSException
-import com.lapots.game.journey.ims.IMSGate
+import com.lapots.game.journey.ims.IMSPlatform
 import com.lapots.game.journey.ims.api.*
 import com.lapots.game.journey.ims.domain.*
 import com.lapots.game.journey.ims.domain.dsl.GRLMessageDSL
@@ -70,75 +70,43 @@ class ExampleObject(val name: String) : IIMSProducer, IIMSConsumer {
 
     override fun consume(message: GRLMessage) {
         // resolve issue with duplicating but I think it something with blocking queue
-        println("I $imsId ate the dsl!")
+        println("I $imsId ate the message!")
         var sender = message.headerMap["sender"]
         if (sender != null) { // add check on higher levels
             goalId = sender
         } else {
             throw IMSException("Anonymous messenger")
         }
-        println("Received dsl: ${message.multipartObject?.getContent().toString() }")
+        println("Received message: ${message.multipartObject?.getContent().toString() }")
     }
 }
 
 fun main(args: Array<String>) {
-    val imsCoreObjectRegistry =
-            mutableMapOf<String, String>("imsId" to "objectId", "object" to "imsID")
-
     // create basic object
     val obj1 = ExampleObject("Object 1")
     val obj2 = ExampleObject("Object 2")
 
-    // create IMS objects
-    val imsContext = IMSContext.instance
-    val imsObj1 = IMSObject(ExampleObject("Object 1"))
-    val imsObj2 = IMSObject(ExampleObject("Object 2"))
+    val obj1Id = IMSPlatform.registerObject(obj1)
+    val obj2Id = IMSPlatform.registerObject(obj2)
 
     // register channel
     val router = ExampleRouter(mutableMapOf("ui:component" to "ui:component")) // weird
     val channel = ExampleChannel()
     router.registerChannel(GRLProtocol.GRLMethod.POST, channel)
 
-    // register router with channels
-    IMSContext.instance.registerRouter(router)
+    IMSPlatform.registerRouter(router)
 
-    // register objects
-    val obj1Id = imsContext.registerObject(imsObj1)
     obj1.imsId = obj1Id
-    val obj2Id = imsContext.registerObject(imsObj2)
     obj2.imsId = obj2Id
 
     obj1.goalId = obj2Id // well it should know some id anyway
 
-    // simulation of main application loop
-
-    /**
-     *
-     * def obj = new CoreObject()
-     * ImsPlatform.registerObject(obj)
-     *      val imsObject = ImsContext.instance.registerObject(obj)
-     *          def imsId = UUID.randomUUID().toString()
-     *          ImsContext.imsObjectMap << [obj.id : imsId]
-     *          IMSObject.newObject(obj, imsId)
-     *      imsObject.start()
-     * ImsPlatform.registerRouter(router)
-     *      ImsContext.instance.
-     * ImsPlatform.registerChannel(routerId, channel)
-     * ImsPlatform.transfer(message)
-     *      ImsContext.instance.transfer(GRLProtocol.pack(message))
-     *
-     */
-
-
-    imsObj1.start()
-    imsObj2.start()
     var limit = 5
     while (limit != 0) {
         // warp is cool
-        IMSGate.warp(obj1.produce())
+        IMSPlatform.transfer(obj1.produce())
         Thread.sleep(10000)
         --limit
     }
-    imsObj1.stopProcessing()
-    imsObj2.stopProcessing()
+    IMSPlatform.stopPlatform(false)
 }

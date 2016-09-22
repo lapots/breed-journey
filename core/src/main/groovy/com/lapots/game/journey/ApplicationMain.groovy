@@ -14,14 +14,22 @@ import kotlin.Pair;
 
 class ApplicationMain extends Game {
 
+    {
+        // move to external module
+        Map.metaClass.bitwiseNegate = {
+            def entry0 = delegate.entrySet()[0]
+            new kotlin.Pair(entry0.key, entry0.value)
+        }
+    }
+
     @Override
     public void create() {
         def grlMessage = new GRLMessageDSL()
         // TODO: create delegating wrapper and kotlin coerce support
         grlMessage.dsl {
             grlMessage.method { GRLProtocol.GRLMethod.POST }
-            // kotlin Pair is final. Need a workaround
-            grlMessage.header {  new Pair("contentType","object") }
+            // cannot cast to final class Pair so this is the workaround
+            grlMessage.header {  ~["contentType" : "object"] }
         }
 
         VisUI.load(SkinScale.X1)

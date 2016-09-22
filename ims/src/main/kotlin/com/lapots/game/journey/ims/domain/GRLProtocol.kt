@@ -2,6 +2,7 @@ package com.lapots.game.journey.ims.domain
 
 import com.lapots.game.journey.ims.GRLException
 import com.lapots.game.journey.ims.IMSException
+import com.lapots.game.journey.ims.api.IIMSConsumer
 
 class GRLProtocol {
     enum class GRLMethod {
@@ -24,6 +25,16 @@ class GRLProtocol {
         fun checkHeaderConsistency(messageHeaders : List<String>) {
             if (!messageHeaders.containsAll(supportedHeaders.filterValues { it == true }.keys)) {
                 throw GRLException("Missing required headers!")
+            }
+        }
+
+        /**
+         * Verifies whether receiver of the message is the same as expected.
+         */
+        fun checkMessageConsistency(message: GRLMessage, receiver: IIMSConsumer) {
+            val receiverId = message.headerMap["receiver"]
+            if (receiverId != receiver.imsId) {
+                throw IMSException("Inconsistent message! Incorrect receiver!")
             }
         }
 

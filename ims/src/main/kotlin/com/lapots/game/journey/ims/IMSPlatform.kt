@@ -2,6 +2,7 @@ package com.lapots.game.journey.ims
 
 import com.lapots.game.journey.ims.api.IChannel
 import com.lapots.game.journey.ims.api.IIMSIdentifiable
+import com.lapots.game.journey.ims.api.IIMSProducer
 import com.lapots.game.journey.ims.api.IRouter
 import com.lapots.game.journey.ims.domain.GRLMessage
 import com.lapots.game.journey.ims.domain.GRLProtocol
@@ -42,6 +43,15 @@ class IMSPlatform {
                 GRLProtocol.checkHeaderConsistency(message.headerMap.keys.toList())
                 IMSContext.instance.transfer(GRLProtocol.pack(message))
             })
+        }
+
+        fun util_produce(producerId : String, consumerId: String) : GRLMessage {
+            val imsObject = IMSContext.instance.imsObjects[producerId]?.obj
+            if (imsObject is IIMSProducer) {
+                val cast = imsObject as IIMSProducer
+                return cast.util_produce(consumerId)
+            }
+            return GRLMessage()
         }
 
         fun stopPlatform(clean : Boolean) {

@@ -12,7 +12,7 @@ import java.util.*
  */
 class IMSContext {
     private val routes = mutableMapOf<String, IRouter>()
-    private val imsObjects = mutableMapOf<String, IMSObject>()
+    val imsObjects = mutableMapOf<String, IMSObject>()
 
     private object IMSContextHolder {
         val instance = IMSContext()

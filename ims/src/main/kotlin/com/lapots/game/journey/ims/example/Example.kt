@@ -8,6 +8,7 @@ import com.lapots.game.journey.ims.IMSPlatform
 import com.lapots.game.journey.ims.api.*
 import com.lapots.game.journey.ims.domain.*
 import com.lapots.game.journey.ims.domain.dsl.GRLMessageDSL
+import java.util.*
 
 class StringMultipart(val content: String) : IGRLMultipart {
     override fun getContent(): Any {
@@ -68,8 +69,13 @@ class ExampleObject(val name: String) : IIMSProducer, IIMSConsumer {
         }
     }
 
+    override fun util_produce(destination: String): GRLMessage {
+        goalId = destination
+        return produce()
+    }
+
     override fun consume(message: GRLMessage) {
-        // resolve issue with duplicating but I think it something with blocking queue
+        GRLProtocol.checkMessageConsistency(message, this)
         println("I $imsId ate the message!")
         var sender = message.headerMap["sender"]
         if (sender != null) { // add check on higher levels
@@ -81,32 +87,47 @@ class ExampleObject(val name: String) : IIMSProducer, IIMSConsumer {
     }
 }
 
+fun List<String>.randomFromList() : String {
+    return this[Random().nextInt(this.size)]
+}
+
 fun main(args: Array<String>) {
     // create basic object
-    val obj1 = ExampleObject("Object 1")
-    val obj2 = ExampleObject("Object 2")
-
-    val obj1Id = IMSPlatform.registerObject(obj1)
-    val obj2Id = IMSPlatform.registerObject(obj2)
+    val objects = 10
+    var index = 0
+    var id  = ""
+    var indecies = mutableListOf<String>()
+    while (index < objects) {
+        val obj = ExampleObject("obj")
+        val idN = IMSPlatform.registerObject(obj)
+        if (id.isNotEmpty()) {
+            obj.goalId = id
+        }
+        id = idN
+        index++
+        indecies.add(idN)
+    }
 
     // register channel
     val router = ExampleRouter(mutableMapOf("ui:component" to "ui:component")) // weird
     val channel = ExampleChannel()
     router.registerChannel(GRLProtocol.GRLMethod.POST, channel)
 
+    // objects on the same route
     IMSPlatform.registerRouter(router)
 
-    obj1.imsId = obj1Id
-    obj2.imsId = obj2Id
-
-    obj1.goalId = obj2Id // well it should know some id anyway
-
-    var limit = 5
-    while (limit != 0) {
-        // warp is cool
-        IMSPlatform.transfer(obj1.produce())
-        Thread.sleep(10000)
-        --limit
+    // imitation hard work
+    val initialTime = System.currentTimeMillis()
+    var currentTime = System.currentTimeMillis()
+    while ((currentTime - initialTime) < 10000) {
+        currentTime = System.currentTimeMillis()
+        val producerId = indecies.randomFromList()
+        val consumerId = indecies.randomFromList()
+        if (producerId != consumerId) {
+            IMSPlatform.transfer(IMSPlatform.util_produce(producerId, consumerId))
+        }
+        Thread.sleep(100)
     }
-    IMSPlatform.stopPlatform(false)
+
+    IMSPlatform.stopPlatform(true)
 }

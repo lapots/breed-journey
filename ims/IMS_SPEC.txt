@@ -96,6 +96,6 @@ API
     5. transfer objects from AbstractIndentifiable object implemenation using IMSPlatform.transfer
 =============================================================================================== v1.0 end
 v1.5 expectations
-    - persistence
+    -   persistence
 v2.0 expectations
     -   annotations @IMSObject

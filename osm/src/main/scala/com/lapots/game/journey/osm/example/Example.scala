@@ -1,8 +1,6 @@
 package com.lapots.game.journey.osm.example
 
-import java.util.UUID
-
-import com.lapots.game.journey.osm.OSMContext
+import com.lapots.game.journey.osm.OSMPlatform
 import com.lapots.game.journey.osm.api.AbstractStatefulObject
 import com.lapots.game.journey.osm.domain.{State, Transition}
 
@@ -24,11 +22,13 @@ object Example {
 
   def main(args: Array[String]): Unit = {
     val obj = new BasicObject
+    // want some dynamic solution by it is not possible
+    // as I need to implement custom state change mechanism.
     val statefulObject = new BasicStateful()
     statefulObject.obj = obj
 
     // now we can control the state of object from OMSContext instead of manually
     // ideally I think I can hide this using AnyRef and dynamic object creation
-    OSMContext.registerObject(statefulObject, UUID.randomUUID().toString)
+    OSMPlatform.registerObject(statefulObject)
   }
 }

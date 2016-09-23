@@ -16,4 +16,8 @@ object OSMContext {
   def changeState(id: String): Unit = {
     map(id).nextState()
   }
+
+  def retrieveObject(id: String): IStateful = {
+    map(id)
+  }
 }

@@ -14,7 +14,10 @@ class GRLProtocol {
             "destination" to true,
             "sender" to true,
             "receiver" to true,
-            "contentType" to false
+            "contentType" to false,
+            "sendTime" to false,
+            "receiveTime" to false,
+            "brokerTime" to false
         )
 
         val ROUTE_SEPARATOR = ":"

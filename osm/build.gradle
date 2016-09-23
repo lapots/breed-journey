@@ -1,4 +1,8 @@
 
+ScalaCompileOptions.metaClass.daemonServer = true
+ScalaCompileOptions.metaClass.fork = true
+ScalaCompileOptions.metaClass.useAnt = false
+ScalaCompileOptions.metaClass.useCompileDaemon = false
 
 task runExample(type: JavaExec) {
     main = 'com.lapots.game.journey.osm.example.Example'

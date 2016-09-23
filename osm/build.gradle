@@ -1,0 +1,6 @@
+
+
+task runExample(type: JavaExec) {
+    main = 'com.lapots.game.journey.osm.example.Example'
+    classpath = sourceSets.main.runtimeClasspath
+}

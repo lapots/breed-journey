@@ -1,23 +1,29 @@
 package com.lapots.game.journey.osm
 
 import com.lapots.game.journey.osm.api.IStateful
+import com.lapots.game.journey.osm.domain.Transition
 
 /**
   * Main context for Object State Machine.
   * It is a singleton.
   */
 object OSMContext {
-  var map : Map[String, IStateful] = Map()
+  // stores state machines for objects
+  var objectRegistry : Map[String, IStateful] = Map()
 
   def registerObject(iStateful: IStateful, id: String): Unit = {
-    map += id.-> { iStateful }
+    objectRegistry += id.-> { iStateful }
   }
 
   def changeState(id: String): Unit = {
-    map(id).nextState()
+    objectRegistry(id).nextState()
+  }
+
+  def manualChangeState(id: String, transition: Transition): Unit = {
+    objectRegistry(id).nextState(transition)
   }
 
   def retrieveObject(id: String): IStateful = {
-    map(id)
+    objectRegistry(id)
   }
 }

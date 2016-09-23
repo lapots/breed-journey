@@ -87,8 +87,9 @@ constant parameter. And we only need to change weather state with some primitive
 However we may want to let seasons somehow affect each other, which leads to more
 complex transition...
 ================================================================ v 1.0
-v2.0 expectations
+v1.5 expectations
     -   ability to generate and read [state transition table]
-
+v2.0 expectations
+    -   custom rule engine
 
 

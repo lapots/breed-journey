@@ -22,6 +22,9 @@ trait IStateful {
     * Allows to set state for the object
     * by applying transition function.
     *
+    * General use for specific transition changes.
+    * It affects consistency  however does not affect index
+    * so basically using this function we can manually change object state.
     * @param func transition function
     */
   def nextState(func : Transition)

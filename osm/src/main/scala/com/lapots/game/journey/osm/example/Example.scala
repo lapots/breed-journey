@@ -1,6 +1,5 @@
 package com.lapots.game.journey.osm.example
 
-import com.lapots.game.journey.ims.domain.dsl.GRLMessageDSL
 import com.lapots.game.journey.osm.OSMPlatform
 import com.lapots.game.journey.osm.api.AbstractStatefulObject
 import com.lapots.game.journey.osm.domain.{State, Transition}
@@ -9,10 +8,16 @@ import com.lapots.game.journey.osm.domain.{State, Transition}
 object Example {
 
   // represent any object from any system
-  class BasicObject {}
+  class BasicObject {
+    var fieldA : String = _
+    var fieldB : Int = _
+  }
 
   class BasicStateful extends AbstractStatefulObject[BasicObject] {
     override var obj: BasicObject = _
+    override var states: Array[State] = _
+    // I want to populate it somehow
+    override var transitionFunctions: Array[Transition] = _
 
     override def getState(): State = ???
 
@@ -21,6 +26,7 @@ object Example {
     override def nextState(func: Transition): Unit = ???
   }
 
+  class BasicTransition
   def main(args: Array[String]): Unit = {
     val obj = new BasicObject
     // want some dynamic solution by it is not possible
@@ -28,15 +34,9 @@ object Example {
     val statefulObject = new BasicStateful()
     statefulObject.obj = obj
 
-    // need some DSL like solution as it does not work that way
-    var message = new GRLMessageDSL
-    message = message.dsl (
-      message.headers(
-        message.header = new kotlin.Pair("key", "value")
-      )
-    )
     // now we can control the state of object from OMSContext instead of manually
     // ideally I think I can hide this using AnyRef and dynamic object creation
+    // maybe even through [implicit]. Who knows.
     OSMPlatform.registerObject(statefulObject)
   }
 }

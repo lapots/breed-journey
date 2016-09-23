@@ -1,94 +1,75 @@
 IMS - internal messaging system (v1.0)
 
-    The basic idea behind IMS is that provide an ability
-for application object to communicate with each other
+    The basic idea behind IMS is to provide an ability
+for application objects to communicate with each other
 using messages, instead of direct method calls. 
 
 The pros are
-    -   that it becomes unified - accessing the fields,
-        setting data and etc.
-    -   higher flexibility as we can separate invocation into
-        synchronous and asynchronous out of box
-    -   ability to separate objects into groups with different
-        addresses, combining groups and etc.
+    -   unification - accessing the fields, setting data and etc. is all the same
+    -   higher flexibility as we are not bound to object expectations regarding result
+    -   ability to separate objects into groups with different addresses, combining
+        groups and etc.
 The cons are
     -   performance drop, due to additional actions
 
-It can be achieved by providing special URL to every object.
-There it is called GRL - global resource locator. GRL is an address
-in format a:b:c, where every element corresponds to the router. 
-Example
+    In order to send and receive message object should be identifiable in IMS. That can
+be achieved by providing special URL to every object. There it is called GRL - global
+resource locator. GRL is an address in format a:b:c, where every element corresponds
+to the router. Example
 
     core:managed:componentStorage
 
-    When object support IMS it means that he can send and receive
-GRL messages - special objects, that contain information regarding
-sender, receive, object etc. It has the type GRLMessage.
+Messages in IMS are called GRL messages - they are special objects with GRLMessage type.
+Its structure looks like this
 
-GRL dsl has structure like [method:headers:mutlipart]
+    method:headers:multipart
+
+Where
 
     method      -   type of method: POST, PUT, GET. Has type of GRLMethod.
     headers     -   map of headers. For example ["contentType" : "object"]
-                    Required headers:
-                        -   destination
-                        -   identifier
-                        -   sender
                     Supported headers:
-                        -   destination
-                        -   identifier
-                        -   sender
-                        -   contentType
+                          header  ================  required
+                             destination   |      true
+                             sender        |      true
+                             receiver      |      true
+                             contentType   |      false
+                             sendTime      |      false
+                             receiveTime   |      false
+                             brokerTime    |      false
+                          ===================================
     multipart   -   object content. Can be any type - JSON, binary etc. Should
                     implement IGRLMultipart interface.
 
-    Messages consumed and produced by objects. In order to send dsl one need to provide
-dsl itself and also GRL. In order to combine it, IMS operates with special packages.
-Package has GRL and GRLMessage. In IMS it has GRLPackage type.
+    Messages consumed and produced by objects. IMS itself operates with special packages.
+Package consists of GRL and GRLMessage. In IMS it has GRLPackage type. When object send message
+IMS wraps it into GRLPackage. Additionally IMS checks that message has all the required headers.
 
-    Sending messages is not happen directly. Before dsl reach its destination it should pass routers.
-Router is a special object - instance of interface IRouter - and responsible for delegating dsl
+    Sending messages is not happen directly. Before message reach its destination it should pass routers.
+Router is a special object - instance of interface IRouter - and responsible for delegating message
 to channels and destinations.
-    They keep channels - object that can consume dsl with certain GRL methods. Basically there are three
-types of channels POST, PUT, GET - corresponding to GRLMethod.
-Channels should implement IChannel interface.
+
+    Routers keep channels - objects that can consume dsl with certain GRL methods. Basically there are
+three types of channels POST, PUT, GET - corresponding to GRLMethod. Channels should implement IChannel interface.
+
+    Upon receiving object, consumer should verify message consistency - whether it arrived to the proper object.
 ============================================================================================
-    The main entry point for IMS is a IMSContext - it keeps all IMS routers and provides
-facilities to send packages using them.
+    IMS provides special object - IMSPlatform - which is a wrapper of core object of IMS - IMSContext - and used
+for providing access to facilities for external systems. It allows to register consumers & producers, routers,
+transfer messages and stop the application.
 
-    By default IMSContext is empty. In order to use it, there is a need to provide routes.
-When user want to add a new route - say channel and router processor,
-he should register it in IMS using 
-
-    IMSContext.registerRouter(route, router)
-
-Route is a path. Router is an implementation of IRouter interface.
-
-If user want to register new channel for the router he should add it to IMS
-
-    Router.registerChannel(name, channel)
-
-    Name is a channel label. Channel is an implementation of IChannel interface.
-In order to send package using IMS and receive result one should use
-
-    IMSContext.transfer(package)
-
-    In order to send and receive package in IMS system, object should implement interfaces IIMSConsumer
-and IIMSProducer. All consumers are asynchronous. The reason behind it is that waiting for the dsl
-when it might not even arrive synchronously is wasting. But producers can be either synchronous or
-asynchronous. Synchronous producer sends GRL dsl and waits for response. Asynchronous producer sends
-the dsl and continue its work further. The response will arrive when it's done.
-    Also IMSContext does not operate directly with raw objects - as they can be any type that is ineffective.
-In order to use object in IMS user need to wrap it into IMSObject, which extends thread, supply blocking queue
-and leverage dsl consuming.
-    IMSObject has its unique identifier in IMS system. However the object, that is wrapped by IMSObject, has
-its own id and it may be used anywhere.
-    When the dsl is sent, IMS pass it through routers and channels and put into IMSObject blocking queue.
-This queue is processed in a thread and wrapped object consumes the dsl and produce response. Everything
-is in background of course.
+    IMSContext contains all registered objects and routes in IMS. It can be responsible for object transferring too,
+as it has synchronized method for transfer. IMSPlatform synchronize threads itself and uses not synchronized
+IMSContext transfer.
 ==============================================================================================
-In case of errors, IMS throws IMSException with different messages, depending on the case.
+Depending on the case IMS might throw two types of exceptions
+    -   IMSException
+            IMS throws that exception if there are issues with IMS operations
+    -   GRLException
+            IMS throws that exception if there are issues with GRL messages
 ===============================================================================================
 API
+    AbstractIdentifiable
     IChannel
     IEmptyObject
     IGRLMultipart
@@ -96,20 +77,23 @@ API
     IIMSIdentifiable
     IIMSProducer
     IRouter
+    GRLMessageDSL
     GRLMessage
     GRLMethod
     GRLPackage
     IMSObject
     IMSContext
+    GRLException
     IMSException
-==============================================================================================
-Currently I am aiming for synchronous producer and asynchronous consumer.
-=====
-FLOW
-    1. Make object implement IIMSConsumer or/and IIMSProducer interfaces. !!! preferably both
-    2. Create instance of IMSObject.
-    3. Register object in IMSContext and retrieve unique IMS identifier !!!NEW
-    4. Send GRLMessages and consume messages asynchronously. !!! somehow leverage with IMSObject
+    IMSContext
+    IMSPlatform
+================================================================================================
+>> FLOW >>
+    1. create wrapper for domain object by implementing AbstractIdentifiable<T> class
+    2. register object in IMS using IMSPlatform.registerObject(wrapper)
+    3. create IRouter implementation and register IChannel implementations for it
+    4. register router in IMS using IMSPlatform.registerRouter(router)
+    5. transfer objects from AbstractIndentifiable object implemenation using IMSPlatform.transfer
 =============================================================================================== v1.0 end
 v1.5 expectations
     - persistence

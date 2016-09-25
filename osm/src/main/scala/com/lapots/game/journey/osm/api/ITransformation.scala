@@ -7,7 +7,7 @@ package com.lapots.game.journey.osm.api
   * different arguments. Maybe when I decide to implement rule engine
   * I'll go for some better approach.
   */
-trait Transformation[T] {
+trait ITransformation[T] {
   /**
     * Performs transformation action over an object.
     *

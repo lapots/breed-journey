@@ -1,31 +1,27 @@
 package com.lapots.game.journey.osm.api
 
-import com.lapots.game.journey.osm.domain.{State, Transition}
+import com.lapots.game.journey.osm.domain.{ObjectState, Transition}
 
 /**
   * Interface for objects that support states.
   */
-trait IStateful {
+trait IStateful extends IOSMContainer {
   /**
-    * Allows to retrieve object state.
-    *
-    * @return object state
+    * Returns current object state.
+    * @return instance of state
     */
-  def getState() : State
+  def getState() : ObjectState
 
   /**
-    * Sets next state for the object.
+    * Switch object to next state.
+    * @return instance of state
     */
-  def nextState()
+  def nextState() : ObjectState
 
   /**
-    * Allows to set state for the object
-    * by applying transition function.
-    *
-    * General use for specific transition changes.
-    * It affects consistency  however does not affect index
-    * so basically using this function we can manually change object state.
-    * @param func transition function
+    * Returns to previous state.
+    * Currently unsupported.
+    * @return instance of state
     */
-  def nextState(func : Transition)
+  def previousState() : ObjectState = ???
 }

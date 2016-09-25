@@ -32,12 +32,7 @@ object OSMPlatform {
     OSMContext.changeState(id)
   }
 
-  /**
-    * Changes object state manually.
-    * @param id object id
-    * @param transition transition function
-    */
-  def manualNextState(id: String, transition: Transition): Unit = {
-    OSMContext.manualChangeState(id, transition)
+  def retrieveObject(id: String) : IStateful[AnyRef] = {
+    OSMContext.retrieveObject(id)
   }
 }

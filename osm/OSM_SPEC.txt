@@ -17,9 +17,7 @@ Assuming we've got object
         def param2
     }
 
-    Having state means that param1 has a valueA and param2 has a valueB.
-Description in StateLang (DSL basically...By I do not know enough Scala
-for to safely judge).
+    Having state means that param1 has a valueA and param2 has a valueB. For example
 
     state {
         object StatefulObject
@@ -39,8 +37,7 @@ Assuming we've got a previously mentioned state
     }
 
     Transition is an special object - conditional function - that transform
-state into another state.
-For example simple transition function in StateLang
+state into another state. For example
 
     transition {
         param1  valueC
@@ -61,31 +58,87 @@ So what will happen if we apply that transition to state?
 
     As transition did not have any specific calculations for param1 it simply
 changes its value. But as for param2 it performed some operations the result
-became valueB - valueD = valueZ
+became valueB - valueD = valueZ. (Actually it is interesting that we can directly pass
+object instance for states due to object reference being the same everywhere as long
+as we do not allocate for it again)
 
-    Transition may happen any time. It may happen due to some timer restrictions,
-or some special condition or etc. So we need something like [state processor].
+    The number of states can be either finite or infinite. Generally and the most commonly
+used is finite state machine. Basically we can reproduce it as an array of states (though
+usually it is a graph but we can imitate it with array anyway).
 
-There is two approaches for that.
-1   ->
-    State processor has a specific [listener] that is waiting for input messages. When it
-receives a dsl it then delegate it to corresponding [object state controller].
-That controller then applies transition to the object and changes its state. That
-approach is [centralized state processor]
-2   ->
-    Every object has its own processor, that is waiting for input messages. And when
-it gets a dsl - it changes its state. This is the [decentralized state processor].
+    Array[State]
 
-    What I described is a state machine that basically not a state as it does not have finite
-amount of state. However it is wrong to assume that the states and transitions cannot
-duplicate.
+    And then we change states by moving current state index in the array either forward or backward.
+As we know all the states there is no need to make transition functions. Example of finite state
+machine might the seasons. Winter, Spring, Summer, Autumn - we can switch weather state and its
+parameter. With simple approach - when we set the values of seasons (like temperature, humidity)
+we may not create transition functions. For example
 
-    But there exist objects with finite number of states. For example weather and seasons.
-Winter, spring, summer, autumn - 4 states. Every of its state has a specific - basically
-constant parameter. And we only need to change weather state with some primitive transition.
+    SpringState {
+        temperature 15
+        humidity 60
+    }
 
-However we may want to let seasons somehow affect each other, which leads to more
-complex transition...
+    However sometimes we might want more complex weather transitions - then we can change state to
+for example Spring and additionally apply transition function. That is the most complex approach.
+
+    Sometimes we might not know states but know only transition functions. That way we can reproduce
+for example weather changes on daily basis. We know that every day is slightly warmer that previous
+so we can apply transition function to increase corresponding values until we reach milestone where
+we have to switch weather season. Again all that transitions we can represent as array
+
+    Array[Transition]
+
+Unlike [state] approach, we can't simple rollback to previous state - we have to revert our transition
+which is more difficult then just switch state because we might have transition as a complex function.
+So we should support transition rollback separately. In simple cases it will be easier. For example
+
+    ToSpringTransition {            =>          RevertToSpringTransition {
+        temperature (prev + 0.1)                      temperature (current -0.1)
+        humidity    (prev / 2 + 1)                    humidity ((curr - 1) * 2)
+    }                                           }
+
+Unlike states we have to calculate expressions.
+===============================================================
+    OSM provides object - OSMPlatform - that allows to register objects in OSM and manipulate
+its state. Every object in OSM should be registered.
+    Upon the register OSM generate identifier for OSM object based on UUID. Knowing that
+id is essential as it is the only way to operate stateful object.
+
+    OSM uses special object - OSMContext - which the core of OSM system. It stores all
+objects registered in OSM and provide an ability to register objects, retrieve objects
+and change its state using object identifier.
+
+    OSM cannot operate directly with any object. The reason behind it is that objects might
+have any possible structure with unlimited amount of fields etc.
+    So in order to register object in OSM one need to extend AbstractStatefulObject and
+provide object type for it. Also user needs to create object states - instances of State -
+object and transition functions - instances of Transition.
+
+    State contains OSM object identifier and map of its field values. Transition keeps
+special rules - transformations - for object field. Every field of object State is mapped
+to a corresponding transformation function - which is the instance of ITransformation.
+    Transformation is a special operation over an object field. Example
+
+        fieldA -> f_trans(fieldA) -> fieldB
+
+    Basically all the set of transformations makes the transition.
+===============================================================
+API
+    AbstractStatefulObject
+    IStateful
+    ITransformation
+    State
+    Transition
+    OSMContext
+    OSMPlatform
+===============================================================
+>>> FLOW >>>
+    1. create wrapper over domain object by implementing AbstractStatefulObject[T]
+    2. provide for that wrapper array of states and array of transition functions.
+    3. register object in OSM using OSMPlatform.registerObject
+    4. change object states using OSMPlatform.nextState or manualNextState, with a custom
+        transition function
 ================================================================ v 1.0
 v1.5 expectations
     -   ability to generate and read [state transition table]

@@ -1,9 +1,8 @@
 package com.lapots.game.journey.osm.example
 
 import com.lapots.game.journey.osm.OSMPlatform
-import com.lapots.game.journey.osm.api.AbstractStatefulObject
-import com.lapots.game.journey.osm.domain.{State, Transition}
-
+import com.lapots.game.journey.osm.api.{IStateful, ITransformation}
+import com.lapots.game.journey.osm.domain.{FiniteStatefulObject, ObjectState}
 
 object Example {
 
@@ -11,32 +10,56 @@ object Example {
   class BasicObject {
     var fieldA : String = _
     var fieldB : Int = _
+
+    override def toString: String = {
+      "Basic object: $fieldA : $fieldB"
+    }
   }
 
-  class BasicStateful extends AbstractStatefulObject[BasicObject] {
-    override var obj: BasicObject = _
-    override var states: Array[State] = _
-    // I want to populate it somehow
-    override var transitionFunctions: Array[Transition] = _
+  class FieldBTransformation extends ITransformation[Int] {
 
-    override def getState(): State = ???
+    override def transform(input: Int, misc: Map[String, String]): Int = {
+      input * 10
+    }
+  }
+  class FieldATransformation extends ITransformation[String] {
 
-    override def nextState(): Unit = ???
-
-    override def nextState(func: Transition): Unit = ???
+    override def transform(input: String, misc: Map[String, String]): String = {
+      // ignoring misc for now
+      input + "_transformed"
+    }
   }
 
-  class BasicTransition
   def main(args: Array[String]): Unit = {
     val obj = new BasicObject
-    // want some dynamic solution by it is not possible
-    // as I need to implement custom state change mechanism.
-    val statefulObject = new BasicStateful()
-    statefulObject.obj = obj
+    obj.fieldA = "field"
+    obj.fieldB = 10
+    // OSM basic flow for FS object
+    // 1. create instance of wrapper
+    val osmObject = new FiniteStatefulObject[BasicObject]
+    osmObject.init(obj, List("fieldA", "fieldB"))
 
-    // now we can control the state of object from OMSContext instead of manually
-    // ideally I think I can hide this using AnyRef and dynamic object creation
-    // maybe even through [implicit]. Who knows.
-    OSMPlatform.registerObject(statefulObject)
+    // 2. create states
+    val state1 = new ObjectState
+    state1.objectParameters += ("fieldA" -> "state1field")
+    state1.objectParameters += ("fieldB" -> 14)
+    val state2 = new ObjectState
+    state2.objectParameters += ("fieldA" -> "state2field")
+    state2.objectParameters += ("fieldB" -> 20)
+
+    // 3. register states
+    osmObject.registerState(state1)
+    osmObject.registerState(state2)
+
+    // 4. register object in OSM
+    val objId = OSMPlatform.registerObject(osmObject)
+    // 5. read, update object
+    // current state
+    println(osmObject.currentState)
+    println(obj)
+    // switch state -> basically we can do it through the object
+    // but it is better to use OSMPlatform for that
+    OSMPlatform.nextState(objId)
+    println(osmObject.currentState)
   }
 }

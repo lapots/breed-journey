@@ -1,35 +1,28 @@
 package com.lapots.game.journey.osm.domain
 
-import com.lapots.game.journey.osm.OSMContext
-import com.lapots.game.journey.osm.api.{AbstractStatefulObject, ITransformation}
+import com.lapots.game.journey.osm.api.ITransformation
+import com.lapots.game.journey.osm.exception.OSMException
 
 /**
-  * Special entity that represent transition function.
-  *
-  * Basically transition represents all the transformations
-  * for all the object fields.
-  *
-  * One transition represent one transition function with one
-  * transformation for corresponding fields.
+  * Represent transition function which a number of transformations.
   */
 class Transition {
-  // map that stores transformation rules
-  // potentially may use rule engine
-  var transformRules : Map[String, ITransformation[AnyRef]] = Map()
+  // map of transformation over the object fields.
+  var transformations : Map[String, ITransformation] = Map()
 
-  def registerTransformation[T](field : String, transformation : ITransformation[T]): Unit = {
-    transformRules += (field -> transformation)
+  def registerTransformation(field: String, transformation: ITransformation): Unit = {
+    if (transformations.exists(_._1 == field)) { throw OSMException("Transformation for that field is already registered!") }
+    transformations += (field -> transformation)
   }
 
-  object Action {
-    def applyTransition(transition: Transition, objId: String): Unit = {
-      val storedObject = OSMContext.retrieveObject(objId).getContent()
-      storedObject.getClass.getFields.foreach(field =>
-        if (transition.transformRules(field.getName) != null) {
-          // investigate usage of in-class [transformRules]
-          field.set(storedObject, transition.transformRules(field.getName))
-        }
-      )
+  object Apply {
+    def applyTransformations(transition: Transition, state: ObjectState): Unit = {
+      val oldState = state // suspicious
+      transition.transformations foreach {
+        case (key, value) =>
+          state.stateMap += (key ->  value.transform(state.stateMap(key), Map()))
+      }
+      state.Mirror.outMirrorObjectState(state)
     }
   }
 }

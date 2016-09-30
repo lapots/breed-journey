@@ -1,30 +1,50 @@
 package com.lapots.game.journey.osm.domain
 
-import com.lapots.game.journey.osm.OSMContext
-
 /**
-  * Special entity that represent object state in SM.
-  *
-  * Due to architecture I think I can get rid of that object though.
+  * Represent object state.
   */
 class ObjectState {
-  var id : String = _
-  // map (retrieved via reflection I presume) of object fields and its values
-  // should mirror real object for id
-  var objectParameters : Map[String, AnyRef] = Map()
+  // object reference
+  var objRef : AnyRef = _
+  // map that mirrors current object state
+  var stateMap : Map[String, Any] = _
 
   override def toString: String = {
-    "Object id: $id ; Object status: $objectParameters"
+    var initialString = ""
+    stateMap foreach {
+      case (key, value) =>
+        initialString += s"${key} -> ${value}\n"
+    }
+    initialString
   }
 
-  object Action {
-    def applyState(state: ObjectState, objId: String): Unit = {
-      val storedObject = OSMContext.retrieveObject(objId).getContent()
-      storedObject.getClass.getFields.foreach(field =>
-        if (state.objectParameters(field.getName) != null) {
-          field.set(storedObject, state.objectParameters(field.getName))
-        }
-      )
+  def registerFields(fields: List[String], objectInstance: AnyRef): Unit = {
+    // just register
+    objRef = objectInstance
+    stateMap = fields.map(field => field -> null)(collection.breakOut)
+    Mirror.inMirrorObjectState(this)
+  }
+
+  object Mirror {
+    // basically populate object state
+    def inMirrorObjectState(state: ObjectState): Unit = {
+      val objectInstance = state.objRef
+      stateMap.keySet foreach { key =>
+        val field = objectInstance.getClass.getDeclaredField(key)
+        field setAccessible true
+        stateMap += (key -> field.get(objectInstance))
+      }
+    }
+
+    // set object field values for registered fields
+    def outMirrorObjectState(state: ObjectState): Unit = {
+      val objectInstance = state.objRef
+      stateMap.foreach {
+        case (key, value) =>
+          val field = objectInstance.getClass.getDeclaredField(key)
+          field setAccessible true
+          field.set(objectInstance, value)
+      }
     }
   }
 }

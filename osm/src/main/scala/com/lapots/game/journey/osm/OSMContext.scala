@@ -1,24 +1,22 @@
 package com.lapots.game.journey.osm
 
-import com.lapots.game.journey.osm.api.IStateful
+import com.lapots.game.journey.osm.domain.ObjectState
+import com.lapots.game.journey.osm.exception.OSMException
 
 /**
   * Main context for Object State Machine.
   * It is a singleton.
   */
 object OSMContext {
-  // stores state machines for objects
-  var objectRegistry : Map[String, IStateful] = Map()
+  // in mutable we trust -> either var or scala.collection.mutable.Map
+  var registry : Map[String, ObjectState] = Map()
 
-  def registerObject(iStateful: IStateful, id: String): Unit = {
-    objectRegistry += (id -> iStateful)
+  def registerObject(id: String, objectStateInstance: ObjectState): Unit = {
+    if (registry.exists(_._1 == id)) { throw OSMException("Object with this ID already exist!") }
+    registry += id -> objectStateInstance
   }
 
-  def changeState(id: String): Unit = {
-    objectRegistry(id).nextState()
-  }
-
-  def retrieveObject(id: String): IStateful[AnyRef] = {
-    objectRegistry(id)
+  def retrieveObject(id: String) : ObjectState = {
+    registry(id)
   }
 }

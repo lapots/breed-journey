@@ -2,37 +2,24 @@ package com.lapots.game.journey.osm
 
 import java.util.UUID
 
-import com.lapots.game.journey.osm.api.IStateful
-import com.lapots.game.journey.osm.domain.Transition
+import com.lapots.game.journey.osm.domain.ObjectState
 
 /**
-  * Global wrapper for OSM.
+  * High level wrapper over OSMContext.
   */
 object OSMPlatform {
 
-  /**
-    * Register stateful object in OSM and generate id.
-    *
-    * @param obj stateful object
-    * @return generated id (just in case)
-    */
-  def registerObject(obj : IStateful): String = {
+  // any object - but mostly AnyRef objects I presume
+  def registerObject(objectInstance: AnyRef, fields: List[String]): String = {
     val id = UUID.randomUUID().toString
-    OSMContext.registerObject(obj, id)
+    val objState = new ObjectState
+    objState.registerFields(fields, objectInstance)
 
+    OSMContext.registerObject(id, objState)
     id
   }
 
-  /**
-    * Changes object next state according to function.
-    *
-    * @param id object id
-    */
-  def nextState(id: String): Unit = {
-    OSMContext.changeState(id)
-  }
-
-  def retrieveObject(id: String) : IStateful[AnyRef] = {
+  def retrieveObject(id: String): ObjectState = {
     OSMContext.retrieveObject(id)
   }
 }

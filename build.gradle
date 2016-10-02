@@ -58,8 +58,7 @@ project(":core") {
 
 
     dependencies {
-        compile project(":ims")
-        compile project(":osm")
+        compile project(":highlevel-framework")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
@@ -119,6 +118,17 @@ project(":osm") {
     }
 }
 
+project(":highlevel-framework") {
+    apply plugin: 'scala'
+    apply plugin: 'kotlin'
+    apply plugin: 'groovy'
+
+    dependencies {
+        compile project(":ims")
+        compile project(":osm")
+        compile "org.codehaus.groovy:groovy-all:2.4.7"
+    }
+}
 
 tasks.eclipse.doLast {
     delete ".project"

@@ -16,13 +16,13 @@ class Transition {
   }
 
   object Apply {
-    def applyTransformations(transition: Transition, state: ObjectState): Unit = {
-      val oldState = state // suspicious
+    def applyTransformations(transition: Transition, state: ObjectState): ObjectState = {
       transition.transformations foreach {
         case (key, value) =>
           state.stateMap += (key ->  value.transform(state.stateMap(key), Map()))
       }
       state.Mirror.outMirrorObjectState(state)
+      return state
     }
   }
 }

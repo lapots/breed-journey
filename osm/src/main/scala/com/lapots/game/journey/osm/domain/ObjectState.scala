@@ -25,6 +25,15 @@ class ObjectState {
     Mirror.inMirrorObjectState(this)
   }
 
+  def registerState(fieldValues: Map[String, Any]): Unit = {
+    fieldValues foreach {
+      case(key, value) =>
+        if (value != null) {
+          stateMap += (key -> value)
+        }
+    }
+  }
+
   object Mirror {
     // basically populate object state
     def inMirrorObjectState(state: ObjectState): Unit = {

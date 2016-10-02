@@ -11,13 +11,16 @@ class GObjectState {
     def objectState
 
     public GObjectState(anyObj, stateFields) {
-        def id = OSMPlatform.registerObject(anyObj, ScalaBridgeUtils.convertList(stateFields))
+        // register object and write current object state by default
+        def id = OSMPlatform.registerObject(anyObj, ScalaBridgeUtils.toScalaList(stateFields.keySet()),
+                ScalaBridgeUtils.toScalaMap(stateFields))
         objectState = OSMPlatform.retrieveObject(id)
+        // in case if we provide custom state
     }
 
     // outMirror
     def writeStateToObject() {
-        ObjectState.Mirror$.MODULE$.outMirrorObjectState(objectState)
+       StaticScalaInterop.StateMachine.writeObjectState(objectState)
     }
 
     // inMirror

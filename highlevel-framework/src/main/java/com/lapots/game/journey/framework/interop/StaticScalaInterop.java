@@ -13,5 +13,9 @@ public class StaticScalaInterop {
             // just ignore IDE error
             objState.Mirror().inMirrorObjectState(objState);
         }
+
+        public static void writeObjectState(ObjectState objState) {
+            objState.Mirror().outMirrorObjectState(objState);
+        }
     }
 }

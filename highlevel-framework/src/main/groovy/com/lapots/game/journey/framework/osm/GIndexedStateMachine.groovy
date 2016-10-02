@@ -1,5 +1,6 @@
 package com.lapots.game.journey.framework.osm
 
+import com.lapots.game.journey.framework.interop.StaticScalaInterop
 import com.lapots.game.journey.osm.domain.ObjectState
 
 /**
@@ -29,6 +30,11 @@ class GIndexedStateMachine {
         apply_state()
     }
 
+    def next_state(index) {
+        currentIndex = index
+        apply_state()
+    }
+
     def previous_state() {
         currentIndex--
         if (currentIndex < 0) {
@@ -39,8 +45,9 @@ class GIndexedStateMachine {
 
     def apply_state() {
         def state = states[currentIndex]
-        // instance of GObjectState j-i-c
-        state.writeStateToObject()
+        // update object state
+        StaticScalaInterop.StateMachine.writeObjectState(state)
         state
     }
+
 }

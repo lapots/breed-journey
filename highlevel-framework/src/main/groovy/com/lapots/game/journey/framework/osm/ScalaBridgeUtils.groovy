@@ -8,7 +8,12 @@ import com.lapots.game.journey.osm.domain.ObjectState
 class ScalaBridgeUtils {
 
     // converts Groovy list to Scala list
-    static def convertList(list) {
+    static def toScalaList(list) {
         scala.collection.JavaConverters.collectionAsScalaIterable(list).toList()
+    }
+
+    // convert Scala map to Groovy
+    static def toScalaMap(map) {
+        scala.collection.JavaConverters.mapAsScalaMap(map)
     }
 }

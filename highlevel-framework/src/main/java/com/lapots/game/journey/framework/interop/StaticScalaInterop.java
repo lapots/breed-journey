@@ -10,7 +10,8 @@ public class StaticScalaInterop {
     // Wrapper for StateMachine
     public static class StateMachine {
         public static void readObjectState(ObjectState objState) {
-            // ObjectState.Mirror$.MODULE$.inMirrorObjectState(objState);
+            // just ignore IDE error
+            objState.Mirror().inMirrorObjectState(objState);
         }
     }
 }

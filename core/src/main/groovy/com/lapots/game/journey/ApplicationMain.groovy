@@ -7,6 +7,7 @@ import com.lambdaworks.redis.RedisClient
 import com.lapots.game.journey.core.framework.life.LifeFramework
 import com.lapots.game.journey.core.platform.CorePlatform
 import com.lapots.game.journey.core.platform.ResourcePlatform
+import com.lapots.game.journey.framework.ims.GMessage
 import com.lapots.game.journey.framework.osm.GIndexedStateMachine
 import com.lapots.game.journey.framework.osm.GObjectState
 import com.lapots.game.journey.ims.domain.GRLProtocol
@@ -22,6 +23,15 @@ class ApplicationMain extends Game {
 
         String toString() {
             "field[a]=$a, field[b]=$b"
+        }
+    }
+
+    def grl_test() {
+        def msg = new GMessage()
+        msg {
+            method { GRLProtocol.GRLMethod.POST }
+            multipart { "hello world" }
+            header { ["destination": "none"] }
         }
     }
 

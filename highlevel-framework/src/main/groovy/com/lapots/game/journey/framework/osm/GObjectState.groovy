@@ -12,8 +12,9 @@ class GObjectState {
 
     public GObjectState(anyObj, stateFields) {
         // register object and write current object state by default
-        def id = OSMPlatform.registerObject(anyObj, ScalaBridgeUtils.toScalaList(stateFields.keySet()),
-                ScalaBridgeUtils.toScalaMap(stateFields))
+        scala.collection.immutable.List fields = ScalaBridgeUtils.toScalaList(stateFields.keySet())
+        scala.collection.immutable.Map fieldState = ScalaBridgeUtils.toScalaMap(stateFields)
+        def id = OSMPlatform.registerObject(anyObj, fields, fieldState)
         objectState = OSMPlatform.retrieveObject(id)
         // in case if we provide custom state
     }

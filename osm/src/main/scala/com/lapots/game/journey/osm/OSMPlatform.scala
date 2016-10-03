@@ -13,7 +13,7 @@ object OSMPlatform {
   def registerObject(objectInstance: AnyRef, fields: List[String], fieldValues: Map[String, Any]): String = {
     val id = UUID.randomUUID().toString
     val objState = new ObjectState
-    // need something better
+    
     objState.registerFields(fields, objectInstance)
     objState.registerState(fieldValues)
 

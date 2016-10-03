@@ -43,10 +43,10 @@ class GIndexedStateMachine {
         apply_state()
     }
 
-    def apply_state() {
+    private apply_state() {
         def state = states[currentIndex]
         // update object state
-        StaticScalaInterop.StateMachine.writeObjectState(state)
+        state.writeStateToObject()
         state
     }
 

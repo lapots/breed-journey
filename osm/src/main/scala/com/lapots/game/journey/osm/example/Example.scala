@@ -22,9 +22,8 @@ object Example {
     obj.fieldA = "field"
     obj.fieldB = 10
 
-    /** TODO: ADJUST
     // 1. register object in OSM and get id - might be useful
-    /val id = OSMPlatform.registerObject(obj, Map("fieldA" -> null, "fieldB" -> null))
+    val id = OSMPlatform.registerObject(obj, List("fieldA", "fieldB"), Map("fieldA" -> null, "fieldB" -> null))
 
     // 2. create transitions
     val transition = new Transition
@@ -48,6 +47,5 @@ object Example {
     println(objState.toString)
 
     println (s"Original object fields: ${obj.fieldA}")
-    */
   }
 }

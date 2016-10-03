@@ -10,13 +10,26 @@ import com.lapots.game.journey.osm.domain.ObjectState
 class GObjectState {
     def objectState
 
-    public GObjectState(anyObj, stateFields) {
+    public GObjectState(anyObj, stateFields, initialState) {
         // register object and write current object state by default
-        scala.collection.immutable.List fields = ScalaBridgeUtils.toScalaList(stateFields.keySet())
-        scala.collection.immutable.Map fieldState = ScalaBridgeUtils.toScalaMap(stateFields)
-        def id = OSMPlatform.registerObject(anyObj, fields, fieldState)
+        scala.collection.immutable.List fields = ScalaBridgeUtils.toScalaList(stateFields)
+        def id = OSMPlatform.registerObject(anyObj, fields)
         objectState = OSMPlatform.retrieveObject(id)
+
+        if (initialState) {
+            initState(initialState)
+        } else {
+            initDefault()
+        }
         // in case if we provide custom state
+    }
+
+    def initDefault() {
+        objectState.registerDefault()
+    }
+
+    def initState(map) {
+        objectState.registerState(ScalaBridgeUtils.toScalaMap(map))
     }
 
     // outMirror

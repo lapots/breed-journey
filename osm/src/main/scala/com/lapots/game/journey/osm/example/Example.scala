@@ -23,7 +23,8 @@ object Example {
     obj.fieldB = 10
 
     // 1. register object in OSM and get id - might be useful
-    val id = OSMPlatform.registerObject(obj, List("fieldA", "fieldB"), Map("fieldA" -> null, "fieldB" -> null))
+    val id = OSMPlatform.registerObject(obj, List("fieldA", "fieldB"))
+    OSMPlatform.registerInitialState(id)
 
     // 2. create transitions
     val transition = new Transition

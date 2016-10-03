@@ -38,8 +38,8 @@ class ApplicationMain extends Game {
     def state_machine_test() {
         def stateMachine = new GIndexedStateMachine()
         def obj = new SimpleObject()
-        def state1 = new GObjectState(obj, ["a" : null, "b" : null])
-        def state2 = new GObjectState(obj, ["a" : "111", "b" : null])
+        def state1 = new GObjectState(obj, ["a", "b"], [:])
+        def state2 = new GObjectState(obj, ["a", "b"], ["a" : "111", "b" : null])
 
         stateMachine.add_state(state1) // first is default as index is 0
         stateMachine.add_state(state2)

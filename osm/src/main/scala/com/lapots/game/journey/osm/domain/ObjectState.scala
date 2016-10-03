@@ -22,6 +22,9 @@ class ObjectState {
     // just register
     objRef = objectInstance
     stateMap = fields.map(field => field -> null)(collection.breakOut)
+  }
+
+  def registerDefault(): Unit = {
     Mirror.inMirrorObjectState(this)
   }
 

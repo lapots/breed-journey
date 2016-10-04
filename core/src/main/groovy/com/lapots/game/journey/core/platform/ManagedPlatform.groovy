@@ -8,4 +8,8 @@ class ManagedPlatform {
     }
 
     static managed = new ClassPathXmlApplicationContext("application-context.xml")
+
+    def getAt(name) {
+        managed[name]
+    }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game
 import com.kotcrab.vis.ui.VisUI
 import com.kotcrab.vis.ui.VisUI.SkinScale
 import com.lambdaworks.redis.RedisClient
+import com.lapots.game.journey.ast.managed.Managed
 import com.lapots.game.journey.core.framework.life.LifeFramework
 import com.lapots.game.journey.core.platform.CorePlatform
 import com.lapots.game.journey.core.platform.ResourcePlatform
@@ -17,12 +18,15 @@ import kotlin.Pair;
 
 class ApplicationMain extends Game {
 
+    @Managed("lifeFramework")
+    def lifeFramework
+
     @Override
     public void create() {
         VisUI.load(SkinScale.X1)
         try {
             setScreen(new ApplicationMenuScreen())
-            CorePlatform.managed["lifeFramework"].initSubsystems()
+            lifeFramework.initSubsystems()
             /* provide some parameters like [--withIndex]
             // come up with better idea
             ResourcePlatform >>

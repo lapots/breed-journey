@@ -59,6 +59,7 @@ project(":core") {
 
     dependencies {
         compile project(":highlevel-framework")
+        compile project(":ast")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
@@ -126,6 +127,14 @@ project(":highlevel-framework") {
     dependencies {
         compile project(":ims")
         compile project(":osm")
+        compile "org.codehaus.groovy:groovy-all:2.4.7"
+    }
+}
+
+project(":ast") {
+    apply plugin: 'groovy'
+
+    dependencies {
         compile "org.codehaus.groovy:groovy-all:2.4.7"
     }
 }

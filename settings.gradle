@@ -1,1 +1,1 @@
-include 'desktop', 'core', 'ims', 'osm', 'highlevel-framework'
+include 'desktop', 'core', 'ims', 'osm', 'highlevel-framework', 'ast'

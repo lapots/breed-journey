@@ -37,4 +37,8 @@ object OSMPlatform {
   def retrieveObject(id: String): ObjectState = {
     OSMContext.retrieveObject(id)
   }
+
+  def clean(): Unit = {
+    OSMContext.clearContext()
+  }
 }

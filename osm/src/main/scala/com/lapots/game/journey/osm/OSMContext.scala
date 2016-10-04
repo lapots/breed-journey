@@ -19,4 +19,8 @@ object OSMContext {
   def retrieveObject(id: String) : ObjectState = {
     registry(id)
   }
+
+  def clearContext(): Unit = {
+    registry = Map.empty
+  }
 }

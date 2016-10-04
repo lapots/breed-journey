@@ -3,11 +3,24 @@ package com.lapots.game.journey.osm.domain
 /**
   * Represent object state.
   */
-class ObjectState {
+class ObjectState(objRefValue: AnyRef, stateFields: List[String], initialState: Map[String, Any]) {
   // object reference
-  var objRef : AnyRef = _
-  // map that mirrors current object state
+  var objRef = objRefValue
+  // initialize initially
   var stateMap : Map[String, Any] = _
+
+  // initialize state or reflect
+  if (initialState.isEmpty) {
+    stateMap = stateFields.map(field => field -> null)(collection.breakOut)
+    Mirror.inMirrorObjectState(this)
+  } else {
+    // assert consistency
+    assert(stateFields.size == initialState.keys.size, "Inconsistent state and fields amount")
+    stateMap = initialState
+  }
+
+  def this(objRefValue: AnyRef, stateFields: List[String]) = this(objRefValue, stateFields, Map())
+  def this(objRefValue: AnyRef) = this(objRefValue, List(), Map())
 
   override def toString: String = {
     var initialString = ""
@@ -16,25 +29,6 @@ class ObjectState {
         initialString += s"${key} -> ${value}\n"
     }
     initialString
-  }
-
-  def registerFields(fields: List[String], objectInstance: AnyRef): Unit = {
-    // just register
-    objRef = objectInstance
-    stateMap = fields.map(field => field -> null)(collection.breakOut)
-  }
-
-  def registerDefault(): Unit = {
-    Mirror.inMirrorObjectState(this)
-  }
-
-  def registerState(fieldValues: Map[String, Any]): Unit = {
-    fieldValues foreach {
-      case(key, value) =>
-        if (value != null) {
-          stateMap += (key -> value)
-        }
-    }
   }
 
   object Mirror {

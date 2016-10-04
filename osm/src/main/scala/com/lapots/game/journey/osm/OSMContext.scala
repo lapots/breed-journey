@@ -17,7 +17,6 @@ object OSMContext {
   }
 
   def retrieveObject(id: String) : ObjectState = {
-
     registry(id)
   }
 }

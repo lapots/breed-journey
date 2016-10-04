@@ -1,9 +1,8 @@
 package com.lapots.game.journey.osm.example
 
-import com.lapots.game.journey.osm
 import com.lapots.game.journey.osm.api.ITransformation
 import com.lapots.game.journey.osm.domain.Transition
-import com.lapots.game.journey.osm.{OSMContext, OSMPlatform}
+import com.lapots.game.journey.osm.OSMPlatform
 
 object Example {
 
@@ -24,7 +23,6 @@ object Example {
 
     // 1. register object in OSM and get id - might be useful
     val id = OSMPlatform.registerObject(obj, List("fieldA", "fieldB"))
-    OSMPlatform.registerInitialState(id)
 
     // 2. create transitions
     val transition = new Transition

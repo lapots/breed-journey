@@ -11,25 +11,11 @@ class GObjectState {
     def objectState
 
     public GObjectState(anyObj, stateFields, initialState) {
-        // register object and write current object state by default
         scala.collection.immutable.List fields = ScalaBridgeUtils.toScalaList(stateFields)
-        def id = OSMPlatform.registerObject(anyObj, fields)
+        scala.collection.immutable.Map map = ScalaBridgeUtils.toScalaMap(initialState)
+        // in case of Scala I think we could use implicits for the parameters
+        def id = OSMPlatform.registerObject(anyObj, fields, map)
         objectState = OSMPlatform.retrieveObject(id)
-
-        if (initialState) {
-            initState(initialState)
-        } else {
-            initDefault()
-        }
-        // in case if we provide custom state
-    }
-
-    def initDefault() {
-        objectState.registerDefault()
-    }
-
-    def initState(map) {
-        objectState.registerState(ScalaBridgeUtils.toScalaMap(map))
     }
 
     // outMirror

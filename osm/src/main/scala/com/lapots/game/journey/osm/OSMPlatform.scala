@@ -9,23 +9,29 @@ import com.lapots.game.journey.osm.domain.ObjectState
   */
 object OSMPlatform {
 
-  // any object - but mostly AnyRef objects I presume
-  def registerObject(objectInstance: AnyRef, fields: List[String]): String = {
+  def registerObject(objectInstance: AnyRef): String = {
     val id = UUID.randomUUID().toString
-    val objState = new ObjectState
-    
-    objState.registerFields(fields, objectInstance)
+    val objState = new ObjectState(objectInstance)
 
     OSMContext.registerObject(id, objState)
     id
   }
 
-  def registerInitialState(id: String): Unit = {
-    OSMContext.retrieveObject(id).registerDefault()
+  def registerObject(objectInstance: AnyRef, fields: List[String], state: Map[String, Any]): String = {
+    val id = UUID.randomUUID().toString
+    val objState = new ObjectState(objectInstance, fields, state)
+
+    OSMContext.registerObject(id, objState)
+    id
   }
 
-  def registerState(id: String, state: Map[String, Any]): Unit = {
-    OSMContext.retrieveObject(id).registerState(state)
+  // any object - but mostly AnyRef objects I presume
+  def registerObject(objectInstance: AnyRef, fields: List[String]): String = {
+    val id = UUID.randomUUID().toString
+    val objState = new ObjectState(objectInstance, fields)
+
+    OSMContext.registerObject(id, objState)
+    id
   }
 
   def retrieveObject(id: String): ObjectState = {

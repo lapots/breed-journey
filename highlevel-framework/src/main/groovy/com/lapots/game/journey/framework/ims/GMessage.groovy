@@ -48,6 +48,10 @@ class GMessage {
         this
     }
 
+    String toString() {
+        grlMessageDSL.toString()
+    }
+
     static def wrap_multipart(content) {
         new IGRLMultipart() {
             @Override

@@ -17,46 +17,8 @@ import kotlin.Pair;
 
 class ApplicationMain extends Game {
 
-    class SimpleObject {
-        def a = "5"
-        def b = 10
-
-        String toString() {
-            "field[a]=$a, field[b]=$b"
-        }
-    }
-
-    def grl_test() {
-        def msg = new GMessage()
-        msg {
-            method { GRLProtocol.GRLMethod.POST }
-            multipart { "hello world" }
-            header { ["destination": "none"] }
-        }
-    }
-
-    def state_machine_test() {
-        def stateMachine = new GIndexedStateMachine()
-        def obj = new SimpleObject()
-        def state1 = new GObjectState(obj, ["a", "b"], [:])
-        def state2 = new GObjectState(obj, ["a", "b"], ["a" : "111", "b" : null])
-
-        stateMachine.add_state(state1) // first is default as index is 0
-        stateMachine.add_state(state2)
-
-        // current states 0 1
-        println obj // original [0]
-        stateMachine.next_state()
-        println obj // after switching state forward [1]
-        stateMachine.previous_state()
-        println obj // after switching state backward [0]
-        stateMachine.previous_state() // should become as it reached -1 and became [1]
-        println obj // state [1]
-    }
-
     @Override
     public void create() {
-        state_machine_test()
         VisUI.load(SkinScale.X1)
         try {
             setScreen(new ApplicationMenuScreen())

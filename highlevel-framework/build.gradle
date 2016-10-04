@@ -1,0 +1,10 @@
+
+task imsExample(type: JavaExec) {
+    main = 'com.lapots.game.journey.framework.example.IMSExample'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task osmExample(type: JavaExec) {
+    main = 'com.lapots.game.journey.framework.example.OSMExample'
+    classpath = sourceSets.main.runtimeClasspath
+}

@@ -1,5 +1,7 @@
 package com.lapots.game.journey.osm.domain
 
+import com.lapots.game.journey.osm.exception.OSMException
+
 /**
   * Represent object state.
   */
@@ -15,7 +17,9 @@ class ObjectState(objRefValue: AnyRef, stateFields: List[String], initialState: 
     Mirror.inMirrorObjectState(this)
   } else {
     // assert consistency
-    assert(stateFields.size == initialState.keys.size, "Inconsistent state and fields amount")
+    if (stateFields.size != initialState.keys.size) {
+      throw OSMException("Inconsistent state and fields amount"))
+    }
     stateMap = initialState
   }
 

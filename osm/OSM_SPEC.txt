@@ -100,36 +100,52 @@ So we should support transition rollback separately. In simple cases it will be 
 
 Unlike states we have to calculate expressions.
 ===============================================================
-    OSM provides object - OSMPlatform - that allows to register objects in OSM and manipulate
-its state. Every object in OSM should be registered.
-    Upon the register OSM generate identifier for OSM object based on UUID. Knowing that
-id is essential as it is the only way to operate stateful object.
+OSM does not provide facilities for state machine out-of-box. It only provides domains and context,
+where states are stored. So the user should implement state machine himself.
 
-    OSM uses special object - OSMContext - which the core of OSM system. It stores all
-objects registered in OSM and provide an ability to register objects, retrieve objects
-and change its state using object identifier.
+For domain objects OSM provides ObjectState and Transition.
 
-    OSM cannot operate directly with any object. The reason behind it is that objects might
-have any possible structure with unlimited amount of fields etc.
-    So in order to register object in OSM one need to extend AbstractStatefulObject and
-provide object type for it. Also user needs to create object states - instances of State -
-object and transition functions - instances of Transition.
+    -   ObjectState is the object, that stores references to wrapped non-OSM object and a map, with values
+        for the fields for corresponding state. For example OSM representation for SimpleClass
+            class SimpleClass {
+                def name
+            }
+        would look like this
+            class ObjectState {
+                objRef = simpleClassInstance
+                stateMap = ["name", "basic name"]
+            }
+        There we keep field name and value in stateMap. And when we mirror that map into the object
+        then [simpleClassInstance] will have value [basic name] in its field [name]
 
-    State contains OSM object identifier and map of its field values. Transition keeps
-special rules - transformations - for object field. Every field of object State is mapped
-to a corresponding transformation function - which is the instance of ITransformation.
-    Transformation is a special operation over an object field. Example
+    -   Transition is the object that stores special entities - transformations for the fields. Basic
+        structure looks similar to ObjectState but it does not store the reference for object instance.
+        For previously mentioned SimpleClass transition may look like this
+            class Transition {
+                transformations = ["name", NameTransformation]
+            }
+        where NameTransformation is the instance of ITransformation - interface with a sole method
+        [transform] that looks like this
+            transform(input, params) : output
+        Input is the input object field, params - some misc parameters for the transformation and output
+        is the transformed field.
 
-        fieldA -> f_trans(fieldA) -> fieldB
+OSM provides OSMPlatform which allows to register object in OSM. It supports several methods which
+allow to register object with predefined state keys, with initial or without initial object state.
 
-    Basically all the set of transformations makes the transition.
+OSM allows to read and write object state - it called [mirroring]. When user provide object with predefined
+state field and does not provide initial state, then OSM mirrors current object state fields values as
+a state. It's called [in-mirroring]. When use has a custom state and want to write it to object, it can be
+done using [out-mirroring]. Mirroring is done via reflection.
+
+If something happen during OSM runtime, OSM will throw OSMException.
+In custom OSM implementation it is preferable to extend OSMExtension or just throw it.
 ===============================================================
 API
-    AbstractStatefulObject
-    IStateful
     ITransformation
-    State
+    ObjectState
     Transition
+    OSMException
     OSMContext
     OSMPlatform
 ===============================================================

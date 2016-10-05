@@ -22,7 +22,7 @@ class Transition {
           state.stateMap += (key ->  value.transform(state.stateMap(key), Map()))
       }
       state.Mirror.outMirrorObjectState(state)
-      return state
+      state
     }
   }
 }

@@ -18,7 +18,7 @@ class ObjectState(objRefValue: AnyRef, stateFields: List[String], initialState: 
   } else {
     // assert consistency
     if (stateFields.size != initialState.keys.size) {
-      throw OSMException("Inconsistent state and fields amount"))
+      throw OSMException("Inconsistent state and fields amount")
     }
     stateMap = initialState
   }

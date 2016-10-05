@@ -7,5 +7,5 @@ import com.lapots.game.journey.ims.domain.GRLMessage
  */
 interface IIMSProducer : IIMSIdentifiable {
     fun produce() : GRLMessage
-    fun util_produce(destination: String) : GRLMessage
+    fun produce(destination: String) : GRLMessage
 }

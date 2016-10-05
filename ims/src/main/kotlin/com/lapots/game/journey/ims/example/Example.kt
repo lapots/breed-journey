@@ -3,10 +3,10 @@
 package com.lapots.game.journey.ims.example
 
 import com.lapots.game.journey.ims.IMSContext
-import com.lapots.game.journey.ims.IMSException
 import com.lapots.game.journey.ims.IMSPlatform
 import com.lapots.game.journey.ims.api.*
-import com.lapots.game.journey.ims.domain.*
+import com.lapots.game.journey.ims.domain.GRLMessage
+import com.lapots.game.journey.ims.domain.IMSObject
 import com.lapots.game.journey.ims.domain.dsl.GRLMessageDSL
 import java.util.*
 
@@ -16,123 +16,83 @@ class StringMultipart(val content: String) : IGRLMultipart {
     }
 }
 
-class ExampleChannel : IChannel {
-
-    override fun process(message: GRLMessage) {
-        val imsObject = IMSContext.instance.retrieveObject(message.headerMap["receiver"])
-        imsObject.objectMessageQueue.offer(message) // put it to IMS object queue
-    }
-
-}
-
-class ExampleRouter(val routes: MutableMap<String, String>) : IRouter {
-    val channels  = mutableMapOf<GRLProtocol.GRLMethod, IChannel>()
-
-    override fun process(pack : GRLPackage) {
-        val msg = pack.message
-        val channel = channels[msg.methodType]
-        channel?.process(msg)
-    }
-
-    override fun getRoutes() : List<String> {
-        return routes.keys.toList()
-    }
-
-    override fun registerRoute(route : String) {
-        routes[route] = route // lol
-    }
-
-    override fun isSupport(route: String) : Boolean {
-        return routes[route] != null
-    }
-
-    override fun registerChannel(name : GRLProtocol.GRLMethod, channel : IChannel) {
-        if (channels[name] != null) {
-            throw IMSException("This channel already exist!")
-        }
-        channels[name] = channel
-    }
-}
-
 class BasicObject(val name : String) {}
 
-class ExampleObject(val toWrap : BasicObject) : AbstractIdentifiable<BasicObject>() {
-    override val obj = toWrap
-    override var imsId = ""
-    var goalId = "" // annoying
+/**
+ * Need for custom producing consuming logic cannot be avoided.
+ */
+class ImsBasicObject : IMSObject {
+    override var imsId: String = ""
 
-    override fun produce(): GRLMessage {
-        return GRLMessageDSL().dsl {
-            method { GRLProtocol.GRLMethod.POST }
-            multipart { StringMultipart("Hello from $imsId") }
-            headers { // just for more readability
-                header { "destination" to "ui:component" }
-                header { "receiver" to goalId }
-                header { "sender" to imsId } // say my name
-            }
-        }
-    }
+    constructor(component: Any) : super(component)
 
-    override fun util_produce(destination: String): GRLMessage {
-        goalId = destination
-        return produce()
+    constructor(component: Any, id: String) : super(component) {
+        imsId = id
     }
 
     override fun consume(message: GRLMessage) {
-        GRLProtocol.checkMessageConsistency(message, this)
-        println("I $imsId ate the message!")
-        var sender = message.headerMap["sender"]
-        if (sender != null) { // add check on higher levels
-            goalId = sender
-        } else {
-            throw IMSException("Anonymous messenger")
-        }
-        println("Received message: ${message.multipartObject?.getContent().toString() }")
+        println(message.multipartObject?.getContent()) // assuming its an object
     }
+
+    override fun produce(): GRLMessage {
+        // dlq as no destination no router
+        return GRLMessageDSL().dsl {
+            multipart { StringMultipart("$imsId send a message") }
+        }
+    }
+
+    override fun produce(destination: String): GRLMessage {
+        return GRLMessageDSL().dsl {
+            header { "route" to "ui" }
+            header { "destination" to destination }
+            multipart { StringMultipart("Pigeon~") }
+        }
+    }
+
 }
 
-fun List<String>.randomFromList() : String {
-    return this[Random().nextInt(this.size)]
+class ImsBasicRouter : IRouter {
+    // come with idea how to use it
+    var routes : List<String>  = ArrayList()
+
+    override fun registerRoute(route: String) {
+        routes += route
+    }
+
+    override fun supportedRoutes(): List<String> {
+        return routes
+    }
+
+    override fun processMessage(msg: GRLMessage) {
+        val destination = msg.headerMap["destination"]
+        val destObject = IMSPlatform.retrieveObject(destination!!)
+        // put into processing queue
+        destObject.objectMessageQueue += msg
+    }
 }
 
 fun main(args: Array<String>) {
-    // create basic object
-    val objects = 10
-    var index = 0
-    var id  = ""
-    var indecies = mutableListOf<String>()
-    while (index < objects) {
-        val input = BasicObject("obj")
-        val obj = ExampleObject(input)
-        val idN = IMSPlatform.registerObject(obj)
-        if (id.isNotEmpty()) {
-            obj.goalId = id
-        }
-        id = idN
-        index++
-        indecies.add(idN)
-    }
+    val senderObject = BasicObject("Sender object")
+    val imsObject1 = ImsBasicObject(senderObject)
+    imsObject1.imsId = "SENDER_1"
 
-    // register channel
-    val router = ExampleRouter(mutableMapOf("ui:component" to "ui:component")) // weird
-    val channel = ExampleChannel()
-    router.registerChannel(GRLProtocol.GRLMethod.POST, channel)
+    val receiverObject = BasicObject("Receiver object")
+    val imsObject2 = ImsBasicObject(receiverObject, "RECEIVER_1")
 
-    // objects on the same route
-    IMSPlatform.registerRouter(router)
+    IMSPlatform.registerObject(imsObject1)
+    IMSPlatform.registerObject(imsObject2)
 
-    // imitation hard work
-    val initialTime = System.currentTimeMillis()
-    var currentTime = System.currentTimeMillis()
-    while ((currentTime - initialTime) < 10000) {
-        currentTime = System.currentTimeMillis()
-        val producerId = indecies.randomFromList()
-        val consumerId = indecies.randomFromList()
-        if (producerId != consumerId) {
-            IMSPlatform.transfer(IMSPlatform.util_produce(producerId, consumerId))
-        }
-        Thread.sleep(100)
-    }
+    val imsRouter1 = ImsBasicRouter()
+    imsRouter1.registerRoute("ui")
+    IMSPlatform.registerRouter(imsRouter1)
+
+    val msg1 = imsObject1.produce()
+    val msg2 = imsObject1.produce("RECEIVER_1")
+    IMSPlatform.transfer(msg1)
+    IMSPlatform.transfer(msg2)
+
+    val msg3 = imsObject2.produce("SENDER_1")
+    IMSPlatform.transfer(msg3)
 
     IMSPlatform.stopPlatform(true)
 }

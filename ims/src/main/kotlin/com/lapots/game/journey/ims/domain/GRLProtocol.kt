@@ -11,13 +11,14 @@ class GRLProtocol {
 
     companion object {
         val supportedHeaders = mapOf<String, Boolean>(
-            "destination" to true,
-            "sender" to true,
-            "receiver" to true,
-            "contentType" to false,
-            "sendTime" to false,
-            "receiveTime" to false,
-            "brokerTime" to false
+                "destination" to true,
+                "sender" to false,
+                "receiver" to false,
+                "contentType" to false,
+                "sendTime" to false, 
+                "receiveTime" to false,
+                "brokerTime" to false,
+                "route" to false
         )
 
         val ROUTE_SEPARATOR = ":"

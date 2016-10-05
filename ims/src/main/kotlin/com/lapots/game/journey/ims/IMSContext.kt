@@ -1,6 +1,7 @@
 package com.lapots.game.journey.ims
 
 import com.lapots.game.journey.ims.api.*
+import com.lapots.game.journey.ims.domain.GRLMessage
 import com.lapots.game.journey.ims.domain.GRLPackage
 import com.lapots.game.journey.ims.domain.GRLProtocol
 import com.lapots.game.journey.ims.domain.IMSObject
@@ -11,7 +12,7 @@ import java.util.*
  * Main entry point for IMS.
  */
 class IMSContext {
-    private val routes = mutableMapOf<String, IRouter>()
+    val routes = mutableMapOf<String, IRouter>()
     val imsObjects = mutableMapOf<String, IMSObject>()
 
     private object IMSContextHolder {
@@ -26,7 +27,7 @@ class IMSContext {
      * Registers route in IMS.
      */
     fun registerRouter(router : IRouter) {
-        router.getRoutes().forEach { route ->
+        router.supportedRoutes().forEach { route ->
             if (routes[route] != null) {
                 throw IMSException("Such route already registered under some another router!")
             }
@@ -37,10 +38,7 @@ class IMSContext {
     /**
      * Registers IMS object in IMS context.
      */
-    fun registerObject(obj : IMSObject) {
-        // lol
-        imsObjects[obj.obj.imsId] = obj
-    }
+    fun registerObject(obj : IMSObject) { imsObjects[obj.imsId] = obj }
 
     /**
      * Returns IMS object by id.
@@ -51,30 +49,19 @@ class IMSContext {
         return imsObject
     }
 
-    /**
-     * Transfer object.
-     * The result is returned as GRLPackage or IMSException is thrown.
-     */
-    fun transfer(pack : GRLPackage) {
-        synchronized (this, {
-            util_transfer(pack)
-        })
-    }
-
-    /**
-     * Not synchronized version of transfer method.
-     */
-    fun util_transfer(pack: GRLPackage) {
-        val router = specifyRouter(pack.grl)
-        router ?: throw IMSException("Cannot transfer dsl due to missing route processor!")
-        // process package
-        router.process(pack)
-    }
-
     fun stopContext(clean : Boolean) {
         imsObjects.forEach { it.value.stopProcessing() }
         if (clean) {
             imsObjects.clear()
+        }
+    }
+
+    fun transfer(message: GRLMessage) {
+        val route = message.headerMap["route"]
+        if (route != null) { // might as well as DLQ
+            val router = specifyRouter(route)
+            router ?: throw IMSException("No router found for $route")
+            router.processMessage(message)
         }
     }
 

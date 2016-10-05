@@ -1,10 +1,9 @@
 package com.lapots.game.journey.ims.domain
 
-import com.lapots.game.journey.ims.IMSContext
 import com.lapots.game.journey.ims.api.IIMSConsumer
 import com.lapots.game.journey.ims.api.IIMSIdentifiable
+import com.lapots.game.journey.ims.api.IIMSProducer
 import java.util.concurrent.LinkedBlockingDeque
-import java.util.concurrent.locks.ReentrantLock
 
 /**
  * Wrapper for object to use in IMS.
@@ -15,15 +14,15 @@ import java.util.concurrent.locks.ReentrantLock
  * collect messages and then process it - instead of direct invocation
  * from the methods.
  */
-class IMSObject : Thread {
-    constructor(component : IIMSIdentifiable) {
+abstract class IMSObject : Thread, IIMSConsumer, IIMSProducer {
+    constructor(component : Any) {
         obj = component
     }
 
     // I did not test but I think I can put object into queue directly
     // from the channel.
     val objectMessageQueue = LinkedBlockingDeque<GRLMessage>()
-    val obj : IIMSIdentifiable
+    val obj : Any
     var isRunning = true
 
     override fun run() {
@@ -34,16 +33,15 @@ class IMSObject : Thread {
     }
 
     fun stopProcessing() {
+        println("Stopping $imsId")
         isRunning = false
     }
 
     // thread that waits for messages
     // basically consuming messages
     fun processMessages() {
-        if (obj is IIMSConsumer) {
-            while (!objectMessageQueue.isEmpty()) {
-                obj.consume(objectMessageQueue.remove())
-            }
+        while (!objectMessageQueue.isEmpty()) {
+            consume(objectMessageQueue.remove())
         }
     }
 }

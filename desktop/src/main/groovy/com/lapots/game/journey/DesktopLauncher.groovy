@@ -20,7 +20,7 @@ public class DesktopLauncher {
      *
      *      def config = $jsonFileResource("application.config")
      */
-    @JsonResource("application.config")
+    // @JsonResource("application.config")
     def config
 
     public static void main (String[] arg) {

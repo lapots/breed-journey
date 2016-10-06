@@ -33,7 +33,7 @@ project(":desktop") {
 
 
     dependencies {
-        compile project(":core")
+        compile project(":libgdx-ui")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
@@ -100,7 +100,7 @@ project(":ims") {
         testCompile "org.jetbrains.spek:spek-api:$spekApiVersion"
         testCompile "com.natpryce:hamkrest:$hamkrestVersion"
         testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitJupiterEngineVersion"
-        testRuntime "org.jetbrains.spek:spek-junit-platform-engine:$junitJupiterApiVersion"
+        testRuntime "org.jetbrains.spek:spek-junit-platform-engine:$spekJunitPlatformEngineVersion"
     }
 }
 
@@ -131,6 +131,30 @@ project(":ast") {
     apply plugin: 'groovy'
 
     dependencies {
+        compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    }
+}
+
+project("libgdx-ui") {
+    apply plugin: 'groovy'
+
+    dependencies {
+        compile project(":core")
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+        compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+        compile "com.kotcrab.vis:vis-ui:$visUiVersion"
+        compile "com.kotcrab.vis:vis-runtime:$visRuntimeVersion"
+        compile "net.dermetfan.libgdx-utils:libgdx-utils:$libgdxUtilsVersion"
+        compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:$libgdxUtilsBox2dVersion"
+        compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:$gdxDialogsVersion"
+        compile "com.github.czyzby:gdx-kiwi:$gdxKiwiVersion"
+        compile "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:$overlap2dVersion"
         compile "org.codehaus.groovy:groovy-all:$groovyVersion"
     }
 }

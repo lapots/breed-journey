@@ -1,24 +1,18 @@
 package com.lapots.game.journey
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ScreenAdapter
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.scenes.scene2d.ui.Widget
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport
-import com.kotcrab.vis.ui.building.GridTableBuilder;
-import com.kotcrab.vis.ui.building.TableBuilder
-import com.kotcrab.vis.ui.building.utilities.CellWidget
 import com.lapots.game.journey.core.platform.CorePlatform
-import com.lapots.game.journey.core.platform.ResourcePlatform;
-import com.lapots.game.journey.core.platform.UiPlatform;
+import com.lapots.game.journey.core.platform.ResourcePlatform
+import com.lapots.game.journey.core.platform.UiPlatform
 import com.lapots.game.journey.ui.dsl.MenuBarDSL
 import com.lapots.game.journey.ui.dsl.WindowDSL
 import com.lapots.game.journey.util.EvaluationUtils
-import com.lapots.game.journey.util.GrlUtils;
+import com.lapots.game.journey.util.GrlUtils
 
 class ApplicationMenuScreen extends ScreenAdapter {
 
@@ -42,11 +36,11 @@ class ApplicationMenuScreen extends ScreenAdapter {
 
         def result = ResourcePlatform <<
             GrlUtils.createGetRequest("ui://$MENU_COMPONENT", null)
-        EvaluationUtils.evaluateWithBinding(result, [ "menuBar" : new MenuBarDSL() ])
+        EvaluationUtils.evaluateWithBinding(result, ["menuBar": new MenuBarDSL() ])
 
         def layout = ResourcePlatform <<
             GrlUtils.createGetRequest("ui://$MAIN_LAYOUT_COMPONENT", null)
-        EvaluationUtils.evaluateWithBinding(layout, [ "window" : new WindowDSL() ])
+        EvaluationUtils.evaluateWithBinding(layout, ["window": new WindowDSL() ])
 
         UiPlatform.default_stage.addActor(UiPlatform.root)
     }

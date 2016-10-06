@@ -24,8 +24,13 @@ class IMSPlatform {
 
         fun transfer(message: GRLMessage) {
             synchronized(this, {
-                // GRLProtocol.checkHeaderConsistency(message.headerMap.keys.toList())
-                IMSContext.instance.transfer(message)
+                try {
+                    // GRLProtocol.checkHeaderConsistency(message.headerMap.keys.toList())
+                    IMSContext.instance.transfer(message)
+                } catch (e : IMSException) {
+                    println("Exception: ${e.message}")
+                    IMSPlatform.stopPlatform(true)
+                }
             })
         }
 

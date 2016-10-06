@@ -9,6 +9,7 @@ import com.lapots.game.journey.ims.domain.GRLMessage
 import com.lapots.game.journey.ims.domain.IMSObject
 import com.lapots.game.journey.ims.domain.dsl.GRLMessageDSL
 import java.util.*
+import kotlin.reflect.declaredMemberFunctions
 
 class StringMultipart(val content: String) : IGRLMultipart {
     override fun getContent(): Any {
@@ -45,7 +46,7 @@ class ImsBasicObject : IMSObject {
         return GRLMessageDSL().dsl {
             header { "route" to "ui" }
             header { "destination" to destination }
-            multipart { StringMultipart("Pigeon~") }
+            multipart { StringMultipart("$imsId Pigeon~") }
         }
     }
 
@@ -83,7 +84,7 @@ fun main(args: Array<String>) {
     IMSPlatform.registerObject(imsObject2)
 
     val imsRouter1 = ImsBasicRouter()
-    imsRouter1.registerRoute("ui")
+    imsRouter1.registerRoute("ui:")
     IMSPlatform.registerRouter(imsRouter1)
 
     val msg1 = imsObject1.produce()

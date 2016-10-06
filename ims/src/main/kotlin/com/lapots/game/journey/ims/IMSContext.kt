@@ -28,6 +28,7 @@ class IMSContext {
      */
     fun registerRouter(router : IRouter) {
         router.supportedRoutes().forEach { route ->
+            println (route)
             if (routes[route] != null) {
                 throw IMSException("Such route already registered under some another router!")
             }

@@ -1,4 +1,5 @@
 apply plugin: "java"
+apply plugin: 'groovy'
 
 import de.undercouch.gradle.tasks.download.Download
 
@@ -14,6 +15,35 @@ buildscript {
         classpath 'de.undercouch:gradle-download-task:3.1.1'
         classpath 'org.apache.httpcomponents:httpclient:4.5.2'
     }
+}
+
+dependencies {
+    compile project(":core")
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+    compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+    compile "de.tomgrill.gdxdialogs:gdx-dialogs-desktop:$gdxDialogsVersion"
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+    compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+    compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+    compile "com.kotcrab.vis:vis-ui:$visUiVersion"
+    compile "com.kotcrab.vis:vis-runtime:$visRuntimeVersion"
+    compile "net.dermetfan.libgdx-utils:libgdx-utils:$libgdxUtilsVersion"
+    compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:$libgdxUtilsBox2dVersion"
+    compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:$gdxDialogsVersion"
+    compile "com.github.czyzby:gdx-kiwi:$gdxKiwiVersion"
+    compile "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:$overlap2dVersion"
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
 }
 
 def rootDir = project(":").projectDir
@@ -130,7 +160,7 @@ task dist(type: Jar) {
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}
     from files(project.assetsDir);
- 
+
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
@@ -146,12 +176,12 @@ eclipse {
 }
 
 task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
-  doLast {
-    def classpath = new XmlParser().parse(file(".classpath"))
-    new Node(classpath, "classpathentry", [ kind: 'src', path: 'assets' ]);
-    def writer = new FileWriter(file(".classpath"))
-    def printer = new XmlNodePrinter(new PrintWriter(writer))
-    printer.setPreserveWhitespace(true)
-    printer.print(classpath)
-  }
+    doLast {
+        def classpath = new XmlParser().parse(file(".classpath"))
+        new Node(classpath, "classpathentry", [ kind: 'src', path: 'assets' ]);
+        def writer = new FileWriter(file(".classpath"))
+        def printer = new XmlNodePrinter(new PrintWriter(writer))
+        printer.setPreserveWhitespace(true)
+        printer.print(classpath)
+    }
 }

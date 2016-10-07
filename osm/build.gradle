@@ -1,3 +1,11 @@
+apply plugin: 'scala'
+
+dependencies {
+    compile project(":ims")
+    compile "org.scala-lang:scala-compiler:$scalaCompilerVersion"
+    compile "org.scala-lang:scala-library:$scalaLibraryVersion"
+    compile "org.scala-lang:scala-reflect:$scalaReflectVersion"
+}
 
 ScalaCompileOptions.metaClass.daemonServer = true
 ScalaCompileOptions.metaClass.fork = true
@@ -8,3 +16,4 @@ task runExample(type: JavaExec) {
     main = 'com.lapots.game.journey.osm.example.Example'
     classpath = sourceSets.main.runtimeClasspath
 }
+

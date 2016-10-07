@@ -1,6 +1,32 @@
 apply plugin: "java"
 apply plugin: 'groovy'
 
+dependencies {
+    compile project(":highlevel-framework")
+    compile project(":ast")
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+    compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+    compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+    compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+    compile "com.kotcrab.vis:vis-ui:$visUiVersion"
+    compile "com.kotcrab.vis:vis-runtime:$visRuntimeVersion"
+    compile "net.dermetfan.libgdx-utils:libgdx-utils:$libgdxUtilsVersion"
+    compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:$libgdxUtilsBox2dVersion"
+    compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:$gdxDialogsVersion"
+    compile "com.github.czyzby:gdx-kiwi:$gdxKiwiVersion"
+    compile "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:$overlap2dVersion"
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    compile "biz.paluch.redis:lettuce:$redisLettuceVersion"
+    compile "org.springframework.data:spring-data-redis:$springDataRedisVersion"
+    compile "org.springframework:spring-context:$springContextVersion"
+    compile "org.springframework.data:spring-data-mongodb:$springDataMongoDbVersion"
+    testCompile "org.spockframework:spock-core:$spockVersion"
+}
+
 sourceCompatibility = 1.8
 [compileJava, compileTestJava, compileGroovy]*.options*.encoding = 'UTF-8'
 

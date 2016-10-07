@@ -1,3 +1,26 @@
+apply plugin: "kotlin"
+/* apply plugin: 'org.junit.platform.gradle.plugin'
+
+junitPlatform {
+    engines {
+        include 'spek'
+        include 'junit-jupiter'
+    }
+}*/
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinStdlibVersion"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinReflectVersion"
+
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junitJupiterApiVersion"
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlinTestVersion"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlinTestJunitVersion"
+    testCompile "org.jetbrains.spek:spek-api:$spekApiVersion"
+    testCompile "com.natpryce:hamkrest:$hamkrestVersion"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitJupiterEngineVersion"
+    testRuntime "org.jetbrains.spek:spek-junit-platform-engine:$spekJunitPlatformEngineVersion"
+}
+
 
 sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'

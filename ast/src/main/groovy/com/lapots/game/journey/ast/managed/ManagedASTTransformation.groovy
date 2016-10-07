@@ -41,7 +41,7 @@ class ManagedASTTransformation implements ASTTransformation {
         }
     }
 
-    private StaticMethodCallExpression createInvocationExpression(String bean) {
+    private static StaticMethodCallExpression createInvocationExpression(String bean) {
         def classNode = new ClassNode(Class.forName(MANAGED_STORAGE))
         return callX(classNode, "getAt", args(bean))
     }

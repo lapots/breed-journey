@@ -1,6 +1,6 @@
 package com.lapots.game.journey.core.platform
 
-import org.springframework.context.support.ClassPathXmlApplicationContext
+import com.lapots.game.journey.core.spring.ManagedPlatform
 
 class CorePlatform extends ManagedPlatform {
 

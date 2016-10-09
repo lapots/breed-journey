@@ -1,4 +1,4 @@
-package com.lapots.game.journey.ui.dsl
+package com.lapots.game.journey.ui.dsl.window
 
 import com.kotcrab.vis.ui.building.GridTableBuilder
 import com.kotcrab.vis.ui.building.utilities.Padding
@@ -7,14 +7,14 @@ import com.kotcrab.vis.ui.widget.VisWindow
 import com.lapots.game.journey.core.api.ICloseable
 import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.core.platform.CorePlatform;
-import com.lapots.game.journey.core.platform.UiPlatform;
+import com.lapots.game.journey.ui.helper.UiHelper;
 import com.lapots.game.journey.ui.dsl.traits.CompositeTrait
 import com.lapots.game.journey.ui.dsl.traits.DynamicClosureTrait
 import com.lapots.game.journey.ui.dsl.traits.IdentifiableTrait
-import com.lapots.game.journey.util.DslUtils;
-import java.lang.ref.SoftReference
+import com.lapots.game.journey.util.DslUtils
+import com.lapots.game.journey.util.EvaluationUtils
 
-class WindowDSL implements 
+class WindowDSL implements
                 DynamicClosureTrait,
                 CompositeTrait,
                 IReferenced,
@@ -22,9 +22,11 @@ class WindowDSL implements
                 ICloseable
 {
 
-    private static final String HEADER_KEY = "title"
+    private static final String HEADER_KEY = UiHelper["dsl.config.window_header_key"]
 
-    final Padding padding = new Padding(2, 3);
+    def paddingHorizontal = UiHelper["component.config.padding.horizontal"] as int
+    def paddingVertical = UiHelper["component.config.padding.vertical"] as int
+    final Padding padding = new Padding(paddingHorizontal, paddingVertical);
 
     def header
     def need_pack
@@ -47,8 +49,9 @@ class WindowDSL implements
     def call(map, closure) {
         id = uuid()
         header = map[HEADER_KEY]
-        UiPlatform.default_stage.addActor(window)
+        UiHelper.default_stage.addActor(window)
 
+        // should I move it to external ?
         TableUtils.setSpacingDefaults(this.window);
         window.defaults().padRight(5);
         window.defaults().padLeft(5);
@@ -66,8 +69,14 @@ class WindowDSL implements
     }
 
     def justify_offset() {
-        window.setX((int) (window.getX() - window.getWidth() / 4))
-        window.setY((int) (window.getY() + window.getHeight() / 2))
+        def x_offset = UiHelper["component.config.window_center_offset"]
+        def x_offset_val = EvaluationUtils.evaluateWithBinding(x_offset, window) as int
+
+        def y_offset = UiHelper["component.config.window_center_offset"]
+        def y_offset_val = EvaluationUtils.evaluateWithBinding(y_offset, window) as int
+
+        window.setX(x_offset_val)
+        window.setY(y_offset_val)
     }
 
     def close() {

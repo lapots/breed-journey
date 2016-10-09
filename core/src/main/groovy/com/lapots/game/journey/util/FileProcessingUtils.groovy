@@ -2,6 +2,9 @@ package com.lapots.game.journey.util
 
 import groovy.json.JsonSlurper
 
+/**
+ * Utils mainly for operating with files, filenames and its extensions.
+ */
 class FileProcessingUtils {
 
     static getFileName(file) {

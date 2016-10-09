@@ -10,10 +10,7 @@ menuBar {
     menu (name : 'Editor') {
         item (name : 'World') {}
         item (name : 'Creatures') {}
-        item (name : 'Player') {
-            on_click {
-                "EditPlayerInformation"
-            }
+        item (name : 'Player') {}
         }
     }
     menu (name : 'Application') {

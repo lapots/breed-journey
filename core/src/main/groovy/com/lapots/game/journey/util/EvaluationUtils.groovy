@@ -1,7 +1,5 @@
 package com.lapots.game.journey.util
 
-import com.lapots.game.journey.ui.dsl.RootDSL
-
 class EvaluationUtils {
 
     static evaluateWithBinding(code, variables) {
@@ -11,10 +9,10 @@ class EvaluationUtils {
     }
 
     // evaluated against root
-    static evaluateWithoutBinding(code) {
+    static evaluateWithoutBinding(code, root) {
         code = "{ -> $code }"
         def evaluated = new GroovyShell().evaluate(code)
-        evaluated.delegate = new RootDSL()
+        evaluated.delegate = root
         evaluated()
     }
 }

@@ -2,6 +2,9 @@ package com.lapots.game.journey.ui.dsl.custom
 
 import groovy.json.JsonSlurper
 
+/**
+ * Special class that holds "dynamic" part of dsl components.
+ */
 class DSLang {
 
     static def key_words = [

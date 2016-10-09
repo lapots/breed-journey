@@ -1,20 +1,20 @@
-package com.lapots.game.journey.ui.dsl
+package com.lapots.game.journey.ui.dsl.basic
 
 import com.kotcrab.vis.ui.building.OneRowTableBuilder
-import com.kotcrab.vis.ui.building.utilities.CellWidget;
 import com.kotcrab.vis.ui.widget.VisSelectBox
-import com.kotcrab.vis.ui.widget.VisTable
 import com.lapots.game.journey.core.api.IReferenced
-import com.lapots.game.journey.core.platform.CorePlatform;
+import com.lapots.game.journey.core.platform.CorePlatform
+import com.lapots.game.journey.ui.dsl.basic.TextLabelDSL;
 import com.lapots.game.journey.ui.dsl.traits.ComponentWidthTrait
 import com.lapots.game.journey.ui.dsl.traits.DynamicPropertyTrait
 import com.lapots.game.journey.ui.dsl.traits.IdentifiableTrait
 import com.lapots.game.journey.ui.dsl.traits.ValueReferencedTrait
+import com.lapots.game.journey.ui.helper.UiHelper
 import com.lapots.game.journey.util.DslUtils
 
 class SelectBoxDSL implements IReferenced, ComponentWidthTrait, DynamicPropertyTrait, IdentifiableTrait, ValueReferencedTrait {
 
-    private static final String LABEL = "label"
+    private static final String LABEL = UiHelper["dsl.config.label_key"]
 
     OneRowTableBuilder oneRowTable = new OneRowTableBuilder()
     VisSelectBox selectBox = new VisSelectBox()

@@ -22,7 +22,7 @@ import java.lang.annotation.Target
  *      @Managed(context="CorePlatform", bean="components")
  *      def fieldA
  *
- *      @Managed(context="UiPlatform", bean="textInput")
+ *      @Managed(context="UiHelper", bean="textInput")
  *      def fieldB
  */
 @Retention(RetentionPolicy.SOURCE)

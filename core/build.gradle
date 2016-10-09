@@ -3,7 +3,6 @@ apply plugin: 'groovy'
 
 dependencies {
     compile project(":highlevel-framework")
-    compile project(":ast")
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"

@@ -1,12 +1,17 @@
-package com.lapots.game.journey.ui.dsl
+package com.lapots.game.journey.ui.dsl.menu
 
 import com.kotcrab.vis.ui.widget.Menu
-import com.kotcrab.vis.ui.widget.MenuItem
+import com.lapots.game.journey.ui.helper.UiHelper
 import com.lapots.game.journey.util.DslUtils;
 
+/**
+ * Dsl for menu entry.
+ *
+ * {@link MenuBarDSL}.
+ */
 class MenuDSL {
 
-    static final def LABEL_FIELD = "name"
+    static final def LABEL_FIELD = UiHelper["dsl.config.menu_label_key"]
 
     def entry_header
     @Lazy Menu menu = new Menu(entry_header)

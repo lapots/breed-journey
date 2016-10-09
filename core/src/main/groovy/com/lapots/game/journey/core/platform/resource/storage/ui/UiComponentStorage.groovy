@@ -1,6 +1,6 @@
 package com.lapots.game.journey.core.platform.resource.storage.ui
 
-import com.lapots.game.journey.core.platform.UiPlatform;
+import UiHelper;
 import com.lapots.game.journey.util.FileProcessingUtils;
 import com.lapots.game.journey.util.ReflectionUtils;;
 
@@ -21,13 +21,13 @@ class UiComponentStorage {
     ]
 
     static {
-        UiPlatform.Constants.SUPPORTED_EXTENSIONS.each { ext ->
+        UiHelper["application.supported_extensions"].each { ext ->
             loaders[ext] = ReflectionUtils.instantiate(createFileName(ext))
         }
     }
 
     static {
-        new File(UiPlatform.Constants.COMPONENT_PATH).eachFileRecurse { file ->
+        new File(UiHelper["application.component_path"]).eachFileRecurse { file ->
             def loader = loaders [
                 FileProcessingUtils.getFileExt(file)
             ]
@@ -40,8 +40,8 @@ class UiComponentStorage {
     }
 
     private static def createFileName(ext) {
-        FileProcessingUtils.createFileName(UiPlatform.Constants.LOADER_PACKAGE,
-                UiPlatform.Constants.LOADER_POSTFIX, ext)
+        FileProcessingUtils.createFileName(UiHelper["application.loader_package"],
+                UiHelper["application.loader_postfix"], ext)
     }
 
 }

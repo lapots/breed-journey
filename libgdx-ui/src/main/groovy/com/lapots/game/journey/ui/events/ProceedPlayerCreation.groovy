@@ -2,14 +2,14 @@ package com.lapots.game.journey.ui.events
 
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent
 import com.lapots.game.journey.core.api.ICloseable
 import com.lapots.game.journey.core.platform.CorePlatform
-import com.lapots.game.journey.core.platform.ResourcePlatform;
+import com.lapots.game.journey.core.platform.ResourcePlatform
+import com.lapots.game.journey.ui.dsl.traits.ValueReferencedTrait;
 import com.lapots.game.journey.util.DomainUtils
 import com.lapots.game.journey.util.GrlUtils;
 
-import groovy.json.JsonOutput;;;
+import groovy.json.JsonOutput
 
 // Creates player instance
 class ProceedPlayerCreation extends ChangeListener {

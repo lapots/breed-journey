@@ -1,4 +1,4 @@
-package com.lapots.game.journey.ui.dsl
+package com.lapots.game.journey.ui.dsl.basic
 
 import com.kotcrab.vis.ui.building.OneRowTableBuilder
 import com.kotcrab.vis.ui.building.utilities.Alignment;
@@ -8,11 +8,12 @@ import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.core.platform.CorePlatform;
 import com.lapots.game.journey.ui.dsl.traits.ComponentWidthTrait
 import com.lapots.game.journey.ui.dsl.traits.IdentifiableTrait
+import com.lapots.game.journey.ui.helper.UiHelper
 import com.lapots.game.journey.util.DslUtils;
 
 class TextLabelDSL implements IReferenced, ComponentWidthTrait, IdentifiableTrait  {
 
-    private static final LABEL = "label"
+    private static final LABEL = UiHelper["dsl.config.label_key"]
 
     static def createLabel(text) {
         new VisLabel(text)

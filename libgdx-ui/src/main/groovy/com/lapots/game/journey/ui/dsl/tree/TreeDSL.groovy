@@ -1,4 +1,4 @@
-package com.lapots.game.journey.ui.dsl
+package com.lapots.game.journey.ui.dsl.tree
 
 import com.kotcrab.vis.ui.widget.VisTree
 import com.lapots.game.journey.core.api.IReferenced

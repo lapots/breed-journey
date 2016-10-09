@@ -1,9 +1,6 @@
 package com.lapots.game.journey.ui.dsl.traits
 
-import com.badlogic.gdx.scenes.scene2d.Actor
-import com.kotcrab.vis.ui.building.utilities.CellWidget
-import com.lapots.game.journey.core.platform.UiPlatform;
-import com.lapots.game.journey.util.DslUtils
+import com.lapots.game.journey.ui.helper.UiHelper
 import com.lapots.game.journey.util.FileProcessingUtils
 import com.lapots.game.journey.util.ReflectionUtils
 
@@ -13,8 +10,8 @@ trait DynamicClosureTrait {
 
     def methodMissing(String name, args) {
         def dsl = FileProcessingUtils
-                .createFileName(UiPlatform.Constants.DSL_PACKAGE,
-                        UiPlatform.Constants.DSL_POSTFIX, name)
+                .createFileName(UiHelper["application.dsl_package"],
+                        UiHelper["application.dsl_postfix"], name)
         def dsl_instance = ReflectionUtils.instantiate(dsl)
         dsl_instance.call(*args)
 

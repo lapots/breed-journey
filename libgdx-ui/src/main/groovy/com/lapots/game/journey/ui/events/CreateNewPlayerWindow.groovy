@@ -11,8 +11,12 @@ import com.lapots.game.journey.util.EvaluationUtils
  */
 class CreateNewPlayerWindow extends InputListener {
 
+    static final NEW_CHARACTER_COMPONENT = UiHelper["components.new_character.name"]
+    static final NEW_CHARACTER_ENTRY = UiHelper["components.new_character.entry"]
+
+    @Override
     boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        def newCharacterWindow = UiHelper["components.new_character"]
-        EvaluationUtils.evaluateWithBinding(newCharacterWindow, [ "window" : new WindowDSL() ])
+        def newCharacterWindow = UiHelper["ui:$NEW_CHARACTER_COMPONENT"]
+        EvaluationUtils.evaluateWithBinding(newCharacterWindow, [ (NEW_CHARACTER_ENTRY) : new WindowDSL() ])
     }
 }

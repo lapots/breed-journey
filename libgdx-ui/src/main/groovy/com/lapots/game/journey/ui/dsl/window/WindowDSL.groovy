@@ -4,22 +4,16 @@ import com.kotcrab.vis.ui.building.GridTableBuilder
 import com.kotcrab.vis.ui.building.utilities.Padding
 import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisWindow
-import com.lapots.game.journey.core.api.ICloseable
-import com.lapots.game.journey.core.api.IReferenced
-import com.lapots.game.journey.core.platform.CorePlatform;
 import com.lapots.game.journey.ui.helper.UiHelper;
-import com.lapots.game.journey.ui.dsl.traits.CompositeTrait
-import com.lapots.game.journey.ui.dsl.traits.DynamicClosureTrait
-import com.lapots.game.journey.ui.dsl.traits.IdentifiableTrait
+import com.lapots.game.journey.ui.dsl.api.traits.CompositeTrait
+
+import com.lapots.game.journey.ui.dsl.api.traits.IdentifiableTrait
 import com.lapots.game.journey.util.DslUtils
 import com.lapots.game.journey.util.EvaluationUtils
 
 class WindowDSL implements
-                DynamicClosureTrait,
                 CompositeTrait,
-                IReferenced,
-                IdentifiableTrait,
-                ICloseable
+                IdentifiableTrait
 {
 
     private static final String HEADER_KEY = UiHelper["dsl.config.window_header_key"]
@@ -59,7 +53,6 @@ class WindowDSL implements
 
         DslUtils.delegate(closure, this)
 
-        CorePlatform.managed["uiComponentStorage"].registered[id] = this
         window.add(grid.build())
         if (need_pack) {
             window.pack()

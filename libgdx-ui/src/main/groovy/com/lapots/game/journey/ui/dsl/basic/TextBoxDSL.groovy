@@ -2,43 +2,56 @@ package com.lapots.game.journey.ui.dsl.basic
 
 import com.kotcrab.vis.ui.building.OneRowTableBuilder
 import com.kotcrab.vis.ui.widget.VisTextField
-import com.lapots.game.journey.core.api.IReferenced
-import com.lapots.game.journey.core.platform.CorePlatform
-import com.lapots.game.journey.ui.dsl.basic.TextLabelDSL;
-import com.lapots.game.journey.ui.dsl.traits.ComponentWidthTrait
-import com.lapots.game.journey.ui.dsl.traits.IdentifiableTrait
-import com.lapots.game.journey.ui.dsl.traits.ValueReferencedTrait
+import com.lapots.game.journey.ui.dsl.api.IPrimitiveDSL
+import com.lapots.game.journey.ui.dsl.api.traits.ComponentValueTrait
+import com.lapots.game.journey.ui.dsl.api.traits.ComponentWidthTrait
 import com.lapots.game.journey.ui.helper.UiHelper
 import com.lapots.game.journey.util.DslUtils;
 
-class TextBoxDSL implements IReferenced, ComponentWidthTrait, ValueReferencedTrait, IdentifiableTrait {
-
-    private static final LABEL = UiHelper["dsl.config.label_key"]
+/**
+ * DSL for text box.
+ * Basically
+ *
+ * <pre>
+ *      textBox($.dsl.config.label_key : 'Text box') {
+ *          initial "Some value"
+ *      }
+ * </pre>
+ */
+class TextBoxDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValueTrait {
 
     OneRowTableBuilder oneRowTable = new OneRowTableBuilder()
-    VisTextField textField = new VisTextField()
+    @Lazy VisTextField textField = new VisTextField()
 
-    def label
+    //==========================DSL specifics=====================
     def call(map, closure) {
         id = uuid()
-        label = map[LABEL]
+        def label = map[UiHelper["dsl.config.label_key"]]
         DslUtils.delegate(closure, this)
 
-        if (label) {
-            oneRowTable.append(roundify(TextLabelDSL.createLabel(label)))
-        }
-        CorePlatform.managed["uiComponentStorage"].registered[id] = this
-        valueRef = textField
+        if (label) { oneRowTable.append(roundify(TextLabelDSL.createLabel(label))) }
+
         oneRowTable.append(roundify(textField))
     }
 
-    def value(value) {
-        textField.setText(value)
-    }
+    def initial(value) { textField.setText(value) }
+    //=======================================END=====================
 
-    def getValue() { [ "$label" : valueRef.getText() ] }
+    @Override
+    def getValue() { textField.getText() }
 
-    def component_reference() { null }
-    def identifiable_instance() { textField }
-    def bitwiseNegate() { oneRowTable.build() }
+    @Override
+    def setValue(Object value) { textField.setText(value) }
+
+    @Override
+    Object getId() { id }
+
+    @Override
+    void setId(Object id) { this.id = id }
+
+    @Override
+    def getInnerComponent() { oneRowTable.build() }
+
+    @Override
+    def getRawComponent() { textField }
 }

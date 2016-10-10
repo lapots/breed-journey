@@ -1,12 +1,14 @@
 package com.lapots.game.journey.ui.dsl.tree
 
 import com.badlogic.gdx.scenes.scene2d.ui.Tree.Node
-import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.ui.dsl.basic.TextLabelDSL
 import com.lapots.game.journey.ui.helper.UiHelper
-import com.lapots.game.journey.util.DslUtils;
+import com.lapots.game.journey.util.DslUtils
 
-class TreeNodeDSL implements IReferenced {
+/**
+ * Represent tree node. {@link TreeDSL}.
+ */
+class TreeNodeDSL {
     private static final def LABEL = UiHelper["dsl.config.label_key"]
 
     @Lazy Node node = new Node(TextLabelDSL.createLabel(label))

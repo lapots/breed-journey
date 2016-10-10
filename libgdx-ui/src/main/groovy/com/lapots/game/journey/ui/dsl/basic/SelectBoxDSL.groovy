@@ -2,55 +2,86 @@ package com.lapots.game.journey.ui.dsl.basic
 
 import com.kotcrab.vis.ui.building.OneRowTableBuilder
 import com.kotcrab.vis.ui.widget.VisSelectBox
-import com.lapots.game.journey.core.api.IReferenced
-import com.lapots.game.journey.core.platform.CorePlatform
-import com.lapots.game.journey.ui.dsl.basic.TextLabelDSL;
-import com.lapots.game.journey.ui.dsl.traits.ComponentWidthTrait
-import com.lapots.game.journey.ui.dsl.traits.DynamicPropertyTrait
-import com.lapots.game.journey.ui.dsl.traits.IdentifiableTrait
-import com.lapots.game.journey.ui.dsl.traits.ValueReferencedTrait
+import com.lapots.game.journey.ui.dsl.api.IEventableDSL
+import com.lapots.game.journey.ui.dsl.api.IListableDSL
+import com.lapots.game.journey.ui.dsl.api.IPrimitiveDSL
+import com.lapots.game.journey.ui.dsl.api.traits.ComponentDefaultValueTrait
+import com.lapots.game.journey.ui.dsl.api.traits.ComponentValueTrait
+import com.lapots.game.journey.ui.dsl.api.traits.ComponentWidthTrait
 import com.lapots.game.journey.ui.helper.UiHelper
 import com.lapots.game.journey.util.DslUtils
+import com.lapots.game.journey.util.ReflectionUtils
 
-class SelectBoxDSL implements IReferenced, ComponentWidthTrait, DynamicPropertyTrait, IdentifiableTrait, ValueReferencedTrait {
-
-    private static final String LABEL = UiHelper["dsl.config.label_key"]
+/**
+ * DSL for select box.
+ * Basically
+ *
+ * <pre>
+ *      selectBox($dsl.config.label_key : 'Select box') {
+ *          onClick {
+ *              "SomethingChangedEvent"
+ *          }
+ *          items { ["a", "b", "c"] }
+ *          initial "a"
+ *      }
+ * </pre>
+ */
+class SelectBoxDSL implements IPrimitiveDSL, IEventableDSL, IListableDSL, ComponentWidthTrait,
+        ComponentValueTrait, ComponentDefaultValueTrait {
 
     OneRowTableBuilder oneRowTable = new OneRowTableBuilder()
     VisSelectBox selectBox = new VisSelectBox()
 
-    def has_selected
-    def label
-
+    //=================DSL specifics==============================
+    // basically dsl specific facilities.
     def call(map, closure) {
         id = uuid()
-        label = map[LABEL]
+        def label = map[UiHelper["dsl.config.label_key"]]
         DslUtils.delegate(closure, this)
 
-        if (label) {
-            oneRowTable.append(roundify(TextLabelDSL.createLabel(label)))
-        }
+        if (label) { oneRowTable.append(roundify(TextLabelDSL.createLabel(label))) }
 
-        CorePlatform.managed["uiComponentStorage"].registered[id] = this
-        valueRef = selectBox
         oneRowTable.append(roundify(selectBox))
     }
 
-    def on_click(closure) {}
+    def items(closure) { this.setItems(closure()) }
 
-    def value(value) {
-        has_selected = value
+    @Override
+    def onClick(Object closure) {
+        def event = closure()
+        if (event) {
+            def instance = ReflectionUtils.instantiateOne(UiHelper["application.packages.event_packages"], event)
+            selectBox.addListener(instance)
+        }
     }
 
-    def items(items) {
-        // temporary invoke ()
-        selectBox.setItems(items().toArray())
-        if (has_selected) { selectBox.setSelected(has_selected) }
+    def initial(value) { setDefaultValue(value) }
+    //========================END===========================================
+
+    @Override
+    Object getId() { id }
+
+    @Override
+    void setId(Object id) { this.id = id }
+
+    @Override
+    def getInnerComponent() { oneRowTable.build() }
+
+    @Override
+    def getRawComponent() { selectBox }
+
+    @Override
+    def getValue() { selectBox.getSelected() }
+
+    @Override
+    def setValue(Object value) { selectBox.setSelected(value) }
+
+    @Override
+    def setDefaultValue(Object value) { return null }
+
+    @Override
+    def setItems(Object list) {
+        // assuming list
+        selectBox.setItems(list.toArray())
     }
-
-    def getValue() { [ "$label" : selectBox.getSelected() ] }
-
-    def identifiable_instance() { selectBox }
-    def component_reference() { null }
-    def bitwiseNegate() { oneRowTable.build() }
 }

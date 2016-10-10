@@ -1,1 +1,1 @@
-include 'ast', 'core', 'highlevel-framework', 'ims', 'libgdx-ui', 'osm'
+include 'ast', 'core', 'highlevel-framework', 'ims', 'libgdx-ui', 'osm', 'gradle-mongo-plugin', 'gradle-redis-plugin'

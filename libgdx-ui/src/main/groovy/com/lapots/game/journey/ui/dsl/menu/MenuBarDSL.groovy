@@ -1,7 +1,6 @@
 package com.lapots.game.journey.ui.dsl.menu
 
 import com.kotcrab.vis.ui.widget.MenuBar
-import com.lapots.game.journey.core.api.IReferenced
 import com.lapots.game.journey.ui.helper.UiHelper;
 import com.lapots.game.journey.util.DslUtils;
 
@@ -21,7 +20,7 @@ import com.lapots.game.journey.util.DslUtils;
  *      }
  *
  */
-class MenuBarDSL implements IReferenced {
+class MenuBarDSL {
 
     static final def HEADER_FIELD = UiHelper["dsl.config.menu_label_key"]
 

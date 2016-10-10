@@ -1,9 +1,7 @@
 menuBar {
     menu (name : 'Game') {
         item (name : 'New') {
-            on_click {
-                "CreateNewPlayerWindow"
-            }
+            on_click {}
         }
         item (name : 'Continue') {}
     }

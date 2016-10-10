@@ -14,16 +14,14 @@ window (title : "Welcome to [Breed Journey] !") {
     textBox (label : 'Enter name') {}
 
     selectBox (label : 'Choose gender') {
-        items { resources.genders }
+        items {}
     }
 
     selectBox (label : 'Choose race') {
-        items { resources.races }
+        items {}
     }
 
     button (label : 'Create') {
-        on_click {
-            "ProceedPlayerCreation"
-        }
+        on_click {}
     }
 }

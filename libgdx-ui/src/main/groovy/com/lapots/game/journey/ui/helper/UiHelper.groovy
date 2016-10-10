@@ -1,6 +1,7 @@
 package com.lapots.game.journey.ui.helper
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.lapots.game.journey.util.FileProcessingUtils
@@ -9,6 +10,8 @@ import groovy.json.JsonSlurper
 /**
  * Special helper class that stores UI configuration
  * and other globals.
+ *
+ * Presumable might be used as gate to outer subsystems.
  */
 class UiHelper {
     static Stage default_stage
@@ -33,6 +36,12 @@ class UiHelper {
                 componentResources[resourceKey] = file.text
             }
         }
+    }
+
+    // some adjustments to existing classes
+    static {
+        Stage.metaClass.add = { component -> addActor(component) }
+        Actor.metaClass.parentUid = ""
     }
 
     static Table root = new Table()

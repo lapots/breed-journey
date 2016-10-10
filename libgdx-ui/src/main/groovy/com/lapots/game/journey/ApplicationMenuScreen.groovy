@@ -12,13 +12,10 @@ import com.lapots.game.journey.util.EvaluationUtils
 
 class ApplicationMenuScreen extends ScreenAdapter {
 
-    private static final String MENU_COMPONENT = UiHelper["components.menu"]
+    private static final String MENU_COMPONENT = UiHelper["components.menu.name"]
+    private static final String MENU_ENTRY = UiHelper["components.menu.entry"]
 
     Stage stage = new Stage(new ScreenViewport());
-
-    // some adjustments for existing classes
-    { Stage.metaClass.add = { component -> addActor(component) } }
-    { Actor.metaClass.parentUid = "" }
 
     @Override
     public void show() {
@@ -28,7 +25,7 @@ class ApplicationMenuScreen extends ScreenAdapter {
 
         // get result and layout
         def menubar = UiHelper["ui:$MENU_COMPONENT"]
-        EvaluationUtils.evaluateWithBinding(menubar, [ "menuBar": new MenuBarDSL() ])
+        EvaluationUtils.evaluateWithBinding(menubar, [ (MENU_ENTRY) : new MenuBarDSL() ])
 
         UiHelper.default_stage.addActor(UiHelper.root)
     }

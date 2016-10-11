@@ -22,8 +22,6 @@ import com.lapots.game.journey.util.DslUtils;
  */
 class TextLabelDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValueTrait {
 
-    private static final LABEL = UiHelper["dsl.config.label_key"]
-
     static class TextLabelUtil {
         static def createLabel(text) {
             new VisLabel(text)
@@ -31,38 +29,22 @@ class TextLabelDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValue
     }
 
     OneRowTableBuilder oneRowTable = new OneRowTableBuilder()
-    def tbl
-    def lbl
+    VisLabel visLabel
+    int labelWidth
 
-    int c_width
-
+    //===========================DSL specifics===================================
     def call(closure) {
         id = uuid()
         DslUtils.delegate(closure, this)
 
-        if (c_width) { oneRowTable.append(roundify(tbl, c_width)) }
-        else { oneRowTable.append(roundify(tbl)) }
+        if (labelWidth) { oneRowTable.append(roundify(visLabel, labelWidth)) }
+        else { oneRowTable.append(roundify(visLabel)) }
     }
 
-    def text(text) {
-        lbl = TextLabelUtil.createLabel(text)
-        tbl = new VisTable()
-        tbl.add(lbl)
-    }
+    def text(text) { visLabel = TextLabelUtil.createLabel(text) }
 
-    def width(c_width) {
-        this.c_width = c_width
-    }
-
-    // def setValue(value) {
-    // lbl.setText(value)
-    //}
-
-    def component_reference() { null }
-
-    def bitwiseNegate() { oneRowTable.build() }
-
-    def identifiable_instance() { lbl }
+    def width(labelWidth) { this.labelWidth = labelWidth }
+    //=====================================END==================================
 
     @Override
     Object getId() { id }
@@ -71,18 +53,20 @@ class TextLabelDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValue
     void setId(Object id) { this.id = id }
 
     @Override
-    def getValue() { lbl.getText() }
+    def getValue() { visLabel.getText() }
 
     @Override
-    def setValue(Object value) { lbl.setText(value) }
+    def setValue(Object value) { visLabel.setText(value) }
 
     @Override
-    def getInnerComponent() {
-        return null
-    }
+    def getInnerComponent() { return oneRowTable.build() }
 
     @Override
-    def getRawComponent() {
-        return null
-    }
+    def getRawComponent() { return visLabel }
+
+    @Override
+    Object getParentUid() { return parentUid }
+
+    @Override
+    void setParentUid(Object parentUid) { this.parentUid = parentUid }
 }

@@ -1,6 +1,7 @@
 package com.lapots.game.journey.ui.dsl.menu
 
 import com.kotcrab.vis.ui.widget.Menu
+import com.lapots.game.journey.ui.dsl.api.traits.CompositeTrait
 import com.lapots.game.journey.ui.helper.UiHelper
 import com.lapots.game.journey.util.DslUtils;
 
@@ -9,19 +10,41 @@ import com.lapots.game.journey.util.DslUtils;
  *
  * {@link MenuBarDSL}.
  */
-class MenuDSL {
+class MenuDSL implements CompositeTrait {
 
-    static final def LABEL_FIELD = UiHelper["dsl.config.menu_label_key"]
+    def entryName
+    @Lazy Menu menu = new Menu(entryName)
 
-    def entry_header
-    @Lazy Menu menu = new Menu(entry_header)
-
+    //=====================DSL specifics====================
     def item(map, closure) {
-        def menuItem = new MenuItemDSL(item_label : map[LABEL_FIELD])
+        id = uuid()
+        def menuItem = new MenuItemDSL(itemName : map[UiHelper["dsl.config.menu_label_key"]], id: uuid())
         DslUtils.delegate(closure, menuItem)
 
-        menu.addItem(~menuItem)
+        menu.addItem(menuItem.getInnerComponent())
+    }
+    //======================================================
+
+    @Override
+    Object getParentUid() { return parentUid }
+
+    @Override
+    void setParentUid(Object parentUid) { this.parentUid = parentUid }
+
+    @Override
+    Object getId() { return id }
+
+    @Override
+    void setId(Object id) { this.id = id }
+
+    @Override
+    def enumerateChildren() {
+        this.ids.each {}
     }
 
-    def bitwiseNegate() { menu }
+    @Override
+    def getInnerComponent() { return menu }
+
+    @Override
+    def getRawComponent() { return menu }
 }

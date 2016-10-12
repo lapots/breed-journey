@@ -14,15 +14,14 @@ import com.lapots.game.journey.util.ReflectionUtils
 trait CompositeTrait implements ICompositeDSL {
     def ids = []
 
-
     def methodMissing(String name, args) {
-        def dsl_instance = ReflectionUtils.instantiateOne(UiHelper["application.dsl_packages"], name,
+        def dslInstance = ReflectionUtils.instantiateOne(UiHelper["application.dsl_packages"], name,
                 UiHelper["application.dsl_postfix"])
-        dsl_instance.call(*args)
+        dslInstance.call(*args)
 
-        dsl_instance.parentUid = this.id
-        ids << dsl_instance.id
+        dslInstance.parentUid = this.id
+        ids << dslInstance.id
 
-        component_reference().append(~dsl_instance)
+        this.appendChild(dslInstance.getInnerComponent())
     }
 }

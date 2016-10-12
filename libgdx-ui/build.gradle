@@ -1,21 +1,7 @@
 apply plugin: "java"
 apply plugin: 'groovy'
 
-import de.undercouch.gradle.tasks.download.Download
-
-apply plugin: 'de.undercouch.download'
-
 sourceCompatibility = 1.8
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'de.undercouch:gradle-download-task:3.1.1'
-        classpath 'org.apache.httpcomponents:httpclient:4.5.2'
-    }
-}
 
 dependencies {
     compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
@@ -45,112 +31,12 @@ dependencies {
     compile "org.codehaus.groovy:groovy-all:$groovyVersion"
 }
 
-def rootDir = project(":").projectDir
-
-//========================================================
-//========================================================
-//********************************************************
-//**************************REDIS*************************
-task download_redis(type: Download) {
-    src 'https://github.com/MSOpenTech/redis/releases/download/win-3.2.100/Redis-x64-3.2.100.zip'
-    dest new File("$rootDir/applications/install", 'Redis-x64-3.2.100.zip')
-    onlyIfNewer true
-}
-
-task setup_redis(dependsOn: download_redis, type: Copy) {
-    from zipTree(download_redis.dest)
-    into "${rootDir}/applications/redis"
-}
-
-task start_redis(type: Exec) {
-    workingDir "${rootDir}/applications/redis"
-    commandLine 'cmd', '/c', 'redis-server'
-}
-
-task stop_redis(type: Exec) {
-    workingDir "${rootDir}/applications/redis"
-    commandLine 'cmd', '/c', 'redis-cli', 'shutdown'
-}
-
-task remove_redis << {
-    file("${rootDir}/applications/redis").deleteDir()
-}
-
-//********************************************************
-//********************************************************
-//========================================================
-//========================================================
-
-
-
-//========================================================
-//========================================================
-//********************************************************
-//**************************MONGO*************************
-
-def mongoMsiVersion = 'mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi'
-
-task download_mongo(type: Download) {
-    src "https://fastdl.mongodb.org/win32/$mongoMsiVersion"
-    dest new File("$rootDir/applications/install", mongoMsiVersion)
-    onlyIfNewer true
-}
-
-// cannot install it anywhere except Program Files ...
-task install_mongo(dependsOn: download_mongo, type: Exec) {
-    workingDir "${rootDir}/applications/install"
-    commandLine 'cmd', 'msiexec', '/i', "$mongoMsiVersion", "INSTALLLOCATION='${rootDir}/applications/mongo'", "ADDLOCAL='all'", '/qn'
-}
-
-// << is essential here as it evaluates tasks and invoke new File...I presume
-task setup_mongo(dependsOn: install_mongo) << {
-
-    def folder = file("${rootDir}/applications/mongo/bin")
-    if (!folder.exists()) { folder.mkdirs() }
-
-    def data_folder = file("$rootDir/applications/mongo/bin/data/db")
-    if (!data_folder.exists()) { data_folder.mkdirs() }
-
-    new File(folder, 'mongodb.config').withWriter{ writer ->
-        writer << "dbpath=$rootDir/applications/mongo/bin/data/db"
-    }
-}
-
-task start_mongo(type: Exec) {
-    workingDir "${rootDir}/applications/mongo/bin"
-    commandLine 'cmd', '/c', 'mongod', '--config', 'mongodb.config'
-}
-
-task stop_mongo(type: Exec) {
-    workingDir "${rootDir}/applications/mongo/bin"
-    commandLine 'cmd', '/c', 'mongo', 'admin', '--eval "db.shutdownServer()"'
-}
-
-task unistall_mongo(type: Exec) {
-    workingDir "${rootDir}/applications/mongo/install"
-    commandLine 'cmd', 'msiexec','/x', "$mongoMsiVersion"
-}
-
-task remove_mongo(dependsOn: unistall_mongo) << {
-    file("${rootDir}/applications/mongo").deleteDir()
-}
-//********************************************************
-//********************************************************
-//========================================================
-//========================================================
-
-task cleanup_install << {
-    file("${rootDir}/applications/install").deleteDir()
-}
-
 project.ext.mainClassName = "com.lapots.game.journey.DesktopLauncher"
-project.ext.assetsDir = new File("../libgdx-ui/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath + sourceSets.main.compileClasspath
     standardInput = System.in
-    workingDir = project.assetsDir
     ignoreExitValue = true
 }
 
@@ -158,7 +44,6 @@ task dist(type: Jar) {
     from files(sourceSets.main.output.classesDir)
     from files(sourceSets.main.output.resourcesDir)
     from {configurations.compile.collect {zipTree(it)}}
-    from files(project.assetsDir);
 
     manifest {
         attributes 'Main-Class': project.mainClassName
@@ -166,13 +51,6 @@ task dist(type: Jar) {
 }
 
 dist.dependsOn classes
-
-eclipse {
-    project {
-        name = appName + '-desktop'
-        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/libgdx-ui/assets'
-    }
-}
 
 task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
     doLast {

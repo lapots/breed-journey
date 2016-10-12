@@ -1,0 +1,55 @@
+
+apply plugin: 'de.undercouch.download'
+
+import de.undercouch.gradle.tasks.download.Download
+
+def mongoMsiVersion = 'mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi'
+
+task download_mongo(type: Download) {
+    src "https://fastdl.mongodb.org/win32/$mongoMsiVersion"
+    dest new File("$rootDir/applications/install", mongoMsiVersion)
+    onlyIfNewer true
+}
+
+// cannot install it anywhere except Program Files ...
+task install_mongo(dependsOn: download_mongo, type: Exec) {
+    workingDir "${rootDir}/applications/install"
+    commandLine 'cmd', 'msiexec', '/i', "$mongoMsiVersion", "INSTALLLOCATION='${rootDir}/applications/mongo'", "ADDLOCAL='all'", '/qn'
+}
+
+// << is essential here as it evaluates tasks and invoke new File...I presume
+task setup_mongo(dependsOn: install_mongo) << {
+
+    def folder = file("${rootDir}/applications/mongo/bin")
+    if (!folder.exists()) { folder.mkdirs() }
+
+    def data_folder = file("$rootDir/applications/mongo/bin/data/db")
+    if (!data_folder.exists()) { data_folder.mkdirs() }
+
+    new File(folder, 'mongodb.config').withWriter{ writer ->
+        writer << "dbpath=$rootDir/applications/mongo/bin/data/db"
+    }
+}
+
+task start_mongo(type: Exec) {
+    workingDir "${rootDir}/applications/mongo/bin"
+    commandLine 'cmd', '/c', 'mongod', '--config', 'mongodb.config'
+}
+
+task stop_mongo(type: Exec) {
+    workingDir "${rootDir}/applications/mongo/bin"
+    commandLine 'cmd', '/c', 'mongo', 'admin', '--eval "db.shutdownServer()"'
+}
+
+task unistall_mongo(type: Exec) {
+    workingDir "${rootDir}/applications/mongo/install"
+    commandLine 'cmd', 'msiexec','/x', "$mongoMsiVersion"
+}
+
+task remove_mongo(dependsOn: unistall_mongo) << {
+    file("${rootDir}/applications/mongo").deleteDir()
+}
+
+task cleanup_install << {
+    file("${rootDir}/applications/install").deleteDir()
+}

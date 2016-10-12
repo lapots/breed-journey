@@ -14,40 +14,51 @@ import groovy.json.JsonSlurper
  * Presumable might be used as gate to outer subsystems.
  */
 class UiHelper {
-    static Stage default_stage
+
+    static resourceLoader(file) {
+        def classLoader = Thread.currentThread().getContextClassLoader()
+        new File(classLoader.getResource(file).getFile())
+    }
+
+    static jsonResourceLoader(file) {
+        def classLoader = Thread.currentThread().getContextClassLoader()
+        new JsonSlurper().parse(new File(classLoader.getResource(file).getFile()))
+    }
+    static Stage mainStage
 
     // load .config file
     static jsonResource
     static {
-        def classLoader = Thread.currentThread().getContextClassLoader()
-        jsonResource = new JsonSlurper().parse(
-                new File(classLoader.getResource("libgdx.config").getFile())
-        )
+        jsonResource = jsonResourceLoader("libgdx.config")
     }
 
     // load Ui resource files (.component etc.)
+    // represent static index
     static componentResources = [:]
     static {
-        def assets = Gdx.files.internal(jsonResource.application.assets_path).file()
+        def assets = resourceLoader(jsonResource.application.assets_path)
         def supportedExtensions = jsonResource.application.supported_extensions as List
         assets.eachFileRecurse { file ->
             if (FileProcessingUtils.getFileExt(file) in supportedExtensions) {
                 def resourceKey = FileProcessingUtils.getFileName(file)
+                println "Resource key: $resourceKey"
                 componentResources[resourceKey] = file.text
             }
         }
     }
 
-    // some adjustments to existing classes
-    static {
-        Stage.metaClass.add = { component -> addActor(component) }
-        Actor.metaClass.parentUid = ""
-    }
+    // represent dynamic index
+    static componentRegistry = [:]
 
+    // some adjustments to existing classes
+    static { Actor.metaClass.parentUid = "" }
+
+    /*
     static Table root = new Table()
     static {
         root.setFillParent(true)
     }
+    */
 
     static getAt(name) {
         // imitate routing
@@ -55,13 +66,22 @@ class UiHelper {
             def subRoute = name[0..name.indexOf(":")]
             def res = name[name.indexOf(":")..name.length() - 1]
             switch (subRoute) {
-                case "ui:":
-                    return componentResources[res]
-                case "prop:":
-                    return jsonResource."$res"
+                case "ui:": return componentResources[res]
+                case "prop:": return jsonPathSolver(jsonResource, name)
             }
-        } else {
-            jsonResource."$name"
+        } else { jsonPathSolver(jsonResource, name) }
+    }
+
+    static jsonPathSolver(json, path) {
+        path += '.' // at least one additional loop before quiting [while]
+        while (path.indexOf('.') != -1) {
+            def subpathIndex = path.indexOf('.')
+            def subpath = path[0..subpathIndex - 1]
+            println "$subpath"
+            if (subpathIndex + 1 < path.length()) { path = path[subpathIndex + 1..path.length() - 1] }
+            else { path -= '.' }
+            json = json."$subpath"
         }
+        json
     }
 }

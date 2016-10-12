@@ -43,9 +43,14 @@ class TreeNodeDSL implements CompositeTrait, ComponentValueTrait, IEventableDSL 
     }
     //=================================END=========================
     def processSub(closure) {
+        this.id = uuid()
         TreeNodeDSL childNode = new TreeNodeDSL()
+        childNode.parentUid = this.id
         DslUtils.delegate(closure, childNode)
         node.add(childNode.getInnerComponent())
+
+        UiHelper.componentRegistry[(id)] = this
+        UiHelper.componentRegistry[(childNode.id)] = childNode
     }
 
     @Override
@@ -64,6 +69,9 @@ class TreeNodeDSL implements CompositeTrait, ComponentValueTrait, IEventableDSL 
     def enumerateChildren() {
         ids.each {}
     }
+
+    @Override
+    def appendChild(Object child) { node.add(child.getInnerComponent()) }
 
     @Override
     def getValue() {

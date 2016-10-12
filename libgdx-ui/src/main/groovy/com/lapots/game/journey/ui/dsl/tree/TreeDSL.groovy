@@ -2,6 +2,7 @@ package com.lapots.game.journey.ui.dsl.tree
 
 import com.kotcrab.vis.ui.widget.VisTree
 import com.lapots.game.journey.ui.dsl.api.traits.CompositeTrait
+import com.lapots.game.journey.ui.helper.UiHelper
 import com.lapots.game.journey.util.DslUtils
 
 import java.awt.Composite;;
@@ -37,14 +38,20 @@ class TreeDSL implements CompositeTrait {
 
     //==============================DSL specifics============
     def call(closure) {
+        id = uuid()
         DslUtils.delegate(closure, this)
+
+        UiHelper.componentRegistry[(id)] = this
     }
 
     def node(map, closure) {
         TreeNodeDSL childNode = new TreeNodeDSL(map)
-        DslUtils.delegate(closure, child_node)
+        childNode.parentUid = this.id
+        DslUtils.delegate(closure, childNode)
 
         visTree.add(childNode.getInnerComponent())
+
+        UiHelper[(childNode.id)] = childNode
     }
     //================================END=====================
 
@@ -64,6 +71,9 @@ class TreeDSL implements CompositeTrait {
     def enumerateChildren() {
         ids.each {}
     }
+
+    @Override
+    def appendChild(Object child) { visTree.add(child.getInnerComponent()) }
 
     @Override
     def getInnerComponent() { return visTree }

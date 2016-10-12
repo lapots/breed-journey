@@ -9,15 +9,10 @@ class ApplicationMain extends Game {
     @Override
     public void create() {
         VisUI.load(SkinScale.X1)
-        try {
-            setScreen(new ApplicationMenuScreen())
-        } catch (Exception e) {
-             e.printStackTrace()
-        }
+        try { setScreen(new ApplicationMenuScreen()) }
+        catch (Exception e) { e.printStackTrace() }
     }
 
     @Override
-    public void dispose() {
-        VisUI.dispose()
-    }
+    public void dispose() { VisUI.dispose() }
 }

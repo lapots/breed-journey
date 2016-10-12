@@ -40,6 +40,8 @@ class ButtonDSL implements IPrimitiveDSL, ComponentValueTrait, IEventableDSL, Co
 
         DslUtils.delegate(closure, this)
         oneRowTable.append(roundify(button))
+
+        UiHelper.componentRegistry[(id)] = this
     }
 
     @Override

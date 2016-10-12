@@ -2,12 +2,11 @@ package com.lapots.game.journey.ui.dsl.basic
 
 import com.kotcrab.vis.ui.building.OneRowTableBuilder
 import com.kotcrab.vis.ui.widget.VisLabel
-import com.kotcrab.vis.ui.widget.VisTable
 import com.lapots.game.journey.ui.dsl.api.IPrimitiveDSL
 import com.lapots.game.journey.ui.dsl.api.traits.ComponentValueTrait
 import com.lapots.game.journey.ui.dsl.api.traits.ComponentWidthTrait
 import com.lapots.game.journey.ui.helper.UiHelper
-import com.lapots.game.journey.util.DslUtils;
+import com.lapots.game.journey.util.DslUtils
 
 /**
  * DSL for text label.
@@ -39,6 +38,8 @@ class TextLabelDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValue
 
         if (labelWidth) { oneRowTable.append(roundify(visLabel, labelWidth)) }
         else { oneRowTable.append(roundify(visLabel)) }
+
+        UiHelper.componentRegistry[(id)] = this
     }
 
     def text(text) { visLabel = TextLabelUtil.createLabel(text) }

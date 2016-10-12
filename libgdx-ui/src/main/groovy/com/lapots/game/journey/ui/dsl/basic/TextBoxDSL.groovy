@@ -32,6 +32,8 @@ class TextBoxDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValueTr
         if (label) { oneRowTable.append(roundify(TextLabelDSL.createLabel(label))) }
 
         oneRowTable.append(roundify(textField))
+
+        UiHelper.componentRegistry[(id)] = this
     }
 
     def initial(value) { textField.setText(value) }

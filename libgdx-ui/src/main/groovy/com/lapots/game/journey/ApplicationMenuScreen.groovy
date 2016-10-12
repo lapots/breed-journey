@@ -3,7 +3,6 @@ package com.lapots.game.journey
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.lapots.game.journey.ui.helper.UiHelper
@@ -20,14 +19,12 @@ class ApplicationMenuScreen extends ScreenAdapter {
     @Override
     public void show() {
         // global UI stage
-        UiHelper.default_stage = stage
+        UiHelper.mainStage = stage
         Gdx.input.setInputProcessor(stage)
 
-        // get result and layout
-        def menubar = UiHelper["ui:$MENU_COMPONENT"]
-        EvaluationUtils.evaluateWithBinding(menubar, [ (MENU_ENTRY) : new MenuBarDSL() ])
+        EvaluationUtils.evaluateWithBinding(UiHelper["ui:$MENU_COMPONENT"], [ (MENU_ENTRY) : new MenuBarDSL() ])
 
-        UiHelper.default_stage.addActor(UiHelper.root)
+        UiHelper.mainStage.addActor(UiHelper.root)
     }
 
     @Override

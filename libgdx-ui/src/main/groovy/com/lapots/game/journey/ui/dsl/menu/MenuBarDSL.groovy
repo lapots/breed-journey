@@ -33,10 +33,13 @@ class MenuBarDSL implements CompositeTrait {
         UiHelper.root.add().expand().fill()
 
         DslUtils.delegate(closure, this)
+
+        UiHelper.componentRegistry[(id)] = this
     }
 
     def menu(map, closure) {
         def menuEntry = new MenuDSL(entryName : map[UiHelper["dsl.config.menu_label_key"]])
+        menuEntry.parentUid = this.id
         DslUtils.delegate(closure, menuEntry)
 
         menubar.addMenu(menuEntry.getInnerComponent())
@@ -60,6 +63,9 @@ class MenuBarDSL implements CompositeTrait {
         // read every component
         this.ids.each {}
     }
+
+    @Override
+    def appendChild(Object child) { menubar.addMenu(child.getInnerComponent()) }
 
     @Override
     def getInnerComponent() { return menubar }

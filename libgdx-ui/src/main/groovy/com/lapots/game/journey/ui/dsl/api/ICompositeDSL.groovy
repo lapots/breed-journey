@@ -6,4 +6,6 @@ package com.lapots.game.journey.ui.dsl.api
  */
 interface ICompositeDSL extends IComponentDSL {
     def enumerateChildren()
+
+    def appendChild(child)
 }

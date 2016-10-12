@@ -42,6 +42,8 @@ class SelectBoxDSL implements IPrimitiveDSL, IEventableDSL, IListableDSL, Compon
         if (label) { oneRowTable.append(roundify(TextLabelDSL.createLabel(label))) }
 
         oneRowTable.append(roundify(selectBox))
+
+        UiHelper.componentRegistry[(id)] = this
     }
 
     def items(closure) { this.setItems(closure()) }

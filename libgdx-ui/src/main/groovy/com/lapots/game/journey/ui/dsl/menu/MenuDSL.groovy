@@ -19,9 +19,13 @@ class MenuDSL implements CompositeTrait {
     def item(map, closure) {
         id = uuid()
         def menuItem = new MenuItemDSL(itemName : map[UiHelper["dsl.config.menu_label_key"]], id: uuid())
+        menuItem.parentUid = this.id
         DslUtils.delegate(closure, menuItem)
 
         menu.addItem(menuItem.getInnerComponent())
+
+        UiHelper.componentRegistry[(id)] = this
+        UiHelper.componentRegistry[(menuItem.id)] = menuItem
     }
     //======================================================
 
@@ -41,6 +45,9 @@ class MenuDSL implements CompositeTrait {
     def enumerateChildren() {
         this.ids.each {}
     }
+
+    @Override
+    def appendChild(Object child) { menu.addItem(child.getInnerComponent()) }
 
     @Override
     def getInnerComponent() { return menu }

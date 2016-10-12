@@ -3,6 +3,8 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinPluginVersion"
         classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformPluginVersion"
+        classpath "de.undercouch:gradle-download-task:$gradleDownloadTaskVersion"
+        classpath "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
     }
 
     repositories {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import com.lapots.game.journey.ui.helper.UiHelper
 import com.lapots.game.journey.ui.dsl.menu.MenuBarDSL
@@ -18,13 +19,18 @@ class ApplicationMenuScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+
+        // some infinite loop happens if move to UiHelper class
+        Table root = new Table()
+        root.setFillParent(true)
         // global UI stage
         UiHelper.mainStage = stage
         Gdx.input.setInputProcessor(stage)
+        UiHelper.root = root
 
-        EvaluationUtils.evaluateWithBinding(UiHelper["ui:$MENU_COMPONENT"], [ (MENU_ENTRY) : new MenuBarDSL() ])
+        EvaluationUtils.evaluateWithBinding(UiHelper["ui:$MENU_COMPONENT"], [(MENU_ENTRY): new MenuBarDSL()])
 
-        UiHelper.mainStage.addActor(UiHelper.root)
+        UiHelper.mainStage.addActor(root)
     }
 
     @Override

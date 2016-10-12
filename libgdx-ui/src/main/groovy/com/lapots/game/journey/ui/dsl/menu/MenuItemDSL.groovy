@@ -22,24 +22,11 @@ class MenuItemDSL implements IPrimitiveDSL, IEventableDSL {
     def onClick(Object closure) {
         def event = closure()
         if (event) {
-            def instance = ReflectionUtils.instantiateOne(UiHelper["application.packages.event_packages"],
-                    event)
+            def instance = ReflectionUtils.instantiateOne(UiHelper["application.packages.event_packages"], event)
             item.addListener(instance)
         }
     }
     //=============================END=============
-
-    @Override
-    Object getParentUid() { return parentUid }
-
-    @Override
-    void setParentUid(Object parentUid) { this.parentUid = parentUid }
-
-    @Override
-    Object getId() { return id }
-
-    @Override
-    void setId(Object id) { this.id = id }
 
     @Override
     def getInnerComponent() { return item }

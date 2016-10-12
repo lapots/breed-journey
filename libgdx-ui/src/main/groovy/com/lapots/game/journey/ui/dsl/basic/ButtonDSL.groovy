@@ -57,12 +57,6 @@ class ButtonDSL implements IPrimitiveDSL, ComponentValueTrait, IEventableDSL, Co
     //===================================END=====================================
 
     @Override
-    Object getId() { return id }
-
-    @Override
-    void setId(Object id) { this.id = id }
-
-    @Override
     def getInnerComponent() { oneRowTable.build() }
 
     @Override
@@ -73,10 +67,4 @@ class ButtonDSL implements IPrimitiveDSL, ComponentValueTrait, IEventableDSL, Co
 
     @Override
     def setValue(def value) { button.setText(value) }
-
-    @Override
-    Object getParentUid() { return parentUid }
-
-    @Override
-    void setParentUid(Object parentUid) { this.parentUid = parentUid }
 }

@@ -13,6 +13,7 @@ class EvaluationUtils {
 
     // evaluated against root
     static evaluateWithoutBinding(code, root) {
+        if (null == code) return
         code = "{ -> $code }"
         def evaluated = new GroovyShell().evaluate(code)
         evaluated.delegate = root

@@ -61,12 +61,6 @@ class SelectBoxDSL implements IPrimitiveDSL, IEventableDSL, IListableDSL, Compon
     //========================END===========================================
 
     @Override
-    Object getId() { id }
-
-    @Override
-    void setId(Object id) { this.id = id }
-
-    @Override
     def getInnerComponent() { oneRowTable.build() }
 
     @Override
@@ -86,10 +80,4 @@ class SelectBoxDSL implements IPrimitiveDSL, IEventableDSL, IListableDSL, Compon
         // assuming list
         selectBox.setItems(list.toArray())
     }
-
-    @Override
-    Object getParentUid() { return parentUid }
-
-    @Override
-    void setParentUid(Object parentUid) { this.parentUid = parentUid }
 }

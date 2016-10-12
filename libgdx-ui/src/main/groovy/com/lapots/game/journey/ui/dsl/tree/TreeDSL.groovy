@@ -56,18 +56,6 @@ class TreeDSL implements CompositeTrait {
     //================================END=====================
 
     @Override
-    Object getParentUid() { return parentUid }
-
-    @Override
-    void setParentUid(Object parentUid) { this.parentUid = parentUid }
-
-    @Override
-    Object getId() { return id }
-
-    @Override
-    void setId(Object id) { this.id = id }
-
-    @Override
     def enumerateChildren() {
         ids.each {}
     }

@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor
  * inside Libgdx ecosystem.
  */
 trait IdentifiableTrait {
-    def parentUid
-    def id
+    String parentUid
+    String id
 
     static uuid() { UUID.randomUUID().toString() }
 }

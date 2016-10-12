@@ -39,34 +39,28 @@ class UiHelper {
         def assets = resourceLoader(jsonResource.application.assets_path)
         def supportedExtensions = jsonResource.application.supported_extensions as List
         assets.eachFileRecurse { file ->
+            println "$file"
             if (FileProcessingUtils.getFileExt(file) in supportedExtensions) {
                 def resourceKey = FileProcessingUtils.getFileName(file)
-                println "Resource key: $resourceKey"
-                componentResources[resourceKey] = file.text
+                componentResources[(resourceKey)] = file.text
             }
         }
     }
 
     // represent dynamic index
     static componentRegistry = [:]
+    static Table root
 
     // some adjustments to existing classes
     static { Actor.metaClass.parentUid = "" }
-
-    /*
-    static Table root = new Table()
-    static {
-        root.setFillParent(true)
-    }
-    */
 
     static getAt(name) {
         // imitate routing
         if (name.indexOf(":") != -1) {
             def subRoute = name[0..name.indexOf(":")]
-            def res = name[name.indexOf(":")..name.length() - 1]
+            def res = name[name.indexOf(":") + 1..name.length() - 1]
             switch (subRoute) {
-                case "ui:": return componentResources[res]
+                case "ui:": return componentResources[(res)]
                 case "prop:": return jsonPathSolver(jsonResource, name)
             }
         } else { jsonPathSolver(jsonResource, name) }
@@ -77,7 +71,6 @@ class UiHelper {
         while (path.indexOf('.') != -1) {
             def subpathIndex = path.indexOf('.')
             def subpath = path[0..subpathIndex - 1]
-            println "$subpath"
             if (subpathIndex + 1 < path.length()) { path = path[subpathIndex + 1..path.length() - 1] }
             else { path -= '.' }
             json = json."$subpath"

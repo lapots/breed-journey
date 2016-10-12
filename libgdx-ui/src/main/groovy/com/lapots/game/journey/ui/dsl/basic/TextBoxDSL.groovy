@@ -46,20 +46,9 @@ class TextBoxDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValueTr
     def setValue(Object value) { textField.setText(value) }
 
     @Override
-    Object getId() { id }
-
-    @Override
-    void setId(Object id) { this.id = id }
-
-    @Override
     def getInnerComponent() { oneRowTable.build() }
 
     @Override
     def getRawComponent() { textField }
 
-    @Override
-    Object getParentUid() { return parentUid }
-
-    @Override
-    void setParentUid(Object parentUid) { this.parentUid = parentUid }
 }

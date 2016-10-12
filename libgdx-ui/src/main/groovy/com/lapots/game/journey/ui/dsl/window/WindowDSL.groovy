@@ -1,8 +1,5 @@
 package com.lapots.game.journey.ui.dsl.window
 
-import com.kotcrab.vis.ui.building.GridTableBuilder
-import com.kotcrab.vis.ui.building.utilities.Padding
-import com.kotcrab.vis.ui.util.TableUtils;
 import com.kotcrab.vis.ui.widget.VisWindow
 import com.lapots.game.journey.ui.dsl.api.traits.CompositeTrait
 import com.lapots.game.journey.ui.helper.UiHelper;
@@ -104,18 +101,6 @@ class WindowDSL implements CompositeTrait {
 
     // method is protected by I do not care
     def closeWindow() { window.close() }
-
-    @Override
-    Object getParentUid() { return parentUid }
-
-    @Override
-    void setParentUid(Object parentUid) { this.parentUid = parentUid }
-
-    @Override
-    Object getId() { return id }
-
-    @Override
-    void setId(Object id) { this.id = id }
 
     @Override
     def enumerateChildren() {

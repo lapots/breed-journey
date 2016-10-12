@@ -15,6 +15,7 @@ trait CompositeTrait implements ICompositeDSL {
     def ids = []
 
     def methodMissing(String name, args) {
+        println "Method missing invokation!!!"
         def dslInstance = ReflectionUtils.instantiateOne(UiHelper["application.dsl_packages"], name,
                 UiHelper["application.dsl_postfix"])
         dslInstance.call(*args)

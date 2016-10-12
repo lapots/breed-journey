@@ -68,20 +68,8 @@ class SpinnerDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValueTr
     }
 
     @Override
-    Object getId() { id }
-
-    @Override
-    void setId(Object id) { this.id = id }
-
-    @Override
     def getInnerComponent() { oneRowTable.build() }
 
     @Override
     def getRawComponent() { spinner }
-
-    @Override
-    Object getParentUid() { return parentUid }
-
-    @Override
-    void setParentUid(Object parentUid) { this.parentUid = parentUid }
 }

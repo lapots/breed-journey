@@ -1,7 +1,7 @@
 menuBar {
     menu (name : 'Game') {
         item (name : 'New') {
-            on_click {}
+            onClick {}
         }
         item (name : 'Continue') {}
     }
@@ -9,7 +9,6 @@ menuBar {
         item (name : 'World') {}
         item (name : 'Creatures') {}
         item (name : 'Player') {}
-        }
     }
     menu (name : 'Application') {
         item (name : 'About...') {}

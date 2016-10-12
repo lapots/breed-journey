@@ -27,14 +27,18 @@ class MenuBarDSL implements CompositeTrait {
 
     //=============================DSL specificis=====================
     def call(closure) {
-        this.id = uuid()
-        // basically menu bar holds whole screen.
-        UiHelper.root.add(menubar.getTable()).expandX().fillX().row()
-        UiHelper.root.add().expand().fill()
+        try {
+            this.id = uuid()
+            // basically menu bar holds whole screen.
+            UiHelper.root.add(menubar.getTable()).expandX().fillX().row()
+            UiHelper.root.add().expand().fill()
 
-        DslUtils.delegate(closure, this)
+            DslUtils.delegate(closure, this)
 
-        UiHelper.componentRegistry[(id)] = this
+            UiHelper.componentRegistry[(id)] = this
+        } catch (Exception e) {
+            println "Error!!!!"
+        }
     }
 
     def menu(map, closure) {
@@ -45,18 +49,6 @@ class MenuBarDSL implements CompositeTrait {
         menubar.addMenu(menuEntry.getInnerComponent())
     }
     //====================================END==========================
-
-    @Override
-    Object getParentUid() { parentUid }
-
-    @Override
-    void setParentUid(Object parentUid) { this.parentUid = parentUid }
-
-    @Override
-    Object getId() { return id }
-
-    @Override
-    void setId(Object id) { this.id = id }
 
     @Override
     def enumerateChildren() {

@@ -48,12 +48,6 @@ class TextLabelDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValue
     //=====================================END==================================
 
     @Override
-    Object getId() { id }
-
-    @Override
-    void setId(Object id) { this.id = id }
-
-    @Override
     def getValue() { visLabel.getText() }
 
     @Override
@@ -65,9 +59,4 @@ class TextLabelDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValue
     @Override
     def getRawComponent() { return visLabel }
 
-    @Override
-    Object getParentUid() { return parentUid }
-
-    @Override
-    void setParentUid(Object parentUid) { this.parentUid = parentUid }
 }

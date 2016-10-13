@@ -44,7 +44,6 @@ class WindowDSL implements CompositeTrait {
 
     def gridComponent
     VisWindow window
-
     //=====================DSL specifics=================================
     def call(closure) { call(title : '', closure) }
 
@@ -52,16 +51,9 @@ class WindowDSL implements CompositeTrait {
         // do something with prefixes
         id = "window-" + uuid()
         window = new VisWindow(map[UiHelper["dsl.config.window_header_key"]])
-        UiHelper.mainStage.addActor(window)
-        WindowConfig.windowTableConfig(window)
-
-        DslUtils.delegate(closure, this)
-
-        WindowPosition.offsetWindow(window)
         UiHelper.componentRegistry[(id)] = this
-        window.add(gridComponent.build())
-
-        if (needPack) { window.pack()}
+        WindowConfig.windowTableConfig(window)
+        DslUtils.delegate(closure, this)
     }
 
     def withCloseButton(needButton) { !needButton ?: window.addCloseButton() }
@@ -90,9 +82,17 @@ class WindowDSL implements CompositeTrait {
         DslUtils.delegate(closure, grid)
 
         gridComponent = grid.build()
-        // window.add(gridComponent)
     }
     //=============================END====================================
+
+    def showWindow() {
+        // WindowPosition.offsetWindow(window)
+        UiHelper.mainStage.addActor(window)
+
+        window.add(gridComponent.build())
+        if (needPack) { window.pack()}
+
+    }
 
     // method is protected by I do not care
     def closeWindow() { window.close() }
@@ -104,8 +104,8 @@ class WindowDSL implements CompositeTrait {
 
     @Override
     def appendChild(Object child) {
-        if (!gridComponent) { componentQueue << child }
-        else { gridComponent.append(child) }
+        //if (!gridComponent) { componentQueue << child }
+        gridComponent.append(child)
     }
 
     @Override

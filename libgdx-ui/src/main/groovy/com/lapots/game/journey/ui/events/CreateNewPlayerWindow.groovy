@@ -18,6 +18,8 @@ class CreateNewPlayerWindow extends InputListener implements IdentifiableEventTr
     @Override
     boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
         def newCharacterWindow = UiHelper["ui:$NEW_CHARACTER_COMPONENT"]
-        EvaluationUtils.evaluateWithBinding(newCharacterWindow, [ (NEW_CHARACTER_ENTRY) : new WindowDSL() ])
+        def windowDsl = new WindowDSL()
+        EvaluationUtils.evaluateWithBinding(newCharacterWindow, [ (NEW_CHARACTER_ENTRY) : windowDsl ])
+        windowDsl.showWindow()
     }
 }

@@ -49,6 +49,9 @@ class UiHelper {
 
     // represent dynamic index
     static componentRegistry = [:]
+    // special registry to bind events to components
+    // for now - one component bound to one id
+    static eventRegistry = [:]
     static Table root
 
     // some adjustments to existing classes
@@ -62,6 +65,7 @@ class UiHelper {
             switch (subRoute) {
                 case "ui:": return componentResources[(res)]
                 case "prop:": return jsonPathSolver(jsonResource, name)
+                case "event:": return eventRegistry[(res)]
             }
         } else { jsonPathSolver(jsonResource, name) }
     }

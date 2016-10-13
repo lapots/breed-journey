@@ -27,18 +27,14 @@ class MenuBarDSL implements CompositeTrait {
 
     //=============================DSL specificis=====================
     def call(closure) {
-        try {
-            this.id = uuid()
-            // basically menu bar holds whole screen.
-            UiHelper.root.add(menubar.getTable()).expandX().fillX().row()
-            UiHelper.root.add().expand().fill()
+        this.id = "menubar-" + uuid()
+        // basically menu bar holds whole screen.
+        UiHelper.root.add(menubar.getTable()).expandX().fillX().row()
+        UiHelper.root.add().expand().fill()
 
-            DslUtils.delegate(closure, this)
+        DslUtils.delegate(closure, this)
 
-            UiHelper.componentRegistry[(id)] = this
-        } catch (Exception e) {
-            println "Error!!!!"
-        }
+        UiHelper.componentRegistry[(id)] = this
     }
 
     def menu(map, closure) {

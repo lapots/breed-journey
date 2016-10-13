@@ -2,6 +2,7 @@ package com.lapots.game.journey.ui.dsl.window
 
 import com.kotcrab.vis.ui.widget.VisWindow
 import com.lapots.game.journey.ui.dsl.api.traits.CompositeTrait
+import com.lapots.game.journey.ui.dsl.api.traits.IdentifiableTrait
 import com.lapots.game.journey.ui.helper.UiHelper;
 
 import com.lapots.game.journey.util.DslUtils
@@ -44,24 +45,23 @@ class WindowDSL implements CompositeTrait {
     def gridComponent
     VisWindow window
 
-    // in case of not initialize grid before adding components
-    def componentQueue = []
-
     //=====================DSL specifics=================================
     def call(closure) { call(title : '', closure) }
 
     def call(map, closure) {
-        id = uuid()
+        // do something with prefixes
+        id = "window-" + uuid()
         window = new VisWindow(map[UiHelper["dsl.config.window_header_key"]])
         UiHelper.mainStage.addActor(window)
         WindowConfig.windowTableConfig(window)
 
         DslUtils.delegate(closure, this)
 
-        if (needPack) { window.pack()}
-
         WindowPosition.offsetWindow(window)
         UiHelper.componentRegistry[(id)] = this
+        window.add(gridComponent.build())
+
+        if (needPack) { window.pack()}
     }
 
     def withCloseButton(needButton) { !needButton ?: window.addCloseButton() }
@@ -89,13 +89,8 @@ class WindowDSL implements CompositeTrait {
         def grid = new GridLayout()
         DslUtils.delegate(closure, grid)
 
-        def gridComponent = grid.build()
-
-        if (!componentQueue) {
-            componentQueue.each { component -> gridComponent.append(component) }
-            componentQueue.clear()
-        }
-        window.add(gridComponent)
+        gridComponent = grid.build()
+        // window.add(gridComponent)
     }
     //=============================END====================================
 
@@ -109,12 +104,12 @@ class WindowDSL implements CompositeTrait {
 
     @Override
     def appendChild(Object child) {
-        if (!grid) { componentQueue << child }
+        if (!gridComponent) { componentQueue << child }
         else { gridComponent.append(child) }
     }
 
     @Override
-    def getInnerComponent() { return grid }
+    def getInnerComponent() { return gridComponent }
 
     @Override
     def getRawComponent() { return window }

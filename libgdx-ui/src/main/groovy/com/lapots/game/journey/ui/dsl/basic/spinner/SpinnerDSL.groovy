@@ -33,7 +33,7 @@ class SpinnerDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValueTr
 
     //=============================DSL specifics=================================
     def call(map, closure) {
-        id = uuid()
+        id = "spinner-" + uuid()
         def label = map[UiHelper["dsl.config.label_key"]]
         DslUtils.delegate(closure, this)
 

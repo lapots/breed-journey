@@ -35,11 +35,11 @@ class SelectBoxDSL implements IPrimitiveDSL, IEventableDSL, IListableDSL, Compon
     //=================DSL specifics==============================
     // basically dsl specific facilities.
     def call(map, closure) {
-        id = uuid()
+        id = "selectbox-" + uuid()
         def label = map[UiHelper["dsl.config.label_key"]]
         DslUtils.delegate(closure, this)
 
-        if (label) { oneRowTable.append(roundify(TextLabelDSL.createLabel(label))) }
+        if (label) { oneRowTable.append(roundify(TextLabelDSL.TextLabelUtil.createLabel(label))) }
 
         oneRowTable.append(roundify(selectBox))
 
@@ -53,6 +53,8 @@ class SelectBoxDSL implements IPrimitiveDSL, IEventableDSL, IListableDSL, Compon
         def event = closure()
         if (event) {
             def instance = ReflectionUtils.instantiateOne(UiHelper["application.packages.event_packages"], event)
+            instance.boundId = this.id
+            UiHelper.eventRegistry[(this.id)] = instance
             selectBox.addListener(instance)
         }
     }
@@ -78,6 +80,6 @@ class SelectBoxDSL implements IPrimitiveDSL, IEventableDSL, IListableDSL, Compon
     @Override
     def setItems(Object list) {
         // assuming list
-        selectBox.setItems(list.toArray())
+        if (list) selectBox.setItems(list.toArray())
     }
 }

@@ -19,6 +19,12 @@ class FileProcessingUtils {
         filename[filename.lastIndexOf('.') + 1..filename.length() - 1]
     }
 
+    static createFileName(postfix, ext)  {
+        def half_name = ext[1..ext.length() - 1]
+        def first_letter = ext[0].toUpperCase()
+        first_letter + half_name + postfix
+    }
+
     static createFileName(prefix, postfix, ext) {
         def half_name = ext[1..ext.length() - 1]
         def first_letter = ext[0].toUpperCase()

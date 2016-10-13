@@ -38,7 +38,7 @@ class TreeDSL implements CompositeTrait {
 
     //==============================DSL specifics============
     def call(closure) {
-        id = uuid()
+        id = "tree-" + uuid()
         DslUtils.delegate(closure, this)
 
         UiHelper.componentRegistry[(id)] = this

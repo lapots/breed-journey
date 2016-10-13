@@ -13,7 +13,7 @@ import com.lapots.game.journey.util.DslUtils;
  * Basically
  *
  * <pre>
- *      textBox($.dsl.config.label_key : 'Text box') {
+ *      textBox($dsl.config.label_key : 'Text box') {
  *          initial "Some value"
  *      }
  * </pre>
@@ -25,11 +25,11 @@ class TextBoxDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValueTr
 
     //==========================DSL specifics=====================
     def call(map, closure) {
-        id = uuid()
+        id = "textbox-" + uuid()
         def label = map[UiHelper["dsl.config.label_key"]]
         DslUtils.delegate(closure, this)
 
-        if (label) { oneRowTable.append(roundify(TextLabelDSL.createLabel(label))) }
+        if (label) { oneRowTable.append(roundify(TextLabelDSL.TextLabelUtil.createLabel(label))) }
 
         oneRowTable.append(roundify(textField))
 

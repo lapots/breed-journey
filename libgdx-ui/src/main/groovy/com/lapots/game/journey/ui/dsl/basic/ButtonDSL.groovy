@@ -31,7 +31,7 @@ class ButtonDSL implements IPrimitiveDSL, ComponentValueTrait, IEventableDSL, Co
 
     //=============================DSL specifics==================================
     def call(map, closure) {
-        id = uuid()
+        id = "button-" + uuid()
 
         def label = map[UiHelper["dsl.config.label_key"]]
         if (!label) throw UiDSLException(MISSING_LABEL_EXCEPTION)
@@ -49,6 +49,8 @@ class ButtonDSL implements IPrimitiveDSL, ComponentValueTrait, IEventableDSL, Co
         def event = closure()
         if (event) {
             def instance = ReflectionUtils.instantiateOne(UiHelper["application.packages.event_packages"], event)
+            instance.boundId = this.id
+            UiHelper.eventRegistry[(this.id)] = instance
             button.addListener(instance)
         }
     }

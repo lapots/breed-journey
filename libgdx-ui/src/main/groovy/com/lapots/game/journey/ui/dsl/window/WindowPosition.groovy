@@ -13,8 +13,8 @@ class WindowPosition {
     def y(y) { referencedWindow.setY(y) }
 
     static offsetWindow(window) {
-        def xOffsetVal = EvaluationUtils.evaluateWithBinding(WindowConfig.xOffset, window) as int
-        def yOffsetVal = EvaluationUtils.evaluateWithBinding(WindowConfig.yOffset, window) as int
+        def xOffsetVal = EvaluationUtils.evaluateWithBinding(WindowConfig.xOffset, [ "window" : window ]) as int
+        def yOffsetVal = EvaluationUtils.evaluateWithBinding(WindowConfig.yOffset, [ "window" : window ]) as int
         window.setX(xOffsetVal)
         window.setY(yOffsetVal)
     }

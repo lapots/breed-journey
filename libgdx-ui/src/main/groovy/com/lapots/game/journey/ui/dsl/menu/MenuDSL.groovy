@@ -17,8 +17,8 @@ class MenuDSL implements CompositeTrait {
 
     //=====================DSL specifics====================
     def item(map, closure) {
-        id = uuid()
-        def menuItem = new MenuItemDSL(itemName : map[UiHelper["dsl.config.menu_label_key"]], id: uuid())
+        id = "menu-" + uuid()
+        def menuItem = new MenuItemDSL(itemName : map[UiHelper["dsl.config.menu_label_key"]], id: "menuitem-" + uuid())
         menuItem.parentUid = this.id
         DslUtils.delegate(closure, menuItem)
 

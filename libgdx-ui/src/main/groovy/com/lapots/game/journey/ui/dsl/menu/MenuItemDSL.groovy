@@ -23,6 +23,8 @@ class MenuItemDSL implements IPrimitiveDSL, IEventableDSL {
         def event = closure()
         if (event) {
             def instance = ReflectionUtils.instantiateOne(UiHelper["application.packages.event_packages"], event)
+            instance.boundId = this.id
+            UiHelper.eventRegistry[(this.id)] = instance
             item.addListener(instance)
         }
     }

@@ -36,14 +36,15 @@ class TreeNodeDSL implements CompositeTrait, ComponentValueTrait, IEventableDSL 
     def onClick(Object closure) {
         def event = closure()
         if (event) {
-            def instance = ReflectionUtils.instantiateOne(UiHelper["application.packages.event_packages"],
-                    event)
+            def instance = ReflectionUtils.instantiateOne(UiHelper["application.packages.event_packages"], event)
+            instance.boundId = this.id
+            UiHelper.eventRegistry[(this.id)] = instance
             innerLabel.addListener(instance)
         }
     }
     //=================================END=========================
     def processSub(closure) {
-        this.id = uuid()
+        this.id = "node-" + uuid()
         TreeNodeDSL childNode = new TreeNodeDSL()
         childNode.parentUid = this.id
         DslUtils.delegate(closure, childNode)

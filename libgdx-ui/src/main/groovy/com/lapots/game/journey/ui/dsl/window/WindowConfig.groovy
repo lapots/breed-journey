@@ -9,8 +9,8 @@ import com.lapots.game.journey.ui.helper.UiHelper
 class WindowConfig {
     static horizontalPadding = UiHelper["component.config.padding.horizontal"] as int
     static verticalPadding = UiHelper["component.config.padding.vertical"] as int
-    static xOffset = UiHelper["component.config.window_center_offset"] as int
-    static yOffset = UiHelper["component.config.window_center_offset"] as int
+    static xOffset = UiHelper["component.config.window_center_offset.x_offset"] as String
+    static yOffset = UiHelper["component.config.window_center_offset.y_offset"] as String
 
     static windowTableConfig(window) {
         TableUtils.setSpacingDefaults(window);

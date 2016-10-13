@@ -33,7 +33,7 @@ class TextLabelDSL implements IPrimitiveDSL, ComponentWidthTrait, ComponentValue
 
     //===========================DSL specifics===================================
     def call(closure) {
-        id = uuid()
+        id = "label-" + uuid()
         DslUtils.delegate(closure, this)
 
         if (labelWidth) { oneRowTable.append(roundify(visLabel, labelWidth)) }

@@ -19,7 +19,7 @@ class GridLayout {
     def columns(amount) { grid = new GridTableBuilder(padding, amount) }
 
     def build() {
-        if (grid) { grid.build() }
-        else { new GridTableBuilder(padding, 1).build() }
+        if (grid) { grid }
+        else { new GridTableBuilder(padding, 1) }
     }
 }

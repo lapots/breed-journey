@@ -1,7 +1,9 @@
 menuBar {
     menu (name : 'Game') {
         item (name : 'New') {
-            onClick {}
+            onClick {
+                "CreateNewPlayerWindow"
+            }
         }
         item (name : 'Continue') {}
     }

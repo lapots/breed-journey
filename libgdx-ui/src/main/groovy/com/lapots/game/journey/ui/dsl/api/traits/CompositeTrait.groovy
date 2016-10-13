@@ -1,7 +1,9 @@
 package com.lapots.game.journey.ui.dsl.api.traits
 
 import com.lapots.game.journey.ui.dsl.api.ICompositeDSL
+import com.lapots.game.journey.ui.exception.UiDSLException
 import com.lapots.game.journey.ui.helper.UiHelper
+import com.lapots.game.journey.util.FileProcessingUtils
 import com.lapots.game.journey.util.ReflectionUtils
 
 /**
@@ -15,14 +17,16 @@ trait CompositeTrait implements ICompositeDSL {
     def ids = []
 
     def methodMissing(String name, args) {
-        println "Method missing invokation!!!"
-        def dslInstance = ReflectionUtils.instantiateOne(UiHelper["application.dsl_packages"], name,
+        def dslInstance = ReflectionUtils.instantiateOne(UiHelper["application.packages.dsl_packages"], name,
                 UiHelper["application.dsl_postfix"])
-        dslInstance.call(*args)
+        if (null == dslInstance) { throw new UiDSLException("Unable to instantiate instance: $name -> $args") }
+        else {
+            dslInstance.call(*args)
 
-        dslInstance.parentUid = this.id
-        ids << dslInstance.id
+            dslInstance.parentUid = this.id
+            ids << dslInstance.id
 
-        this.appendChild(dslInstance.getInnerComponent())
+            this.appendChild(dslInstance.getInnerComponent())
+        }
     }
 }

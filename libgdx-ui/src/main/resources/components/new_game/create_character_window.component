@@ -1,10 +1,17 @@
 window (title : "Welcome to [Breed Journey] !") {
-    withCloseButton { true }
-    withPack { true }
-    center { true }
+    withCloseButton true
+    withPack true
+    withCenterPosition true
 
-    gridLayout {
-        columns 1
+    layout {
+        grid {
+            columns 1
+        }
+    }
+
+    size {
+        width 300
+        height 300
     }
 
     textLabel {
@@ -22,6 +29,6 @@ window (title : "Welcome to [Breed Journey] !") {
     }
 
     button (label : 'Create') {
-        on_click {}
+        onClick {}
     }
 }

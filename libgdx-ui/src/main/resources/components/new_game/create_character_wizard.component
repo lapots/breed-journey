@@ -1,0 +1,30 @@
+wizard(title: 'Configure player') {
+    withCloseButton true
+
+    frame(title: 'Choose defaults') {
+        textLabel {
+            text "Please enter character information"
+        }
+
+        textBox (label : 'Enter name') {}
+
+        selectBox (label : 'Choose gender') {
+            items {}
+        }
+
+        selectBox (label : 'Choose race') {
+            items {}
+        }
+    }
+
+    position {
+        x 200
+        y 200
+    }
+
+    layout {
+        grid {
+            columns 1
+        }
+    }
+}

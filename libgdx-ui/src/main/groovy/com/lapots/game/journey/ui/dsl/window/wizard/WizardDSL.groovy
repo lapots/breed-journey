@@ -38,7 +38,7 @@ import java.awt.Button
  */
 class WizardDSL implements CompositeTrait {
 
-    def wizard = [:]
+    def wizard = []
     def callback = [:]
     def index = 0
     def currentWindow
@@ -46,18 +46,16 @@ class WizardDSL implements CompositeTrait {
     def call(map, closure) {
         id = "wizard-" + uuid()
         UiHelper.componentRegistry[(id)] = this
-
         DslUtils.delegate(closure, this)
 
         index = 0
-        showWindow(index)
     }
 
     def layout(closure) { callback << [ "layout" : closure ] }
 
     def position(closure) { callback << [ "position" : closure ] }
 
-    def frame(closure) {
+    def frame(map, closure) {
         def window = new WindowDSL()
         window.call(closure)
 
@@ -66,15 +64,22 @@ class WizardDSL implements CompositeTrait {
         wizard[index] = window
         index++
     }
+
+    def frame(closure) { frame([:], closure) }
+
+    def withCloseButton(closure) { callback << [ "withCloseButton" : closure ] }
     //=================================END=====================================
 
     def addNextButton(windowDsl) {
         def nextButton = new ButtonDSL()
         EvaluationUtils.evaluateWithBinding("button(label: 'Next') {}", [ "button" : nextButton])
+        windowDsl.ids << nextButton.id
+        nextButton.parentUid = windowDsl.id
         bindEvent(nextButton)
 
-        applyCallback(windowDsl)
-        windowDsl.appendChild(nextButton)
+        windowDsl.appendChild(nextButton.getInnerComponent())
+
+        println "window components: $windowDsl.ids"
     }
 
     def applyCallback(windowDsl) {
@@ -83,20 +88,37 @@ class WizardDSL implements CompositeTrait {
         }
     }
 
+    def currentWindowState() { currentWindow.enumerateChildren() }
+
     def showWindow(index) {
-        this.index = index
-        def windowDsl = wizard[index]
-        windowDsl.showWindow()
+        println "Attempt to get window by index: $index; windows: $wizard"
+        if (index >= wizard.size()) {
+            println "No next window found!"
+            currentWindow = null
+            this.index = 0
+        }
+        else {
+            this.index = index
+            def windowDsl = wizard[index]
+
+            applyCallback(windowDsl)
+            windowDsl.withPack(true)
+            windowDsl.showWindow()
+
+            currentWindow = windowDsl
+        }
     }
 
     def closeCurrentWindow() {
-        wizard[index].getRawComponent().fadeIn()
+        wizard[index].closeWindow()
     }
 
     def bindEvent(button) {
         def event = new NextWindowClick()
-        event.boundWizardId = button.id
-        button.addListener(event)
+        println "wizard id: $id"
+        event.boundWizardId = this.id
+        event.currentWindowIndex = index
+        button.getRawComponent().addListener(event)
     }
 
     @Override

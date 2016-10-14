@@ -23,3 +23,14 @@ class CreateNewPlayerWindow extends InputListener implements IdentifiableEventTr
         windowDsl.showWindow()
     }
 }
+
+/**
+ *
+ *
+ * Key moment there:
+ *      ui: - file resources (raw .component data)
+ *      prop: - properties from libgdx.config
+ *      event: - event bank aka eventRegistry
+ *      runtime: - object bank aka componentRegistry
+ *
+ */

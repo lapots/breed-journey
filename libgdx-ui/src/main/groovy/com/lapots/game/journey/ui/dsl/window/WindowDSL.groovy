@@ -44,6 +44,7 @@ class WindowDSL implements CompositeTrait {
 
     def gridComponent
     VisWindow window
+    def componentQueue = []
     //=====================DSL specifics=================================
     def call(closure) { call(title : '', closure) }
 
@@ -86,12 +87,17 @@ class WindowDSL implements CompositeTrait {
     //=============================END====================================
 
     def showWindow() {
+        if (componentQueue) {
+            componentQueue.each { component ->
+                gridComponent.append(component)
+            }
+        }
+
         // WindowPosition.offsetWindow(window)
         UiHelper.mainStage.addActor(window)
 
         window.add(gridComponent.build())
-        if (needPack) { window.pack()}
-
+        if (needPack) { window.pack() }
     }
 
     // method is protected by I do not care
@@ -99,13 +105,16 @@ class WindowDSL implements CompositeTrait {
 
     @Override
     def enumerateChildren() {
-        this.ids.each {}
+        this.ids.each { index ->
+            def component = UiHelper["runtime:$index"]
+            println "${ component.id } -> ${ component.getValue() }"
+        }
     }
 
     @Override
     def appendChild(Object child) {
-        //if (!gridComponent) { componentQueue << child }
-        gridComponent.append(child)
+        if (!gridComponent) { componentQueue << child }
+        else { gridComponent.append(child) }
     }
 
     @Override

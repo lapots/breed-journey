@@ -66,6 +66,7 @@ class UiHelper {
                 case "ui:": return componentResources[(res)]
                 case "prop:": return jsonPathSolver(jsonResource, name)
                 case "event:": return eventRegistry[(res)]
+                case "runtime:": return componentRegistry[(res)]
             }
         } else { jsonPathSolver(jsonResource, name) }
     }

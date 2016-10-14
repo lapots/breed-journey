@@ -10,12 +10,14 @@ import com.lapots.game.journey.ui.helper.UiHelper
  */
 class NextWindowClick extends InputListener implements IdentifiableEventTrait {
 
-    def currentWindowIndex
+    def currentWindowIndex = -1
     def boundWizardId
 
     @Override
     boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-        def wizard = UiHelper["ui:$boundWizardId"]
+        def wizard = UiHelper["runtime:$boundWizardId"]
+        // close just in case
+        wizard.closeCurrentWindow()
         wizard.showWindow(++currentWindowIndex)
     }
 

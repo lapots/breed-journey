@@ -2,7 +2,7 @@ menuBar {
     menu (name : 'Game') {
         item (name : 'New') {
             onClick {
-                "CreateNewPlayerWindow"
+                "CreateNewCharacterWizard"
             }
         }
         item (name : 'Continue') {}

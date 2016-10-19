@@ -1,10 +1,8 @@
-
-apply plugin: 'de.undercouch.download'
-
-import de.undercouch.gradle.tasks.download.Download
+apply plugin: 'groovy'
 
 def mongoMsiVersion = 'mongodb-win32-x86_64-2008plus-ssl-3.2.9-signed.msi'
 
+/*
 task download_mongo(type: Download) {
     src "https://fastdl.mongodb.org/win32/$mongoMsiVersion"
     dest new File("$rootDir/applications/install", mongoMsiVersion)
@@ -30,7 +28,7 @@ task setup_mongo(dependsOn: install_mongo) << {
         writer << "dbpath=$rootDir/applications/mongo/bin/data/db"
     }
 }
-
+*/
 task start_mongo(type: Exec) {
     workingDir "${rootDir}/applications/mongo/bin"
     commandLine 'cmd', '/c', 'mongod', '--config', 'mongodb.config'
@@ -46,10 +44,11 @@ task unistall_mongo(type: Exec) {
     commandLine 'cmd', 'msiexec','/x', "$mongoMsiVersion"
 }
 
+/*
 task remove_mongo(dependsOn: unistall_mongo) << {
     file("${rootDir}/applications/mongo").deleteDir()
 }
-
+*/
 task cleanup_install << {
     file("${rootDir}/applications/install").deleteDir()
 }

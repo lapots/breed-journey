@@ -1,11 +1,8 @@
-
-apply plugin: 'de.undercouch.download'
-
-import de.undercouch.gradle.tasks.download.Download
+apply plugin: 'groovy'
 
 def rootDir = project(":").projectDir
 
-task download_redis(type: Download) {
+/*task download_redis(type: Download) {
     src 'https://github.com/MSOpenTech/redis/releases/download/win-3.2.100/Redis-x64-3.2.100.zip'
     dest new File("$rootDir/applications/install", 'Redis-x64-3.2.100.zip')
     onlyIfNewer true
@@ -14,7 +11,7 @@ task download_redis(type: Download) {
 task setup_redis(dependsOn: download_redis, type: Copy) {
     from zipTree(download_redis.dest)
     into "${rootDir}/applications/redis"
-}
+}*/
 
 task start_redis(type: Exec) {
     workingDir "${rootDir}/applications/redis"
@@ -32,4 +29,10 @@ task remove_redis << {
 
 task cleanup_install << {
     file("${rootDir}/applications/install").deleteDir()
+}
+
+dependencies {
+    compile gradleApi()
+    compile "org.codehaus.groovy:groovy-all:$groovyVersion"
+    compile "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
 }

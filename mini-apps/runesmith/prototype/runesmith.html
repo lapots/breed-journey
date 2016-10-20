@@ -1,24 +1,8 @@
 <html>
     <head>
         <title>Runesmith Game</title>
-        <style>
-            #runetable {
-                margin:10px;
-                font-size:1.25em;
-            }
-            
-            table {
-                border-collapse:collapse;
-                border:1px solid #7f7f7f;
-            }
-            
-            td {
-                border:1px solid #7f7f7f;
-                width:50px;
-                height:50px;
-                text-align:center;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="runesmith.css"/>
+        <!--<script src="runesmith.js"/>-->
         <script>
             var runes = [ 'Red', 'Aqua', 'Brown', 'Blue', 'Yellow' ]
             var masteryCells = [9, 25, 49, 81, 121]
@@ -67,19 +51,19 @@
     <body>
         <p>
             <ul>
-                <li>Rune Mastery lv1 (1 type, 9 cells, 2 elements)</li>
-                <li>Rune Mastery lv2 (2 types, 25 cells, 6 elements)</li>
-                <li>Rune Mastery lv3 (4 type, 49 cells, 11 elements)</li>
+                <li>Rune Mastery lv1 (1 type, 9 cells, 6 elements)</li>
+                <li>Rune Mastery lv2 (2 types, 25 cells, 15 elements)</li>
+                <li>Rune Mastery lv3 (4 type, 49 cells, 29 elements)</li>
                 <li>Rune Mastery lv4 (5 types, 81 cells, 45 elements)</li>
-                <!-- on the fifth level you can use hidden elements by they
-                should be found first so usually people have peak 4 LV-->
                 <li>Rune Mastery lv5 (7 types, 121 cells, 66 elements)</li>
             </ul>
 
             <blockquote>
-                The path of rune mastery was long and tedious. 
-                But in the end, runesmith saw the grace of god
-                and was granted with the ability to create runes!
+                <span>
+                    The path of rune mastery was long and tedious.
+                    But in the end, runesmith saw the grace of god
+                    and was granted with the ability to create runes!
+                </span>
             </blockquote>
 
             Rune Creation

@@ -1,0 +1,19 @@
+apply plugin: 'groovy'
+apply plugin: 'com.moowork.node'
+
+node {
+    version="$nodeVersion"
+
+    distBaseUrl = 'https://nodejs.org/dist'
+
+    download = true
+
+    workDir = file("${project.buildDir}/nodejs")
+
+    nodeModulesDir = file("${project.projectDir}")
+}
+
+dependencies {
+
+}
+

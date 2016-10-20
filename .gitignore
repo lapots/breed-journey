@@ -63,14 +63,33 @@ nb-configuration.xml
 
 .gradle
 gradle-app.setting
-build/
 
 ## OS Specific
 .DS_Store
 Thumbs.db
 
-applications/redis/dump.rdb
-
 ## all applications
 applications/
-*.msi
+
+## angular and co.
+/benchpress-build/
+gen_docs.disable
+test.disable
+regression/temp*.html
+performance/temp*.html
+*~
+angular.js.tmproj
+node_modules/
+typings/
+bower_components/
+angular.xcodeproj
+.idea
+.agignore
+.lvimrc
+libpeerconnection.log
+npm-debug.log
+/tmp/
+/scripts/bower/bower-*
+.vscode
+*.stackdump
+

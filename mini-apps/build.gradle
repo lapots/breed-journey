@@ -12,8 +12,3 @@ node {
 
     nodeModulesDir = file("${project.projectDir}")
 }
-
-dependencies {
-
-}
-

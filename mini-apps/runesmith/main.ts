@@ -1,6 +1,6 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { RunesmithModule } from './runesmith.module';
+import { AppModule } from './app.module';
 
 const platform = platformBrowserDynamic();
-platform.bootstrapModule(RunesmithModule)
+platform.bootstrapModule(AppModule)

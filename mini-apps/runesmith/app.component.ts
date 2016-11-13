@@ -4,18 +4,14 @@ import { Component }          from '@angular/core';
     moduleId: module.id,
     selector: 'my-app',
     template: `
-        <h1>{{title}}</h1>
-        <nav>
-            <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-            <a routerLink="/heroes" routerLinkActive="active">Heroes</a>
-        </nav>
-        <router-outlet></router-outlet>
-    `,
-    styleUrls: ['app.component.css']
+        <div class="col-md-10 offset-md-1">
+            <div class="col-md-6">
+                <player-card>Loading...</player-card>
+            </div>
+        </div>
+    `
 })
-export class AppComponent {
-  title = 'Tour of Heroes';
-}
+export class AppComponent {}
 
 
 

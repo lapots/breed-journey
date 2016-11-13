@@ -1,0 +1,27 @@
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="playerCard-tab"
+           data-toggle="tab" href="#playerCard" role="tab" aria-expanded="true" aria-controls="playerCard">Guild card</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="magicCard-tab" data-toggle="tab" href="#">Magic card</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="playerCard" role="tabpanel" aria-labelledby="playerCard-tab">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title text-muted">{{player.name}}</h4>
+                <h6 class="card-subtitle text-muted">
+                    Adventurer card
+                </h6>
+            </div>
+            <img data-src="holder.js/100px180/?text=Image">
+            <div class="card-block">
+                <div class="form-group row" *ngFor="let key of CONTENT_CARD_META_KEYS">
+                    <player-record [label]="CONTENT_CARD_META[key]" [value]="player[key]"></player-record>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,18 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
+var PlayerRecordComponent = (function () {
+    function PlayerRecordComponent() {
     }
-    AppComponent = __decorate([
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], PlayerRecordComponent.prototype, "label", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], PlayerRecordComponent.prototype, "value", void 0);
+    PlayerRecordComponent = __decorate([
         core_1.Component({
             moduleId: module.id,
-            selector: 'my-app',
-            template: "\n        <div class=\"col-md-10 offset-md-1\">\n            <div class=\"col-md-6\">\n                <player-card>Loading...</player-card>\n            </div>\n        </div>\n    "
+            selector: 'player-record',
+            templateUrl: 'player-record.component.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], PlayerRecordComponent);
+    return PlayerRecordComponent;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.PlayerRecordComponent = PlayerRecordComponent;
+//# sourceMappingURL=player-record.component.js.map

@@ -1,21 +1,28 @@
 import { Component } from '@angular/core';
+import { HolderjsDirective } from 'angular-2-holderjs/holderjs.directive';
 
 import { Player } from './player';
-
-const CONTENT_CARD_META = {
-    "rank": "Rank",
-    "age": "Age",
-    "gender": "Gender",
-    "race": "Race"
-};
-
-const CONTENT_CARD_META_KEYS = [ "rank", "age", "gender", "race" ];
 
 @Component({
     moduleId: module.id,
     selector: 'player-card',
-    templateUrl: 'player-card.component.html'
+    templateUrl: 'player-card.component.html',
+    directives: [ HolderjsDirective ]
 })
 export class PlayerCardComponent {
-    player: Player;
+    cartAttributes = {
+        "rank" : "Rank",
+        "age" : "Age",
+        "gender" : "Gender",
+        "race" : "Race"
+    };
+    cartAttributeKeys = [ "rank", "age", "gender", "race" ];
+    player: Player = {
+        id: '1',
+        rank: 'C',
+        age: 10,
+        gender: 'male',
+        race: 'human',
+        name: 'UltimateWarrior15'
+    };
 }

@@ -16,10 +16,10 @@
                     Adventurer card
                 </h6>
             </div>
-            <img data-src="holder.js/100px180/?text=Image">
+            <img holderjs data-src="holder.js/200x180/auto">
             <div class="card-block">
-                <div class="form-group row" *ngFor="let key of CONTENT_CARD_META_KEYS">
-                    <player-record [label]="CONTENT_CARD_META[key]" [value]="player[key]"></player-record>
+                <div class="form-group row" *ngFor="let key of cartAttributeKeys">
+                    <player-record [label]="cartAttributes[key]" [value]="player[key]"></player-record>
                 </div>
             </div>
         </div>

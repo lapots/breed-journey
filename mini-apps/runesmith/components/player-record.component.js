@@ -9,21 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
-var HeroSearchService = (function () {
-    function HeroSearchService(http) {
-        this.http = http;
+var PlayerRecordComponent = (function () {
+    function PlayerRecordComponent() {
     }
-    HeroSearchService.prototype.search = function (term) {
-        return this.http
-            .get("app/heroes/?name=" + term)
-            .map(function (r) { return r.json().data; });
-    };
-    HeroSearchService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
-    ], HeroSearchService);
-    return HeroSearchService;
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], PlayerRecordComponent.prototype, "label", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], PlayerRecordComponent.prototype, "value", void 0);
+    PlayerRecordComponent = __decorate([
+        core_1.Component({
+            moduleId: module.id,
+            selector: 'player-record',
+            templateUrl: 'player-record.component.html'
+        }), 
+        __metadata('design:paramtypes', [])
+    ], PlayerRecordComponent);
+    return PlayerRecordComponent;
 }());
-exports.HeroSearchService = HeroSearchService;
-//# sourceMappingURL=hero-search.service.js.map
+exports.PlayerRecordComponent = PlayerRecordComponent;
+//# sourceMappingURL=player-record.component.js.map

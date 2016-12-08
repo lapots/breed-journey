@@ -5,12 +5,14 @@ buildscript {
         classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformPluginVersion"
         classpath "org.apache.httpcomponents:httpclient:$apacheHttpClientVersion"
         classpath "com.moowork.gradle:gradle-node-plugin:$nodePluginVersion"
+        classpath "clojuresque:clojuresque-base:$clojuresqueVersion"
     }
 
     repositories {
         mavenLocal()
         mavenCentral()
         jcenter()
+        maven { url 'http://clojars.org/repo' }
     }
 }
 

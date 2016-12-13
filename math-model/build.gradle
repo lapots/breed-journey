@@ -1,8 +1,8 @@
 apply plugin: 'clojure-min'
 
 clojure {
-    warnOnReflection = true
     aotCompile = true
+    warnOnReflection = true
 }
 
 repositories {

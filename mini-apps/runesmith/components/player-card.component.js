@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var holderjs_directive_1 = require('angular-2-holderjs/holderjs.directive');
 var PlayerCardComponent = (function () {
     function PlayerCardComponent() {
         this.cartAttributes = {
@@ -32,8 +31,7 @@ var PlayerCardComponent = (function () {
         core_1.Component({
             moduleId: module.id,
             selector: 'player-card',
-            templateUrl: 'player-card.component.html',
-            directives: [holderjs_directive_1.HolderjsDirective]
+            templateUrl: 'player-card.component.html'
         }), 
         __metadata('design:paramtypes', [])
     ], PlayerCardComponent);

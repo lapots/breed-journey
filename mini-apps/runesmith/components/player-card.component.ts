@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { HolderjsDirective } from 'angular-2-holderjs/holderjs.directive';
 
 import { Player } from './player';
 
 @Component({
     moduleId: module.id,
     selector: 'player-card',
-    templateUrl: 'player-card.component.html',
-    directives: [ HolderjsDirective ]
+    templateUrl: 'player-card.component.html'
 })
 export class PlayerCardComponent {
     cartAttributes = {

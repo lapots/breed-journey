@@ -7,6 +7,7 @@ import { FormsModule }   from '@angular/forms';
 import { AppComponent }             from './app.component';
 import { PlayerCardComponent }      from './components/player-card.component';
 import { PlayerRecordComponent }    from './components/player-record.component';
+import { HolderjsDirective }        from 'angular-2-holderjs/holderjs.directive';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { PlayerRecordComponent }    from './components/player-record.component';
     declarations: [
         AppComponent,
         PlayerCardComponent,
-        PlayerRecordComponent
+        PlayerRecordComponent,
+        HolderjsDirective
     ],
     bootstrap: [ AppComponent ]
 })

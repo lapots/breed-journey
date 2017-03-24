@@ -15,6 +15,7 @@ var forms_1 = require('@angular/forms');
 var app_component_1 = require('./app.component');
 var player_card_component_1 = require('./components/player-card.component');
 var player_record_component_1 = require('./components/player-record.component');
+var holderjs_directive_1 = require('angular-2-holderjs/holderjs.directive');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -27,7 +28,8 @@ var AppModule = (function () {
             declarations: [
                 app_component_1.AppComponent,
                 player_card_component_1.PlayerCardComponent,
-                player_record_component_1.PlayerRecordComponent
+                player_record_component_1.PlayerRecordComponent,
+                holderjs_directive_1.HolderjsDirective
             ],
             bootstrap: [app_component_1.AppComponent]
         }), 
